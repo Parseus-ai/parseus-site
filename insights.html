@@ -32,14 +32,6 @@
   @media (max-width:560px){.lens{grid-template-columns:1fr;}}
   .topics{display:flex;flex-wrap:wrap;gap:0.55rem;list-style:none;}
   .topics li{padding:0.45rem 0.95rem;border-radius:999px;background:var(--ice);color:var(--lapis);font-size:0.9rem;font-weight:600;}
-  .articles{list-style:none;display:grid;gap:1rem;}
-  .article{background:#fff;border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.4rem;}
-  .article .meta{font-size:0.82rem;color:var(--slate);margin-bottom:0.4rem;}
-  .article h3 a{color:var(--ink);text-decoration:none;}
-  .article h3 a:hover{color:var(--persian);text-decoration:underline;}
-  .empty{border:1.5px dashed var(--line);border-radius:12px;padding:1.8rem 1.6rem;background:rgba(255,255,255,0.6);}
-  .empty h3{margin-bottom:0.5rem;}
-  .empty p{color:var(--body);}
 </style>
 </head>
 <body>
@@ -105,36 +97,24 @@
 
   <section class="section tight" aria-labelledby="topics-title">
     <div class="wrap">
-      <h2 id="topics-title" class="h3" style="margin-bottom:1.1rem;">Topics we cover</h2>
-      <ul class="topics">
-        <li>Enterprise AI</li><li>Agentic AI</li><li>Physical AI</li><li>Robotics</li><li>Manufacturing</li><li>Computer vision</li><li>Architecture and operating models</li><li>Implementation and scaling</li>
-      </ul>
+      <h2 id="topics-title" class="h3" style="margin-bottom:1.1rem;">Topics</h2>
+<!-- insights-topics:start -->
+      <ul class="topics"><li>Enterprise AI and Agentic Systems</li><li>AI Architecture and Governance</li><li>Physical AI and Robotics</li><li>Manufacturing and Industrial Applications</li><li>Research to Production</li></ul>
+<!-- insights-topics:end -->
     </div>
   </section>
 
   <section class="section" aria-labelledby="latest-title">
     <div class="wrap">
       <div class="narrow">
-        <h2 id="latest-title">Published analysis</h2>
-        <div style="margin-top:1.4rem;">
-          <!--
-            To publish a piece, replace the "empty" block below with a list like this.
-            Only add pieces that are published, with their real URL.
-
-            <ul class="articles">
-              <li class="article">
-                <p class="meta">Agentic AI &middot; <time datetime="2026-11-03">November 3, 2026</time> &middot; LinkedIn</p>
-                <h3><a href="https://www.linkedin.com/pulse/REAL-ARTICLE-URL" target="_blank" rel="noopener">Article title<span class="sr-only"> (opens in a new tab)</span></a></h3>
-                <p>One or two sentences on the question the piece answers.</p>
-              </li>
-            </ul>
-          -->
-          <div class="empty">
-            <h3>The first pieces are in preparation</h3>
-            <p>Nothing has been published here yet. When the first analyses are released, they&rsquo;ll be listed on this page with links to the full pieces.</p>
-            <p style="margin-top:0.8rem;">Want a topic covered? <a href="mailto:info@parseus.ai?subject=Insights%20topic%20suggestion">Suggest it by email</a>, or bring it to a <a href="/beyond-ai-headlines/roundtables/">monthly roundtable</a>.</p>
-          </div>
+        <h2 id="latest-title">Selected analysis</h2>
+<!-- insights-list:start -->
+        <div class="empty" style="margin-top:1.4rem;">
+          <h3>Curated analyses are being added</h3>
+          <p>Selected articles and posts will be featured here, each with a link to the original piece.</p>
+          <p style="margin-top:0.8rem;">Want a topic covered? <a href="mailto:info@parseus.ai?subject=Insights%20topic%20suggestion">Suggest it by email</a>, or bring it to a <a href="/beyond-ai-headlines/roundtables/">monthly roundtable</a>.</p>
         </div>
+<!-- insights-list:end -->
       </div>
     </div>
   </section>

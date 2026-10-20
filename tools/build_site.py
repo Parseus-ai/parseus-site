@@ -14,7 +14,9 @@ Edit NAV, FOOTER or PAGES below, then run from the repo root:
 
 No dependencies beyond the Python standard library.
 """
+import datetime
 import html
+import json
 import pathlib
 import re
 import sys
@@ -218,6 +220,106 @@ def render_footer(file):
 <!-- footer:end -->'''
 
 
+# ---------------------------------------------------------------------------
+# Insights registry (content/insights.json) -> insights.html and homepage
+# ---------------------------------------------------------------------------
+INSIGHTS_FILE = ROOT / "content" / "insights.json"
+
+
+def load_insights():
+    data = json.loads(INSIGHTS_FILE.read_text(encoding="utf-8"))
+    cats = data["categories"]
+    items = []
+    for i, it in enumerate(data.get("items", [])):
+        where = f"content/insights.json item {i + 1}"
+        for key in ("title", "date", "topic", "summary", "url"):
+            if not str(it.get(key, "")).strip():
+                raise SystemExit(f"{where}: missing {key}")
+        if it["topic"] not in cats:
+            raise SystemExit(f"{where}: topic must be one of {cats}")
+        if not re.match(r"^https://", it["url"]):
+            raise SystemExit(f"{where}: url must start with https://")
+        try:
+            it["_date"] = datetime.date.fromisoformat(it["date"])
+        except ValueError:
+            raise SystemExit(f"{where}: date must be YYYY-MM-DD")
+        img = it.get("image") or ""
+        if img and not (img.startswith("/assets/") or img.startswith("https://")):
+            raise SystemExit(f"{where}: image must be a /assets/ path or https URL")
+        items.append(it)
+    items.sort(key=lambda x: x["_date"], reverse=True)
+    return cats, items
+
+
+def fmt_date(d):
+    return f"{d.strftime('%B')} {d.day}, {d.year}"
+
+
+def article_html(it, heading="h3"):
+    src = E(it.get("source") or "Article")
+    img = ""
+    if it.get("image"):
+        img = f'\n            <img class="article-img" src="{E(it["image"])}" alt="{E(it.get("image_alt", ""))}" loading="lazy" decoding="async" />'
+    return f"""          <li class="article">{img}
+            <p class="meta">{E(it["topic"])} &middot; <time datetime="{it["_date"].isoformat()}">{fmt_date(it["_date"])}</time> &middot; {src}</p>
+            <{heading}><a href="{E(it["url"])}" target="_blank" rel="noopener">{E(it["title"])}<span class="sr-only"> (opens in a new tab)</span></a></{heading}>
+            <p>{E(it["summary"])}</p>
+          </li>"""
+
+
+def render_insights_topics(file):
+    cats, _ = load_insights()
+    lis = "".join(f"<li>{E(c)}</li>" for c in cats)
+    return f'<!-- insights-topics:start -->\n      <ul class="topics">{lis}</ul>\n<!-- insights-topics:end -->'
+
+
+def render_insights_list(file):
+    cats, items = load_insights()
+    if not items:
+        body = """        <div class="empty" style="margin-top:1.4rem;">
+          <h3>Curated analyses are being added</h3>
+          <p>Selected articles and posts will be featured here, each with a link to the original piece.</p>
+          <p style="margin-top:0.8rem;">Want a topic covered? <a href="mailto:info@parseus.ai?subject=Insights%20topic%20suggestion">Suggest it by email</a>, or bring it to a <a href="/beyond-ai-headlines/roundtables/">monthly roundtable</a>.</p>
+        </div>"""
+    else:
+        parts = []
+        featured = [i for i in items if i.get("featured")]
+        if featured:
+            parts.append('        <h3 class="group-title">Featured</h3>\n        <ul class="articles featured">\n'
+                         + "\n".join(article_html(i, "h4") for i in featured) + "\n        </ul>")
+        for c in cats:
+            group = [i for i in items if i["topic"] == c]
+            if group:
+                parts.append(f'        <h3 class="group-title">{E(c)}</h3>\n        <ul class="articles">\n'
+                             + "\n".join(article_html(i, "h4") for i in group) + "\n        </ul>")
+        body = "\n".join(parts)
+    return f"<!-- insights-list:start -->\n{body}\n<!-- insights-list:end -->"
+
+
+def render_insights_featured(file):
+    _, items = load_insights()
+    featured = [i for i in items if i.get("featured")][:3]
+    if not featured:
+        return "<!-- insights-featured:start -->\n<!-- insights-featured:end -->"
+    lis = "\n".join(f'          <li><a href="{E(i["url"])}" target="_blank" rel="noopener">{E(i["title"])}<span class="sr-only"> (opens in a new tab)</span></a> <span class="when">{E(i["topic"])} &middot; {fmt_date(i["_date"])}</span></li>' for i in featured)
+    return f"""<!-- insights-featured:start -->
+      <div class="featured-insights">
+        <h3>Selected insights</h3>
+        <ul>
+{lis}
+        </ul>
+        <a class="text-link" href="/insights.html">All insights</a>
+      </div>
+<!-- insights-featured:end -->"""
+
+
+OPTIONAL_RENDERERS = {
+    "insights-topics": render_insights_topics,
+    "insights-list": render_insights_list,
+    "insights-featured": render_insights_featured,
+}
+
+
 RENDERERS = {"head": render_head, "header": render_header, "footer": render_footer}
 
 
@@ -238,6 +340,10 @@ def build(check=False):
                 stale.append(file)
                 continue
             out = pat.sub(lambda m: fn(file), out, count=1)
+        for name, fn in OPTIONAL_RENDERERS.items():
+            pat = re.compile(rf"<!-- {name}:start -->.*?<!-- {name}:end -->", re.S)
+            if pat.search(out):
+                out = pat.sub(lambda m: fn(file), out, count=1)
         if out != src:
             stale.append(file)
             if not check:

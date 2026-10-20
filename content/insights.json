@@ -1,0 +1,16 @@
+{
+  "_help": [
+    "Registry of published analyses shown on /insights.html (and up to three featured items on the homepage).",
+    "Only add pieces that are already published, with their real URL. Then run: python tools/build_site.py",
+    "Fields: title, date (YYYY-MM-DD), topic (one of categories), summary (one or two sentences),",
+    "url (https link to the original LinkedIn post or article), source (e.g. LinkedIn), image (optional: /assets/insights/file.webp or empty), image_alt (optional), featured (true/false)."
+  ],
+  "categories": [
+    "Enterprise AI and Agentic Systems",
+    "AI Architecture and Governance",
+    "Physical AI and Robotics",
+    "Manufacturing and Industrial Applications",
+    "Research to Production"
+  ],
+  "items": []
+}

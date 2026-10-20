@@ -105,6 +105,7 @@ function chain(log) {
 }
 
 function makeEnv(opts = {}) {
+  const env = { flushes: 0, lockDepth: 0, lockBusy: false, failFor: null, onConfirm: null, turnstileExtra: null };
   const ss = new MockSpreadsheet();
   const props = new Map(Object.entries(opts.props || {}));
   const cache = new Map();
@@ -120,7 +121,11 @@ function makeEnv(opts = {}) {
   const ui = {
     ButtonSet: { OK: 'OK', YES_NO: 'YES_NO' },
     Button,
-    alert: (...args) => { alerts.push(args.length === 1 ? args[0] : args[0] + ' :: ' + args[1]); return opts.confirm ?? Button.YES; },
+    alert: (...args) => {
+      alerts.push(args.length === 1 ? args[0] : args[0] + ' :: ' + args[1]);
+      if (args.length > 2 && env.onConfirm) { const f = env.onConfirm; env.onConfirm = null; f(); }
+      return opts.confirm ?? Button.YES;
+    },
     createMenu: (name) => { const log = []; menus.push({ name, log }); return chain(log); },
   };
 
@@ -132,11 +137,13 @@ function makeEnv(opts = {}) {
       openById: () => ss,
       getUi: () => ui,
       newDataValidation: () => chain([]),
+      flush: () => { env.flushes++; },
     },
     PropertiesService: {
       getScriptProperties: () => ({
         getProperty: k => (props.has(k) ? props.get(k) : null),
         setProperty: (k, v) => { props.set(k, String(v)); },
+        deleteProperty: k => { props.delete(k); },
       }),
     },
     CacheService: {
@@ -146,17 +153,25 @@ function makeEnv(opts = {}) {
       }),
     },
     LockService: {
-      getScriptLock: () => ({ tryLock: () => true, waitLock: () => {}, releaseLock: () => {} }),
+      getScriptLock: () => ({
+        tryLock: () => { if (env.lockBusy) return false; env.lockDepth++; return true; },
+        waitLock: () => {},
+        releaseLock: () => { env.lockDepth--; },
+      }),
     },
     MailApp: {
       getRemainingDailyQuota: () => quota,
-      sendEmail: (to, subject, body, options) => { quota--; sent.push({ to, subject, body, options }); },
+      sendEmail: (to, subject, body, options) => {
+        if (env.failFor && env.failFor(to)) throw new Error('Service error sending to ' + to);
+        quota--; sent.push({ to, subject, body, options, lockHeld: env.lockDepth > 0 });
+      },
     },
     UrlFetchApp: {
       fetch: (url, params) => {
         fetches.push({ url, params });
-        const ok = params.payload.response === 'good-token';
-        return { getResponseCode: () => 200, getContentText: () => JSON.stringify({ success: ok }) };
+        const ok = params.payload.response.startsWith('good-token');
+        const extra = env.turnstileExtra || {};
+        return { getResponseCode: () => 200, getContentText: () => JSON.stringify({ success: ok, ...extra }) };
       },
     },
     ContentService: {
@@ -190,9 +205,8 @@ function makeEnv(opts = {}) {
   ctx.setup();
   alerts.length = 0; // ignore setup alert
 
-  const env = {
+  Object.assign(env, {
     ctx, ss, props, cache, sent, alerts, fetches, menus,
-    get triggers() { return triggers; },
     setQuota: q => { quota = q; },
     sheet: n => ss.getSheetByName(n),
     consult: () => ss.getSheetByName('Consultations'),
@@ -210,7 +224,8 @@ function makeEnv(opts = {}) {
       if (idx < 0) { ev.addRow({ 'Event ID': id, Title: 'Test event ' + id, 'Duration (min)': 60, Capacity: 25, 'Registration open': true }); idx = ev.rows().length - 1; }
       Object.entries(patch).forEach(([k, v]) => { ev.data[idx + 1][ev.col(k)] = v; });
     },
-  };
+  });
+  Object.defineProperty(env, 'triggers', { get: () => triggers });
   return env;
 }
 
@@ -264,7 +279,7 @@ function eq(a, b, msg) {
   const A = JSON.stringify(a), B = JSON.stringify(b);
   if (A !== B) throw new Error((msg ? msg + ': ' : '') + `expected ${B}, got ${A}`);
 }
-const SIGN = 'Parseus AI · Beyond AI Headlines';
+const SIGN = 'Warm regards,\nParseus AI · Beyond AI Headlines\ninfo@parseus.ai';
 const HOURS = h => new Date(Date.now() + h * 3600 * 1000);
 
 // ---------------------------------------------------------------------------
@@ -274,7 +289,8 @@ const HOURS = h => new Date(Date.now() + h * 3600 * 1000);
 test('setup() creates tabs, headers, frozen rows, seed event; idempotent', () => {
   const env = makeEnv();
   eq(env.ss.getSheets().map(s => s.name), ['Consultations', 'Roundtable registrations', 'Events'], 'tabs');
-  eq(env.consult().headers().length, 16, 'consult header count');
+  eq(env.consult().headers().length, 21, 'consult header count');
+  eq(env.reg().headers().length, 18, 'reg header count');
   eq(env.consult().headers()[10], 'Status');
   eq(env.reg().headers()[12], 'Attended');
   eq(env.events().headers()[6], 'Meeting link (private)');
@@ -314,9 +330,12 @@ test('valid consultation → row + applicant confirmation + notification + ok', 
   const [conf, note] = env.sent;
   eq(conf.to, 'ada@example.com');
   eq(conf.options, { name: 'Parseus AI', replyTo: 'info@parseus.ai' });
-  assert(conf.body.includes('review every application personally'), 'personal review');
+  assert(conf.body.startsWith('Hello Ada Example,'), 'greeting');
+  assert(conf.body.includes('we read every application individually'), 'individual review');
   assert(conf.body.includes('ten complimentary 20-minute conversations'), 'ten conversations');
   assert(conf.body.includes('private scheduling link'), 'scheduling link mention');
+  assert(conf.body.includes('does not mean that your application has been selected'), 'no premature selection claim');
+  eq(conf.subject, 'We received your application (' + res.ref + ')');
   assert(conf.body.includes('confidential'), 'confidential warning');
   assert(conf.body.includes('withdraw'), 'withdraw');
   assert(conf.body.trim().endsWith(SIGN), 'signature');
@@ -386,12 +405,12 @@ test('elapsedMs < 3000 → silent drop', () => {
   eq(env.consult().rows().length, 0); eq(env.sent.length, 0);
 });
 
-test('rate limit: >3 per email per hour per form → rate_limited', () => {
+test('rate limit: >3 per email per hour per form → rate_limited (repeats stored once)', () => {
   const env = makeEnv();
   for (let i = 0; i < 3; i++) eq(env.post(consultPayload()).ok, true, 'submission ' + (i + 1));
   const res = env.post(consultPayload({ email: 'ADA@example.com' }));
   eq(res, { ok: false, error: 'rate_limited' });
-  eq(env.consult().rows().length, 3);
+  eq(env.consult().rows().length, 1, 'repeat applications within the duplicate window are not stored again');
   eq(env.post(consultPayload({ email: 'other@example.com' })).ok, true, 'other email unaffected');
   eq(env.post(rtPayload({ email: 'ada@example.com' })).ok, true, 'other form unaffected');
 });
@@ -435,7 +454,11 @@ test('thrown exception → error "server" without leaking details', () => {
   const out = env.ctx.doPost({ postData: { contents: JSON.stringify(consultPayload()) } });
   eq(JSON.parse(out.content), { ok: false, error: 'server' });
   assert(!/SECRET|stack|Error/.test(out.content), 'no leak');
-  eq(env.sent.length, 0);
+  eq(env.sent.length, 1, 'only the owner alert is sent');
+  eq(env.sent[0].to, 'info@parseus.ai');
+  assert(!env.sent[0].body.includes('SECRET'), 'alert does not include error text');
+  env.ctx.doPost({ postData: { contents: JSON.stringify(consultPayload()) } });
+  eq(env.sent.length, 1, 'owner alert is rate limited');
 });
 
 test('email failure after storing still returns ok (row kept)', () => {
@@ -466,7 +489,7 @@ test('roundtable within capacity → registered; no date/link invented', () => {
   const conf = env.sent[0];
   eq(conf.to, 'ben@example.com');
   assert(conf.body.includes('From AI Capabilities to Real-World Value'), 'topic');
-  assert(conf.body.includes('date and joining details will be sent by email once confirmed'), 'TBC wording');
+  assert(conf.body.includes('The date and joining details have not been confirmed yet. We will email them to you as soon as they are set.'), 'TBC wording');
   assert(!/https?:\/\//.test(conf.body), 'no links in confirmation');
   assert(conf.body.trim().endsWith(SIGN));
   eq(env.sent[1].to, 'info@parseus.ai');
@@ -743,6 +766,446 @@ test('bulk sends respect the daily mail quota', () => {
   env.ctx.sendBookingLinks();
   eq(env.sent.length, 2);
   assert(env.alerts.at(-1).includes('daily email quota'));
+});
+
+// ---------------------------------------------------------------------------
+// Tests: security review fixes (abuse, sanitisation, concurrency, retention)
+// ---------------------------------------------------------------------------
+
+const daysAgo = d => new Date(Date.now() - d * 86400000);
+const applicantMails = env => env.sent.filter(m => m.to !== 'info@parseus.ai');
+
+test('global throttle: per 10 minutes, across different emails; generic error; nothing stored or sent; one owner alert', () => {
+  const env = makeEnv({ props: { MAX_SUBMISSIONS_PER_10_MIN: '3' } });
+  for (let i = 0; i < 3; i++) eq(env.post(consultPayload({ email: `v${i}@example.com` })).ok, true);
+  env.sent.length = 0;
+  const res = env.post(consultPayload({ email: 'victim@example.com' }));
+  eq(res, { ok: false, error: 'busy' });
+  eq(env.post(rtPayload({ email: 'victim2@example.com' })), { ok: false, error: 'busy' }, 'applies to both forms');
+  eq(env.consult().rows().length, 3, 'not stored');
+  eq(env.reg().rows().length, 0, 'not stored');
+  eq(applicantMails(env).length, 0, 'no email to the victim addresses');
+  eq(env.sent.length, 1, 'exactly one owner alert');
+  assert(env.sent[0].subject.includes('submission-limit'));
+});
+
+test('global throttle: rolling 24-hour cap counts older entries; old entries expire', () => {
+  const now = Date.now();
+  const log = [now - 23 * 3600000, now - 22 * 3600000, now - 25 * 3600000];
+  const env = makeEnv({ props: { MAX_SUBMISSIONS_PER_DAY: '3', THROTTLE_LOG: JSON.stringify(log) } });
+  eq(env.post(consultPayload({ email: 'a@example.com' })).ok, true, '2 in window + this one = 3');
+  eq(env.post(consultPayload({ email: 'b@example.com' })), { ok: false, error: 'busy' });
+  const stored = JSON.parse(env.props.get('THROTTLE_LOG'));
+  eq(stored.length, 3, 'expired entry pruned');
+});
+
+test('global throttle: honeypot, invalid, rate-limited and duplicate requests do not use slots', () => {
+  const env = makeEnv({ props: { MAX_SUBMISSIONS_PER_10_MIN: '1' } });
+  env.post(consultPayload({}, { website: 'x' }));
+  env.post(consultPayload({ email: 'bad' }));
+  eq(env.post(consultPayload()).ok, true, 'first real submission accepted');
+  eq(env.post(consultPayload()).ok, true, 'duplicate answered without a slot');
+  eq(env.consult().rows().length, 1);
+});
+
+test('duplicate consultation within window → same ref, no row, no email; after window → new application', () => {
+  const env = makeEnv();
+  const first = env.post(consultPayload());
+  env.sent.length = 0;
+  const again = env.post(consultPayload({ email: 'Ada@Example.com', challenge: 'A different challenge text that is long enough to pass.' }));
+  eq(again, { ok: true, status: 'received', ref: first.ref });
+  eq(env.consult().rows().length, 1);
+  eq(env.sent.length, 0, 'no emails for a repeat');
+  env.consult().data[1][env.consult().col('Submitted at')] = daysAgo(31);
+  env.cache.clear();
+  const later = env.post(consultPayload());
+  assert(later.ok && later.ref !== first.ref, 'new ref after window');
+  eq(env.consult().rows().length, 2);
+});
+
+test('DUPLICATE_WINDOW_DAYS=0 disables duplicate detection', () => {
+  const env = makeEnv({ props: { DUPLICATE_WINDOW_DAYS: '0' } });
+  env.post(consultPayload()); env.post(consultPayload());
+  eq(env.consult().rows().length, 2);
+});
+
+test('automatic emails never echo free text; unsafe names fall back to "Hello,"', () => {
+  const env = makeEnv();
+  const spam = 'BUY CHEAP PILLS at https://spam.example now';
+  env.post(consultPayload({ name: 'Visit spam.example today', organization: 'Org https://evil.example', role: 'Role www.evil.example',
+    challenge: spam + ' ' + 'x'.repeat(30), outcome: spam }));
+  const conf = env.sent[0];
+  eq(conf.to, 'ada@example.com');
+  assert(conf.body.startsWith('Hello,\n'), 'generic greeting');
+  for (const bad of ['spam.example', 'evil.example', 'PILLS', 'https://']) assert(!conf.body.includes(bad), 'no echo of ' + bad);
+  assert(!conf.subject.includes('evil'), 'subject clean');
+  env.sent.length = 0;
+  env.post(rtPayload({ name: 'Click here: bit.ly/x', question: spam }));
+  assert(env.sent[0].body.startsWith('Hello,\n') && !env.sent[0].body.includes('PILLS'), 'roundtable confirmation clean');
+  const ctx = env.ctx;
+  eq(ctx.hello_('Zoë O\u2019Brien-Smith'), 'Hello Zoë O\u2019Brien-Smith,');
+  eq(ctx.hello_('Dr. J. Smith'), 'Hello Dr. J. Smith,');
+  eq(ctx.hello_('example.com'), 'Hello,');
+  eq(ctx.hello_('Win $1000 now'), 'Hello,');
+  eq(ctx.hello_('A very long name that goes on and on and on'), 'Hello,');
+  eq(ctx.hello_("'=HYPERLINK(1)"), 'Hello,');
+});
+
+test('sanitisation: single-line fields lose newlines/tabs; invisible and control characters removed; header injection blocked', () => {
+  const env = makeEnv();
+  env.post(consultPayload({
+    name: 'Ada\u200B Ex\u202Eample', role: 'Head\nBcc: x@evil.example', organization: 'Org\r\nSubject: hi\t\u0007',
+    challenge: 'Line one\r\n\r\n\r\n\r\nLine two\u0000 with enough text to pass validation',
+  }));
+  const sh = env.consult();
+  eq(sh.cell(0, 'Name'), 'Ada Example');
+  eq(sh.cell(0, 'Role'), 'Head Bcc: x@evil.example');
+  eq(sh.cell(0, 'Organization'), 'Org Subject: hi');
+  eq(sh.cell(0, 'Challenge'), 'Line one\n\nLine two  with enough text to pass validation'.replace('  ', ' '));
+  const note = env.sent[1];
+  assert(!/[\r\n]/.test(note.subject), 'notification subject single line');
+  for (const m of env.sent) assert(!/[\r\n]/.test(m.subject) && m.subject.length <= 200, 'subjects single line');
+});
+
+test('email validation rejects lists, display names, invisible chars and header tricks', () => {
+  const env = makeEnv();
+  for (const email of ['a@b.com,c@d.com', 'a@b.com; c@d.com', 'Ada <a@b.com>', 'a\u200B@b.com', 'a@b.com\nBcc: c@d.com',
+    '\u00E4@b.com', 'a@-b.com', 'a@b.c', 'x'.repeat(65) + '@b.com']) {
+    const res = env.post(consultPayload({ email }));
+    eq(res.error, 'validation', JSON.stringify(email));
+    assert(res.fields.email, 'email field flagged ' + JSON.stringify(email));
+  }
+  for (const email of ['first.last+tag@sub.example.co.uk', 'o\'brien@example.ie', 'A_B@EXAMPLE.COM']) {
+    eq(env.post(consultPayload({ email })).ok, true, email);
+  }
+  eq(env.sent.filter(m => /,|;|</.test(m.to)).length, 0);
+});
+
+test('formula injection: email and question columns are protected; notification stays plain text', () => {
+  const env = makeEnv();
+  env.post(consultPayload({ email: '=1+1@example.com' }));
+  eq(env.consult().cell(0, 'Email'), "'=1+1@example.com");
+  env.post(rtPayload({ question: '=IMPORTXML("https://evil.example","//a")' }));
+  assert(env.reg().cell(0, 'Question').startsWith("'="), 'question prefixed');
+  eq(env.consult().cell(0, 'Privacy notice version'), 'October 2026');
+});
+
+test('consent is recorded with timestamp and privacy notice version (configurable)', () => {
+  const env = makeEnv({ props: { PRIVACY_NOTICE_VERSION: 'v2' } });
+  env.post(consultPayload());
+  env.post(rtPayload());
+  assert(isDate(env.consult().cell(0, 'Consent given at')), 'consult consent time');
+  eq(env.consult().cell(0, 'Privacy notice version'), 'v2');
+  assert(isDate(env.reg().cell(0, 'Consent given at')), 'reg consent time');
+  eq(env.reg().cell(0, 'Privacy notice version'), 'v2');
+});
+
+test('REQUIRE_TURNSTILE=true without a secret refuses everything (fail closed) and alerts the owner once', () => {
+  const env = makeEnv({ props: { REQUIRE_TURNSTILE: 'true' } });
+  eq(env.post(consultPayload()), { ok: false, error: 'unavailable' });
+  eq(env.post(rtPayload()), { ok: false, error: 'unavailable' });
+  eq(env.consult().rows().length + env.reg().rows().length, 0);
+  eq(env.sent.length, 1, 'one owner alert');
+  eq(env.sent[0].to, 'info@parseus.ai');
+});
+
+test('Turnstile: action must match the form; optional hostname allow-list', () => {
+  const env = makeEnv({ props: { TURNSTILE_SECRET: 's', TURNSTILE_HOSTNAMES: 'parseus.ai, www.parseus.ai' } });
+  env.turnstileExtra = { action: 'roundtable', hostname: 'parseus.ai' };
+  eq(env.post(consultPayload({}, { turnstileToken: 'good-token' })), { ok: false, error: 'spam' }, 'token minted for the other form');
+  env.turnstileExtra = { action: 'consultation', hostname: 'evil.example' };
+  eq(env.post(consultPayload({}, { turnstileToken: 'good-token' })), { ok: false, error: 'spam' }, 'wrong hostname');
+  env.turnstileExtra = { action: 'consultation', hostname: 'www.parseus.ai' };
+  eq(env.post(consultPayload({}, { turnstileToken: 'good-token' })).ok, true);
+  eq(env.post(consultPayload({ email: 'z@example.com' }, { turnstileToken: 'good-token' + 'x'.repeat(3000) })), { ok: false, error: 'spam' }, 'oversized token');
+});
+
+test('logs never contain applicant emails or submitted text', () => {
+  const env = makeEnv();
+  env.failFor = () => true;
+  env.post(consultPayload({ organization: 'Secret Org Name' }));
+  env.ss.getSheetByName = () => { throw new Error('Cannot send to ada@example.com'); };
+  env.ctx.doPost({ postData: { contents: JSON.stringify(consultPayload()) } });
+  const logs = (env.ctx.__errors || []).join('\n');
+  assert(logs.length > 0, 'something was logged');
+  assert(!logs.includes('ada@example.com') && !logs.includes('Secret Org Name') && !logs.includes('info@parseus.ai'), 'redacted: ' + logs);
+});
+
+test('doGet ignores parameters and returns no data', () => {
+  const env = makeEnv();
+  env.post(consultPayload());
+  const out = env.ctx.doGet({ parameter: { ref: 'C-1', email: 'ada@example.com', action: 'list' } });
+  eq(JSON.parse(out.content), { ok: true, service: 'parseus-forms' });
+});
+
+test('script lock busy → doPost returns generic "server" error; menu reports busy and sends nothing', () => {
+  const env = makeEnv({ props: { BOOKING_URL: 'https://calendar.example/private' } });
+  addConsult(env, 1, { Status: 'Selected' });
+  env.lockBusy = true;
+  eq(env.post(rtPayload()), { ok: false, error: 'server' });
+  env.ctx.sendBookingLinks();
+  eq(applicantMails(env).length, 0);
+  assert(env.alerts.at(-1).includes('Another Parseus action is running'), env.alerts.at(-1));
+  eq(env.consult().cell(0, 'Status'), 'Selected');
+});
+
+test('bulk send: rows are claimed (stamped and flushed) before sending; emails are sent outside the lock', () => {
+  const env = makeEnv({ props: { BOOKING_URL: 'https://calendar.example/private' } });
+  addConsult(env, 2, { Status: 'Selected' });
+  let stampedBeforeSend = true;
+  env.failFor = () => { if (env.consult().rows().some(r => r[env.consult().col('Booking link sent at')] === '')) stampedBeforeSend = false; return false; };
+  env.ctx.sendBookingLinks();
+  eq(env.sent.length, 2);
+  assert(stampedBeforeSend, 'both rows stamped before the first email');
+  assert(env.sent.every(m => !m.lockHeld), 'no email sent while holding the script lock');
+  assert(env.flushes > 0, 'flushed');
+});
+
+test('bulk send: a failed email is un-claimed, marked in "Last email error", and retried next run', () => {
+  const env = makeEnv({ props: { BOOKING_URL: 'https://calendar.example/private' } });
+  addConsult(env, 2, { Status: 'Selected' });
+  env.failFor = to => to === 'p0@example.com';
+  env.ctx.sendBookingLinks();
+  eq(env.sent.map(m => m.to), ['p1@example.com']);
+  const sh = env.consult();
+  eq(sh.cell(0, 'Status'), 'Selected', 'reverted');
+  eq(sh.cell(0, 'Booking link sent at'), '');
+  eq(sh.cell(0, 'Decision sent at'), '');
+  assert(/send failed/.test(sh.cell(0, 'Last email error')), 'error noted');
+  assert(env.alerts.at(-1).includes('C-000000'), 'report names the failed ref: ' + env.alerts.at(-1));
+  eq(sh.cell(1, 'Status'), 'Booking link sent');
+  env.failFor = null;
+  env.ctx.sendBookingLinks();
+  eq(env.sent.map(m => m.to), ['p1@example.com', 'p0@example.com']);
+  eq(sh.cell(0, 'Last email error'), '', 'cleared after success');
+});
+
+test('bulk send: revert finds the right row by Ref even if the Sheet was re-sorted meanwhile', () => {
+  const env = makeEnv({ props: { BOOKING_URL: 'https://calendar.example/private' } });
+  addConsult(env, 1, { Status: 'Under review' });
+  addConsult(env, 1, { Status: 'Selected' });
+  env.failFor = to => {
+    const d = env.consult().data; [d[1], d[2]] = [d[2], d[1]]; // someone sorts the Sheet mid-run
+    return to === 'p1@example.com';
+  };
+  env.ctx.sendBookingLinks();
+  const sh = env.consult();
+  const rowOf = ref => sh.rows().findIndex(r => r[sh.col('Ref')] === ref);
+  eq(sh.cell(rowOf('C-000001'), 'Status'), 'Selected', 'failed row reverted');
+  eq(sh.cell(rowOf('C-000000'), 'Status'), 'Under review', 'other row untouched');
+});
+
+test('two people sending booking links at once: no double send and cap re-checked under the lock', () => {
+  const env = makeEnv({ props: { BOOKING_URL: 'https://calendar.example/private', CONSULTATION_CAP: '3' } });
+  addConsult(env, 3, { Status: 'Selected' });
+  // While person A is looking at the confirmation dialog, person B runs the same menu to completion.
+  env.onConfirm = () => env.ctx.sendBookingLinks();
+  env.ctx.sendBookingLinks();
+  eq(env.sent.length, 3, 'each applicant emailed exactly once');
+  eq(new Set(env.sent.map(m => m.to)).size, 3);
+
+  const env2 = makeEnv({ props: { BOOKING_URL: 'https://calendar.example/private', CONSULTATION_CAP: '2' } });
+  addConsult(env2, 2, { Status: 'Selected' });
+  // During the dialog, someone else records a place as used (e.g. edits via API, which onEdit cannot see).
+  env2.onConfirm = () => { env2.consult().addRow({ Ref: 'C-X', Email: 'x@example.com', Status: 'Scheduled', 'Booking link sent at': new Date() }); };
+  env2.ctx.sendBookingLinks();
+  eq(env2.sent.length, 1, 'only the one remaining place is offered');
+});
+
+test('onEdit: multi-cell paste over the cap shows a warning (cannot revert) and the send still respects the cap', () => {
+  const env = makeEnv({ props: { BOOKING_URL: 'https://calendar.example/private', CONSULTATION_CAP: '2' } });
+  addConsult(env, 4, { Status: 'Selected' });
+  const sh = env.consult();
+  env.ctx.onEdit({ range: sh.getRange(2, sh.col('Status') + 1, 4, 1) });
+  assert(env.ss.toasts.at(-1).includes('cap of 2'), 'warning toast');
+  env.ctx.sendBookingLinks();
+  eq(env.sent.length, 2);
+});
+
+test('bulk send: batch size limit; the rest is sent on the next run', () => {
+  const env = makeEnv();
+  env.setEvent('rt-01', { Start: HOURS(72), 'Meeting link (private)': 'https://meet.example/x', Capacity: 500 });
+  for (let i = 0; i < 60; i++) env.reg().addRow({ Ref: 'R-' + i, 'Event ID': 'rt-01', Name: 'P', Email: `p${i}@example.com`, 'Registration status': 'Registered' });
+  env.ctx.sendEventDetails();
+  eq(env.sent.length, 50);
+  assert(env.alerts.at(-1).includes('10 not sent this time'), env.alerts.at(-1));
+  env.ctx.sendEventDetails();
+  eq(env.sent.length, 60);
+  eq(new Set(env.sent.map(m => m.to)).size, 60, 'no duplicates');
+});
+
+test('decision notices: Not selected and Held get their templates, once each; Decision date filled', () => {
+  const env = makeEnv();
+  addConsult(env, 1, { Status: 'Not selected' });
+  addConsult(env, 1, { Status: 'Held for later round' });
+  addConsult(env, 1, { Status: 'Not selected', 'Decision sent at': new Date() });
+  addConsult(env, 1, { Status: 'Under review' });
+  env.ctx.sendDecisionNotices();
+  eq(env.sent.map(m => m.to), ['p0@example.com', 'p1@example.com']);
+  assert(env.sent[0].body.includes('not able to offer you a place this time'), 'not selected body');
+  assert(env.sent[0].body.includes('roundtables'), 'roundtable invitation');
+  assert(env.sent[1].body.includes('keep your application on file'), 'held body');
+  assert(isDate(env.consult().cell(0, 'Decision sent at')) && isDate(env.consult().cell(0, 'Decision date')));
+  env.ctx.sendDecisionNotices();
+  eq(env.sent.length, 2, 'not sent twice');
+  assert(env.alerts.at(-1).includes('No applicants are waiting for a decision notice'));
+});
+
+test('"Held for later round" does not use a place; a held applicant can later be Selected and get a link', () => {
+  const env = makeEnv({ props: { BOOKING_URL: 'https://calendar.example/private', CONSULTATION_CAP: '1' } });
+  addConsult(env, 1, { Status: 'Held for later round' });
+  env.ctx.showConsultationCap();
+  assert(env.alerts.at(-1).includes('0 of 1'), env.alerts.at(-1));
+  env.consult().data[1][env.consult().col('Status')] = 'Selected';
+  env.ctx.sendBookingLinks();
+  eq(env.sent.length, 1);
+});
+
+test('setup() upgrades an existing Sheet: appends missing columns without moving data', () => {
+  const env = makeEnv();
+  const OLD = ['Submitted at', 'Ref', 'Name', 'Role', 'Organization', 'Email', 'Area', 'Challenge', 'Desired outcome', 'Stage',
+    'Status', 'Reviewer notes', 'Decision date', 'Booking link sent at', 'Conversation date', 'Follow-up sent at'];
+  const sh = env.consult();
+  sh.data = [OLD.slice(), OLD.map((h, i) => (h === 'Status' ? 'Not selected' : h === 'Email' ? 'old@example.com' : h === 'Ref' ? 'C-OLD' : 'v' + i))];
+  // Before setup: submissions still work and the menu explains what to do.
+  eq(env.post(consultPayload()).ok, true, 'works on the old layout');
+  env.ctx.sendDecisionNotices();
+  assert(env.alerts.at(-1).includes('Run setup'), 'asks for setup');
+  env.ctx.setup();
+  eq(sh.headers().slice(0, 16), OLD, 'old columns unchanged');
+  eq(sh.headers().slice(16), ['Decision sent at', 'Consent given at', 'Privacy notice version', 'Last email error', 'Anonymised at']);
+  eq(sh.cell(0, 'Email'), 'old@example.com', 'data in place');
+  env.ctx.setup();
+  eq(sh.headers().length, 21, 'idempotent');
+  env.ctx.sendDecisionNotices();
+  eq(applicantMails(env).filter(m => m.to === 'old@example.com').length, 1);
+});
+
+test('retention: shows counts, NO changes nothing, YES anonymises only rows past their period', () => {
+  const env = makeEnv({ confirm: 'NO' });
+  const sh = env.consult();
+  addConsult(env, 1, { Status: 'Not selected', 'Decision date': daysAgo(200), Name: 'Old Reject', Challenge: 'text' });       // 0: due (6 months)
+  addConsult(env, 1, { Status: 'Not selected', 'Decision date': daysAgo(30), Name: 'Recent Reject' });                         // 1: keep
+  addConsult(env, 1, { Status: 'Completed', 'Conversation date': daysAgo(400), Name: 'Old Done' });                           // 2: due (12 months)
+  addConsult(env, 1, { Status: 'Completed', 'Conversation date': daysAgo(200), Name: 'Recent Done' });                        // 3: keep
+  addConsult(env, 1, { Status: 'Scheduled', 'Submitted at': daysAgo(500), Name: 'Active' });                                   // 4: never
+  addConsult(env, 1, { Status: 'Under review', 'Submitted at': daysAgo(400), Name: 'Stale' });                                 // 5: due
+  env.setEvent('rt-old', { Start: daysAgo(200) });
+  env.reg().addRow({ Ref: 'R-1', 'Event ID': 'rt-old', Name: 'Gone', Email: 'g@example.com', Question: 'q', 'Future updates': 'No', 'Registration status': 'Registered' });
+  env.reg().addRow({ Ref: 'R-2', 'Event ID': 'rt-old', Name: 'Keep Me', Email: 'k@example.com', Organization: 'Org', 'Future updates': 'Yes', 'Registration status': 'Registered' });
+  env.reg().addRow({ Ref: 'R-3', 'Event ID': 'rt-01', Name: 'Upcoming', Email: 'u@example.com', 'Future updates': 'No', 'Registration status': 'Registered', 'Submitted at': new Date() });
+  const usedBefore = env.ctx.placesUsed_(env.ctx.readTable_(sh));
+
+  env.ctx.applyRetention();
+  const q = env.alerts.at(-1);
+  assert(q.includes('Consultations: 3 row(s)') && q.includes('Roundtable registrations: 1 row(s)') && q.includes('asked for updates: 1 row(s)'), q);
+  assert(q.includes('Not touched: 1'), 'mentions active rows');
+  eq(sh.cell(0, 'Name'), 'Old Reject', 'NO = unchanged');
+
+  env.ctx.SpreadsheetApp.getUi().alert = (...a) => { env.alerts.push(a.join(' :: ')); return 'YES'; };
+  env.ctx.applyRetention();
+  for (const i of [0, 2, 5]) {
+    for (const c of ['Name', 'Email', 'Challenge', 'Organization']) eq(sh.cell(i, c), '[removed]', `row ${i} ${c}`);
+    assert(isDate(sh.cell(i, 'Anonymised at')));
+  }
+  for (const i of [1, 3, 4]) assert(sh.cell(i, 'Name') !== '[removed]', 'kept row ' + i);
+  eq(sh.cell(0, 'Status'), 'Not selected', 'status kept');
+  eq(env.ctx.placesUsed_(env.ctx.readTable_(sh)), usedBefore, 'place count unchanged');
+  const rg = env.reg();
+  eq(rg.cell(0, 'Email'), '[removed]'); eq(rg.cell(0, 'Question'), '[removed]');
+  eq(rg.cell(1, 'Email'), 'k@example.com'); eq(rg.cell(1, 'Name'), 'Keep Me'); eq(rg.cell(1, 'Organization'), '[removed]');
+  eq(rg.cell(2, 'Name'), 'Upcoming');
+  env.alerts.length = 0;
+  env.ctx.applyRetention();
+  assert(env.alerts.at(-1).includes('Nothing was changed'), 'idempotent');
+});
+
+test('anonymised rows are skipped by menus and duplicate checks', () => {
+  const env = makeEnv();
+  env.post(consultPayload());
+  const sh = env.consult();
+  sh.data[1][sh.col('Anonymised at')] = new Date();
+  sh.data[1][sh.col('Status')] = 'Not selected';
+  env.sent.length = 0;
+  eq(env.post(consultPayload()).ref !== sh.cell(0, 'Ref'), true, 'not treated as duplicate');
+  env.ctx.sendDecisionNotices();
+  eq(applicantMails(env).filter(m => m.subject.includes('application (C-') && m.body.includes('not able')).length, 0);
+});
+
+test('menu "Check setup" never shows secret values', () => {
+  const env = makeEnv({ props: { BOOKING_URL: 'https://calendar.example/SECRETLINK', TURNSTILE_SECRET: 'SECRETKEY' } });
+  env.ctx.showSetupStatus();
+  const a = env.alerts.at(-1);
+  assert(!a.includes('SECRETLINK') && !a.includes('SECRETKEY'), a);
+  assert(a.includes('BOOKING_URL: set') && a.includes('REQUIRE_TURNSTILE: false'), a);
+  assert(a.includes('set REQUIRE_TURNSTILE to true'), 'activation warning');
+});
+
+test('booking link: refuses a non-https BOOKING_URL', () => {
+  const env = makeEnv({ props: { BOOKING_URL: 'javascript:alert(1)' } });
+  addConsult(env, 1, { Status: 'Selected' });
+  env.ctx.sendBookingLinks();
+  eq(env.sent.length, 0);
+  assert(env.alerts.at(-1).includes('https://'));
+});
+
+test('emails contain no em/en dashes, no unfilled placeholders, and end with the signature', () => {
+  const env = makeEnv({ props: { BOOKING_URL: 'https://calendar.example/private' } });
+  env.setEvent('rt-01', { Capacity: 1 });
+  env.post(consultPayload()); env.post(rtPayload()); env.post(rtPayload({ email: 'w@example.com' }));
+  addConsult(env, 1, { Status: 'Selected' }); env.ctx.sendBookingLinks();
+  addConsult(env, 1, { Status: 'Not selected' }); addConsult(env, 1, { Status: 'Held for later round' }); env.ctx.sendDecisionNotices();
+  addConsult(env, 1, { Status: 'Completed' }); env.ctx.sendConsultationFollowUps();
+  env.reg().data[1][env.reg().col('Attended')] = true; env.ctx.sendRoundtableFollowUps();
+  const mails = applicantMails(env);
+  assert(mails.length >= 8, 'covered ' + mails.length);
+  for (const m of mails) {
+    assert(!/[\u2013\u2014]/.test(m.subject + m.body), 'dash in ' + m.subject);
+    assert(!/\{\{|\}\}|undefined|null|NaN/.test(m.subject + m.body), 'placeholder in ' + m.subject);
+    assert(m.body.endsWith(SIGN), 'signature in ' + m.subject);
+  }
+});
+
+test('ops/campaign-messages.md matches the emails Code.gs sends, word for word', () => {
+  const md = fs.readFileSync(path.join(here, '..', '..', 'campaign-messages.md'), 'utf8');
+  const blocks = {};
+  for (const m of md.matchAll(/<!-- template: ([\w-]+) -->\r?\n```text\r?\n([\s\S]*?)\r?\n```/g)) blocks[m[1]] = m[2].replace(/\r\n/g, '\n');
+  assert(!/[\u2013\u2014]/.test(md), 'no em/en dashes anywhere in campaign-messages.md');
+  const env = makeEnv();
+  const ctx = env.ctx;
+  ctx.Utilities.formatDate = () => 'DATETIME';
+  const cfg = ctx.config_();
+  const N = 'Ada Example', R = 'REF-1', U = 'https://booking.invalid/x', L = 'https://meet.invalid/x';
+  const evNo = { title: 'EVTITLE', start: null, link: '', duration: null };
+  const evDate = { title: 'EVTITLE', start: new Date(), link: '', duration: null };
+  const evFull = { title: 'EVTITLE', start: new Date(), link: L, duration: null };
+  const render = {
+    received: ctx.consultReceivedEmail_(N, R, cfg),
+    booking: ctx.bookingEmail_(N, R, U, cfg),
+    'not-selected': ctx.notSelectedEmail_(N, R, cfg),
+    held: ctx.heldEmail_(N, R),
+    'consult-follow-up': ctx.consultFollowUpEmail_(N),
+    'registered-no-date': ctx.registeredEmail_(N, evNo, R),
+    'registered-date-no-link': ctx.registeredEmail_(N, evDate, R),
+    'registered-date-and-link': ctx.registeredEmail_(N, evFull, R),
+    'joining-details': ctx.detailsEmail_(N, evFull),
+    'rt-reminder': ctx.reminderEmail_(N, evFull),
+    waitlist: ctx.waitlistedEmail_(N, evNo, R),
+    'waitlist-promoted': ctx.promotedEmail_(N, evFull),
+    'rt-thank-you': ctx.roundtableFollowUpEmail_(N, evFull, false),
+    'rt-thank-you-updates': ctx.roundtableFollowUpEmail_(N, evFull, true),
+  };
+  const ph = s => s.split(N).join('{{name}}').split(R).join('{{ref}}').split(U).join('{{booking_link}}')
+    .split('EVTITLE').join('{{event_title}}').split('DATETIME').join('{{date_time}}').split(L).join('{{meeting_link}}');
+  eq(Object.keys(blocks).sort(), Object.keys(render).sort(), 'template ids');
+  for (const [k, m] of Object.entries(render)) {
+    const expected = 'Subject: ' + ph(m.subject) + '\n\n' + ph(m.body);
+    if (blocks[k] !== expected) {
+      const a = blocks[k].split('\n'), b = expected.split('\n');
+      const i = a.findIndex((line, j) => line !== b[j]);
+      throw new Error(`template "${k}" differs at line ${i + 1}:\n  md:   ${a[i]}\n  code: ${b[i]}`);
+    }
+  }
 });
 
 // ---------------------------------------------------------------------------

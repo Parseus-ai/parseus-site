@@ -3,6 +3,7 @@
 exclude:
   - ops/
   - tools/
+  - content/
   - assets/brand/source/
   - README.md
   - LICENSE
