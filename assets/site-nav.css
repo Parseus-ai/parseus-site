@@ -49,6 +49,11 @@
 .dropdown .disabled em{font-style:italic;}
 @media (min-width:901px){.dropdown{min-width:max-content;}.dropdown a,.dropdown .disabled{white-space:nowrap;}}
 .dropdown .soon{margin-left:auto;font-size:0.66rem;font-weight:600;letter-spacing:0.03em;color:var(--slate);background:var(--ivory-warm);padding:0.12rem 0.5rem;border-radius:999px;white-space:nowrap;font-style:normal;}
+/* Contact as a quiet pill on desktop */
+@media (min-width:901px){
+  .navlabel.nav-contact{padding:0.45rem 1rem;border:1.5px solid var(--persian);border-radius:999px;color:var(--persian);font-weight:600;}
+  .navlabel.nav-contact:hover,.navlabel.nav-contact[aria-current="page"]{background:var(--persian);color:#fff;}
+}
 /* Keep the right-most menus inside the viewport */
 .navlist > .navitem:last-child > .dropdown,.navlist > .navitem:nth-last-child(2) > .dropdown{left:auto;right:0;}
 .dropdown .ext{font-size:0.75em;color:var(--slate);margin-left:auto;}

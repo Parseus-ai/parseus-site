@@ -1,0 +1,8 @@
+# GitHub Pages (Jekyll) settings.
+# Pages are plain HTML and are copied as-is. Keep repo-only material off the website.
+exclude:
+  - ops/
+  - tools/
+  - assets/brand/source/
+  - README.md
+  - LICENSE

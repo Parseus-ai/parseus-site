@@ -75,8 +75,6 @@
     document.body.style.left = '0';
     document.body.style.right = '0';
     toggle.setAttribute('aria-expanded', 'true');
-    nav.setAttribute('role', 'dialog');
-    nav.setAttribute('aria-modal', 'true');
     nav.removeAttribute('aria-hidden');
     background().forEach(function (el) { el.setAttribute('inert', ''); el.setAttribute('aria-hidden', 'true'); });
     // Expand the section containing the current page
@@ -96,8 +94,6 @@
     document.body.style.right = '';
     window.scrollTo({ top: savedScrollY, left: 0, behavior: 'instant' });
     toggle.setAttribute('aria-expanded', 'false');
-    nav.removeAttribute('role');
-    nav.removeAttribute('aria-modal');
     if (isMobile()) nav.setAttribute('aria-hidden', 'true');
     background().forEach(function (el) { el.removeAttribute('inert'); el.removeAttribute('aria-hidden'); });
     if (returnFocus !== false) toggle.focus({ preventScroll: true });
