@@ -8,7 +8,8 @@
  *
  * Local review: add ?preview=forms to the URL to show the forms without a backend.
  * Nothing is sent in preview. Add &simulate=error|validation|waitlisted to see
- * those states.
+ * those states, &rt=interest|open|closed to see the roundtable page modes, and
+ * &consult=closed to see the closed application state.
  */
 (function () {
   var cfg = window.PARSEUS_FORMS || {};
@@ -18,6 +19,34 @@
   var endpoint = (cfg.endpoint || '').trim();
   var live = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(endpoint);
   var loadedAt = Date.now();
+  var consultCfg = cfg.consultation || {};
+  var rtCfg = cfg.roundtable || {};
+  var rtStatus = (preview && params.get('rt')) || rtCfg.status || 'interest';
+  if (['interest', 'open', 'closed'].indexOf(rtStatus) === -1) rtStatus = 'interest';
+  var consultOpen = !(consultCfg.open === false || (preview && params.get('consult') === 'closed'));
+
+  /* ---------- Page text driven by the public config ---------- */
+  function applyPageConfig() {
+    $all('[data-config-text]').forEach(function (el) {
+      var path = el.getAttribute('data-config-text').split('.');
+      var v = cfg; path.forEach(function (k) { v = v && v[k]; });
+      if (typeof v === 'string' && v.trim()) { el.textContent = v.trim(); el.hidden = false; }
+    });
+    if (!document.querySelector('[data-form="roundtable"]')) return;
+    var title = $('[data-rt="title"]');
+    if (title && rtCfg.title) title.textContent = rtCfg.title;
+    var open = rtStatus === 'open';
+    var date = $('[data-rt="dateText"]'), tz = $('[data-rt="timeZone"]');
+    if (open && date && rtCfg.dateText) date.textContent = rtCfg.dateText;
+    if (open && tz && rtCfg.timeZone) tz.textContent = rtCfg.timeZone;
+    var st = $('[data-rt-status]');
+    if (st) st.textContent = 'Registration status: ' + (open ? 'open' : rtStatus === 'closed' ? 'closed' : 'collecting interest');
+    $all('[data-rt-mode]').forEach(function (el) { el.hidden = el.getAttribute('data-rt-mode') !== (open ? 'open' : 'interest'); });
+    $all('[data-rt-label="formTitle"]').forEach(function (el) { el.textContent = open ? 'Register' : 'Register your interest'; });
+    $all('[data-rt-label="submit"]').forEach(function (el) { el.textContent = open ? 'Register' : 'Register your interest'; });
+    $all('[data-rt-field="eventId"]').forEach(function (el) { if (rtCfg.eventId) el.value = rtCfg.eventId; });
+  }
+  applyPageConfig();
 
   var MESSAGES = {
     required: 'This field is required.',
@@ -34,7 +63,9 @@
     var box = form.closest('[data-form-box]') || form.parentElement;
     var unavailable = $('[data-form-unavailable]', box);
     if (!live && !preview) return; // stay hidden; the email alternative is already visible
+    var closed = form.dataset.form === 'consultation' ? !consultOpen : rtStatus === 'closed';
     if (unavailable) unavailable.hidden = true;
+    if (closed) { var c = $('[data-form-closed]', box); if (c) c.hidden = false; return; }
     form.hidden = false;
     if (preview && !live) {
       var banner = document.createElement('p');
@@ -187,7 +218,7 @@
         setBusy(form, false, '');
         if (simulate === 'error') return handleError(form, 'network');
         if (simulate === 'validation') return handleResponse(form, box, { ok: false, error: 'validation', fields: { email: 'This email address could not be accepted.' } });
-        handleResponse(form, box, { ok: true, status: simulate === 'waitlisted' ? 'waitlisted' : (payload.form === 'roundtable' ? 'registered' : 'received'), ref: 'PREVIEW' });
+        handleResponse(form, box, { ok: true, status: simulate === 'waitlisted' ? 'waitlisted' : (payload.form === 'roundtable' ? (rtStatus === 'open' ? 'registered' : 'interest') : 'received'), ref: 'PREVIEW' });
       }, 500);
       return;
     }

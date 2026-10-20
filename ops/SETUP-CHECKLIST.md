@@ -1,6 +1,6 @@
 # Setup checklist: website forms
 
-A short, step-by-step list for switching on the consultation application form and the roundtable registration form. The full reference, with more detail, is the [forms backend guide](apps-script/README.md).
+A short, step-by-step list for switching on the two forms in **Conversations & Events** (`https://parseus.ai/conversations/`): the AI strategy conversation application (`https://parseus.ai/conversations/ai-strategy/`) and the AI roundtable form (`https://parseus.ai/conversations/roundtables/`, "Register Your Interest" until the date is confirmed, then registration). The full reference, with more detail, is the [forms backend guide](apps-script/README.md).
 
 **Labels used below**
 
@@ -72,18 +72,26 @@ Details: [README step 5](apps-script/README.md#5-deploy-as-a-web-app)
 
 Details: [README step 7](apps-script/README.md#7-private-booking-link-google-calendar-appointment-schedule)
 
-### 6. Enter a real roundtable date and capacity
+### 6. Roundtable: collect interest, then open registration when the date is confirmed
 *Needs your Google account · Required before announcing a date*
 
-- [ ] In the Sheet's **Events** tab, row **rt-01**: change **Capacity** from the placeholder 25 to the real number of places.
-- [ ] When the date is confirmed: create a Google Calendar event for the roundtable with **Google Meet**, and copy its Meet link.
-- [ ] Enter **Start** (date and time) and paste the Meet link in **Meeting link (private)**.
+While the date is not confirmed, leave **Start** blank in the Events tab. The roundtable form then only records **interest**: people get an email saying no place is reserved and that we will write when registration opens. Nobody uses a place.
+
+- [ ] In the Sheet's **Events** tab, row **rt-01**: change **Capacity** from the placeholder 25 to the real number of places. Keep **Registration open** ticked.
+- [ ] Website config `assets/forms-config.js` (public): `roundtable: { eventId: "rt-01", title, dateText, timeZone, status: "interest" }`. Ask Claude Code to set it if needed.
+
+When the date is confirmed, do all of these on the same day:
+
+- [ ] Create a Google Calendar event for the roundtable with **Google Meet**, and copy its Meet link.
+- [ ] **Events tab** (this is what the backend follows): enter **Start** (date and time), paste the Meet link in **Meeting link (private)**, keep **Registration open** ticked.
+- [ ] **Website config**: update `title`, `dateText`, `timeZone` and set `status: "open"`, then publish. The website config only changes what the page says; the Sheet decides what actually happens, so the two must match. Never put the Meet link in the website config.
+- [ ] **Parseus → Invite interested people to register**. Everyone who registered interest gets the date and the link to `https://parseus.ai/conversations/roundtables/`. This does **not** register them: they must register on the page (first come, first served). When they register with the same email, their row changes from *Interested* to *Registered* (or *Waitlisted* if full).
 - [ ] In Google Meet, turn on host controls so that people from outside parseus.ai must ask to join, and you admit them. (Everyone who registers gets the link, and links can be forwarded.)
-- [ ] If people registered before the date was set: **Parseus → Send event details to registrants**.
+- [ ] If you add the Meet link only after people registered: **Parseus → Send event details to registrants**.
 
-Registration can stay open without a date: people are told the date and link will follow.
+To close registration later: untick **Registration open** and set the website `status` to `"closed"`.
 
-Details: [README roundtables workflow](apps-script/README.md#roundtables-tabs-events-and-roundtable-registrations)
+Details: [README: From interest to registration](apps-script/README.md#from-interest-to-registration)
 
 ### 7. Turn on Turnstile spam protection
 *Needs your Cloudflare account · Required before Final activation*
@@ -101,7 +109,7 @@ Details: [README step 6](apps-script/README.md#6-cloudflare-turnstile-spam-prote
 Adding `?preview=forms` to a page only *shows* the forms; nothing is sent. That is not an end-to-end test. Test with the real backend on your own computer, before anything is public:
 
 - [ ] Ask Claude Code: *"Put the /exec address into forms-config.js on my computer only, do not commit, and start the local preview."* (Claude Code runs `python -m http.server 8765` for you.) The /exec address is fine to share; it is not a secret.
-- [ ] Open `http://localhost:8765/beyond-ai-headlines/conversations/` and apply with your own email. Take at least a few seconds (very fast submissions are ignored as bots).
+- [ ] Open `http://localhost:8765/conversations/ai-strategy/` and apply with your own email. Take at least a few seconds (very fast submissions are ignored as bots).
 - [ ] Check: a new row in **Consultations** with Status **New**; the "We received your application" email in your inbox; a notification at info@parseus.ai.
 - [ ] Apply again with the same email: same reference shown, no new row, no second email.
 - [ ] Set your test row to **Selected**, run **Parseus → Send booking links to Selected applicants**, and check the email and the booking link.
@@ -110,13 +118,15 @@ Adding `?preview=forms` to a page only *shows* the forms; nothing is sent. That 
 
 Details: [README step 8](apps-script/README.md#8-test-before-activation)
 
-### 9. Test registration and confirmation messages, including the waitlist
+### 9. Test roundtable interest, registration and the waitlist
 *Needs your Google account · Required*
 
-- [ ] Open `http://localhost:8765/beyond-ai-headlines/roundtables/` and register with your own email. Check the row and the confirmation email.
+- [ ] With **Start** blank and local `roundtable.status` = `"interest"`, open `http://localhost:8765/conversations/roundtables/` and register your interest with your own email. Check the row says **Interested** and the email says no place is reserved.
+- [ ] Set a future **Start** on the event, set local `roundtable.status` to `"open"`, and run **Parseus → Invite interested people to register**. Check the invitation email; the row stays **Interested** with **Invited at** filled.
+- [ ] Register on the page with the same email. The same row should now say **Registered** (no second row), and you should get the confirmation email.
 - [ ] Set the event's **Capacity** to **1**. Register with a second address of yours: you should get the **waitlist** email.
 - [ ] Mark the first registration **Cancelled** and run **Parseus → Promote from waitlist**: the second address should get "A place has opened".
-- [ ] Set **Capacity** back to the real number.
+- [ ] Set **Capacity** back to the real number, clear **Start** again if the date is not really confirmed, and undo the local config change.
 - [ ] Run **Parseus → Check setup** and read the summary.
 - [ ] Delete all test rows. Ask Claude Code to stop the local preview and undo the local forms-config.js change.
 
@@ -129,7 +139,7 @@ Only after steps 8 and 9 worked:
 - [ ] Run **Parseus → Check setup**: it should say "No problems found".
 - [ ] Run **Parseus → Install reminder trigger** (sends roundtable reminders automatically).
 - [ ] Ask Claude Code to put the /exec address and the Turnstile **site** key into `assets/forms-config.js` and prepare a commit. Review it, then approve the push. The forms appear on parseus.ai once the site is published.
-- [ ] On parseus.ai, submit one application and one registration with your own email and check the Sheet and emails. Delete those rows afterwards.
+- [ ] On parseus.ai, submit one application and one roundtable interest (or registration) with your own email and check the Sheet and emails. Delete those rows afterwards.
 - [ ] If anything goes wrong, ask Claude Code to clear the endpoint and publish again: the forms hide and visitors see the email option instead.
 
 Day-to-day use (reviewing, sending links, reminders, follow-ups, data clean-up) is described in the [README workflow section](apps-script/README.md#day-to-day-workflow).

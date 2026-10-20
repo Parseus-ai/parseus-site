@@ -1,8 +1,9 @@
 /**
  * Parseus AI: website forms backend (Google Apps Script, V8).
  *
- * Bound to a private Google Sheet. Receives the consultation application and
- * roundtable registration forms from the static website, stores them in the
+ * Bound to a private Google Sheet. Receives the AI strategy conversation
+ * application and the roundtable interest / registration forms from the static
+ * website (https://parseus.ai/conversations/), stores them in the
  * Sheet, and sends plain-text emails. A "Parseus" menu in the Sheet drives the
  * day-to-day review workflow.
  *
@@ -43,7 +44,8 @@ const HEADERS = {
   reg: ['Submitted at', 'Ref', 'Event ID', 'Name', 'Role', 'Organization', 'Email',
     'Question', 'Future updates', 'Registration status', 'Details sent at',
     'Reminder sent at', 'Attended', 'Follow-up sent at',
-    'Consent given at', 'Privacy notice version', 'Last email error', 'Anonymised at'],
+    'Consent given at', 'Privacy notice version', 'Last email error', 'Anonymised at',
+    'Invited at'],
   events: ['Event ID', 'Title', 'Start', 'Duration (min)', 'Capacity',
     'Registration open', 'Meeting link (private)', 'Notes'],
 };
@@ -52,7 +54,7 @@ const DATE_COLUMNS = {
   consult: ['Submitted at', 'Decision date', 'Booking link sent at', 'Conversation date',
     'Follow-up sent at', 'Decision sent at', 'Consent given at', 'Anonymised at'],
   reg: ['Submitted at', 'Details sent at', 'Reminder sent at', 'Follow-up sent at',
-    'Consent given at', 'Anonymised at'],
+    'Consent given at', 'Anonymised at', 'Invited at'],
   events: ['Start'],
 };
 
@@ -66,7 +68,9 @@ const SENT_STATUSES = ['Booking link sent', 'Scheduled', 'Completed', 'Follow-up
 const DECISION_STATUSES = ['Not selected', 'Held for later round'];
 // Rows in these statuses are never touched by the retention clean-up.
 const ACTIVE_STATUSES = ['Selected', 'Booking link sent', 'Scheduled'];
-const REG_STATUSES = ['Registered', 'Waitlisted', 'Cancelled'];
+// "Interested" = registered interest while the event date is not confirmed. It does not
+// reserve a place, never counts toward capacity and gets no details, reminders or follow-ups.
+const REG_STATUSES = ['Registered', 'Waitlisted', 'Interested', 'Cancelled'];
 
 const AREAS = ['Enterprise AI and agentic AI', 'Physical AI and robotics',
   'Manufacturing and industrial automation', 'Intelligent systems and computer vision',
@@ -74,9 +78,12 @@ const AREAS = ['Enterprise AI and agentic AI', 'Physical AI and robotics',
 const STAGES = ['Exploring ideas', 'Defining a use case', 'Planning a pilot',
   'Pilot underway', 'Scaling to production', 'Operating in production'];
 
-const SIGNATURE = 'Parseus AI · Beyond AI Headlines';
+const SIGNATURE = 'Parseus AI';
 const SIGNATURE_EMAIL = 'info@parseus.ai';
-const SERIES = 'Beyond AI Headlines';
+const RT_NAME = 'Parseus AI roundtable';
+// Public pages (plain text in emails). Never put private links here.
+const SITE_CONVERSATIONS_URL = 'https://parseus.ai/conversations/';
+const SITE_ROUNDTABLES_URL = 'https://parseus.ai/conversations/roundtables/';
 const REMOVED = '[removed]';
 
 const MIN_ELAPSED_MS = 3000;       // faster than this = bot
@@ -344,6 +351,17 @@ function findRecentConsultation_(t, email, days) {
 // Roundtable registrations
 // ---------------------------------------------------------------------------
 
+/**
+ * Two modes, decided by the Events tab (the Sheet is the source of truth):
+ *   - Start blank (date not confirmed): "register your interest". The row is stored as
+ *     "Interested", does not use a place, and the reply is status "interest".
+ *   - Start set: registration. "Registered" while places remain (only Registered rows
+ *     count toward Capacity), otherwise "Waitlisted".
+ * Repeat submissions (same email + event, not Cancelled) are not stored again and get no
+ * email, EXCEPT an "Interested" row once registration has opened: that row is upgraded in
+ * place to Registered / Waitlisted (same Ref, no duplicate row) and the normal
+ * confirmation is sent.
+ */
 function handleRoundtable_(fields, meta, form) {
   const v = validateRoundtable_(fields);
   if (v.errors) return json_({ ok: false, error: 'validation', fields: v.errors });
@@ -353,13 +371,14 @@ function handleRoundtable_(fields, meta, form) {
     return json_({ ok: false, error: 'validation', fields: { eventId: 'This roundtable could not be found. Please refresh the page and try again.' } });
   }
   if (!isEventOpen_(event)) return json_({ ok: false, error: 'closed' });
+  const interestOnly = !event.start;
 
   const cfg = config_();
   const human = checkHuman_(meta, form, cfg);
   if (human) return json_({ ok: false, error: human });
 
   const email = v.data.email;
-  let status, ref;
+  let status, ref, upgraded = false;
   const lock = LockService.getScriptLock();
   if (!lock.tryLock(LOCK_WAIT_MS)) throw new Error('Could not obtain lock');
   try {
@@ -369,27 +388,31 @@ function handleRoundtable_(fields, meta, form) {
     const t = readTable_(sh);
     const cEvent = t.idx['Event ID'], cEmail = t.idx['Email'], cStatus = t.idx['Registration status'], cRef = t.idx['Ref'];
 
-    // Duplicate (same email + event, not cancelled): return the existing status, send nothing.
     let registered = 0;
-    for (const row of t.rows) {
-      if (String(row[cEvent]) !== event.id) continue;
+    let existing = -1;
+    t.rows.forEach((row, i) => {
+      if (String(row[cEvent]) !== event.id) return;
       const st = String(row[cStatus]);
-      if (st === 'Cancelled') continue;
-      if (!isAnon_(t, row) && unsafe_(row[cEmail]).trim().toLowerCase() === email.toLowerCase()) {
-        recordSubmission_('roundtable', email);
-        return json_({ ok: true, status: st === 'Waitlisted' ? 'waitlisted' : 'registered', ref: String(row[cRef]) });
-      }
       if (st === 'Registered') registered++;
+      if (st === 'Cancelled' || existing !== -1) return;
+      if (!isAnon_(t, row) && unsafe_(row[cEmail]).trim().toLowerCase() === email.toLowerCase()) existing = i;
+    });
+
+    // Duplicate: return the existing status, store and send nothing.
+    if (existing !== -1) {
+      const st = String(t.rows[existing][cStatus]);
+      if (interestOnly || st !== 'Interested') {
+        recordSubmission_('roundtable', email);
+        return json_({ ok: true, status: publicStatus_(st), ref: String(t.rows[existing][cRef]) });
+      }
     }
 
     if (!takeGlobalSlot_(cfg)) return json_({ ok: false, error: 'busy' });
 
-    status = registered < event.capacity ? 'Registered' : 'Waitlisted';
-    ref = makeRef_('R');
     const now = new Date();
-    sh.appendRow(buildRow_(t, {
+    status = interestOnly ? 'Interested' : (registered < event.capacity ? 'Registered' : 'Waitlisted');
+    const values = {
       'Submitted at': now,
-      'Ref': ref,
       'Event ID': event.id,
       'Name': v.data.name,
       'Role': v.data.role,
@@ -400,30 +423,53 @@ function handleRoundtable_(fields, meta, form) {
       'Registration status': status,
       // The confirmation itself carries the joining link when Start and link are both set.
       'Details sent at': status === 'Registered' && event.start && event.link ? now : '',
-      'Attended': false,
       'Consent given at': now,
       'Privacy notice version': cfg.noticeVersion,
-    }));
-    applyRowValidation_(t, 'reg', sh.getLastRow());
+    };
+
+    if (existing !== -1) {
+      // Interested -> Registered / Waitlisted: update the same row and keep its Ref.
+      // "Submitted at" becomes the registration time, so the waitlist stays first come,
+      // first served; "Invited at" (if any) is kept as the record of the earlier interest.
+      upgraded = true;
+      ref = String(t.rows[existing][cRef]);
+      Object.keys(values).forEach(h => { if (h in t.idx) setCell_(t, existing, h, safe_(values[h])); });
+      setCellIf_(t, existing, 'Last email error', '');
+    } else {
+      ref = makeRef_('R');
+      values['Ref'] = ref;
+      values['Attended'] = false;
+      sh.appendRow(buildRow_(t, values));
+      applyRowValidation_(t, 'reg', sh.getLastRow());
+    }
     recordSubmission_('roundtable', email);
   } finally {
     lock.releaseLock();
   }
 
-  const msg = status === 'Registered'
-    ? registeredEmail_(v.data.name, event, ref)
-    : waitlistedEmail_(v.data.name, event, ref);
+  const msg = status === 'Interested' ? interestEmail_(v.data.name, event, ref)
+    : status === 'Registered' ? registeredEmail_(v.data.name, event, ref)
+      : waitlistedEmail_(v.data.name, event, ref);
   safeSend_(email, msg.subject, msg.body, cfg);
-  safeSend_(cfg.notifyEmail, 'Roundtable registration ' + ref + ' (' + status + '): ' + event.id,
-    notifyBody_('roundtable registration', ref, [
-      ['Event', event.id + ': ' + event.title], ['Status', status],
+  const kind = status === 'Interested' ? 'roundtable interest' : 'roundtable registration';
+  safeSend_(cfg.notifyEmail, (status === 'Interested' ? 'Roundtable interest ' : 'Roundtable registration ') +
+    ref + ' (' + status + (upgraded ? ', from Interested' : '') + '): ' + event.id,
+    notifyBody_(kind, ref, [
+      ['Event', event.id + ': ' + event.title],
+      ['Status', status === 'Interested' ? 'Interested (date not confirmed, no place reserved)'
+        : status + (upgraded ? ' (updated from an earlier "Interested" row, same Ref)' : '')],
       ['Name', v.data.name], ['Role', v.data.role], ['Organization', v.data.organization],
       ['Email', email], ['Question', v.data.question || '(none)'],
       ['Future updates', v.data.updates ? 'Yes' : 'No'],
       ['Page', cleanText_(strOrEmpty_(meta.page), false).slice(0, 200)],
     ]), cfg);
 
-  return json_({ ok: true, status: status === 'Registered' ? 'registered' : 'waitlisted', ref: ref });
+  return json_({ ok: true, status: publicStatus_(status), ref: ref });
+}
+
+// Sheet status -> status returned to the website.
+function publicStatus_(st) {
+  return st === 'Interested' ? 'interest' : st === 'Waitlisted' ? 'waitlisted' : 'registered';
 }
 
 function validateRoundtable_(f) {
@@ -773,11 +819,11 @@ function refText_(ref) {
 }
 
 function rtTitle_(ev) {
-  return ev && ev.title ? 'the ' + SERIES + ' roundtable "' + ev.title + '"' : 'the ' + SERIES + ' roundtable';
+  return ev && ev.title ? 'the ' + RT_NAME + ' "' + ev.title + '"' : 'the ' + RT_NAME;
 }
 
 function rtSubjectTitle_(ev) {
-  return ev && ev.title ? ev.title : SERIES + ' roundtable';
+  return ev && ev.title ? ev.title : RT_NAME;
 }
 
 // "When / Joining link" block shared by confirmation and promotion emails.
@@ -794,15 +840,16 @@ function whenBlock_(ev) {
   return s;
 }
 
-const ROUNDTABLE_INVITE = 'You are warmly invited to join one of our monthly ' + SERIES +
-  ' roundtables, where we discuss how organizations move AI from promising ideas to real-world impact. Details and registration are on parseus.ai.';
+const ROUNDTABLE_INVITE = 'You are warmly invited to join one of our AI roundtables with Parseus AI, ' +
+  'where we discuss how organizations move AI from promising ideas to real-world impact. Details are on our website:\n' +
+  SITE_ROUNDTABLES_URL;
 
 // Template 1: application received (automatic).
 function consultReceivedEmail_(name, ref, cfg) {
   return {
     subject: 'We received your application' + refText_(ref),
     body: hello_(name) + '\n\n' +
-      'Thank you for applying for a complimentary AI strategy conversation through ' + SERIES + ': From Innovation to Real-World Impact. ' +
+      'Thank you for applying for a complimentary AI strategy conversation with Parseus AI. ' +
       'We have received your application. Your reference is ' + ref + '.\n\n' +
       'What happens next:\n' +
       '1. Review: we read every application individually.\n' +
@@ -836,7 +883,7 @@ function bookingEmail_(name, ref, url, cfg) {
 // Template 4: not selected (menu).
 function notSelectedEmail_(name, ref, cfg) {
   return {
-    subject: 'Your ' + SERIES + ' application' + refText_(ref),
+    subject: 'Your AI strategy conversation application' + refText_(ref),
     body: hello_(name) + '\n\n' +
       'Thank you for applying for a complimentary AI strategy conversation, and for the time you took to describe your challenge.\n\n' +
       'We are able to offer only ' + capWords_(cfg.cap) + ' conversations in this round, and we are not able to offer you a place this time. ' +
@@ -850,7 +897,7 @@ function notSelectedEmail_(name, ref, cfg) {
 // Template 4b: held for a later round (menu).
 function heldEmail_(name, ref) {
   return {
-    subject: 'An update on your ' + SERIES + ' application' + refText_(ref),
+    subject: 'An update on your AI strategy conversation application' + refText_(ref),
     body: hello_(name) + '\n\n' +
       'Thank you for applying for a complimentary AI strategy conversation, and for the time you took to describe your challenge.\n\n' +
       'We are not able to offer you a place in the current round. We would like to keep your application on file in case we open further conversations. ' +
@@ -873,7 +920,36 @@ function consultFollowUpEmail_(name) {
   };
 }
 
-// Template 7a / 7b: roundtable registration confirmed (automatic).
+// Template 7a: roundtable interest received, date not confirmed (automatic). No place is reserved.
+function interestEmail_(name, ev, ref) {
+  return {
+    subject: 'We received your interest in the ' + RT_NAME + refText_(ref),
+    body: hello_(name) + '\n\n' +
+      'Thank you for registering your interest in ' + rtTitle_(ev) + '. Your reference is ' + ref + '.\n\n' +
+      'The date has not been confirmed yet, so this email does not reserve a place for you. ' +
+      'When the date is confirmed and registration opens, we will email you so that you can register and secure a place. ' +
+      'Places are limited and are offered on a first come, first served basis.\n\n' +
+      'If you would rather not hear from us about this roundtable, or if you did not submit this form, simply reply to this email and we will remove your details.' +
+      sign_(),
+  };
+}
+
+// Template 7b: invitation to register, sent to "Interested" rows once the date is confirmed (menu).
+function inviteEmail_(name, ev) {
+  return {
+    subject: 'Registration is now open: ' + rtSubjectTitle_(ev),
+    body: hello_(name) + '\n\n' +
+      'Thank you for registering your interest in ' + rtTitle_(ev) + '. The date is now confirmed and registration is open.\n\n' +
+      'When: ' + formatWhen_(ev.start, ev.duration) + '\n\n' +
+      'Registering your interest did not reserve a place. To secure a place, please register here, using this email address:\n' +
+      SITE_ROUNDTABLES_URL + '\n\n' +
+      'Places are limited and are offered on a first come, first served basis.\n\n' +
+      'If you are no longer interested, simply reply to this email and we will remove your details.' +
+      sign_(),
+  };
+}
+
+// Template 7c: roundtable registration confirmed (automatic).
 function registeredEmail_(name, ev, ref) {
   return {
     subject: 'Your roundtable registration is confirmed' + refText_(ref),
@@ -886,7 +962,7 @@ function registeredEmail_(name, ev, ref) {
   };
 }
 
-// Template 7c: joining details sent later (menu).
+// Template 7d: joining details sent later (menu).
 function detailsEmail_(name, ev) {
   return {
     subject: 'Joining details: ' + rtSubjectTitle_(ev),
@@ -940,7 +1016,7 @@ function promotedEmail_(name, ev) {
 // Template 10: post-roundtable thank-you (menu).
 function roundtableFollowUpEmail_(name, ev, wantsUpdates) {
   return {
-    subject: 'Thank you for joining the ' + SERIES + ' roundtable',
+    subject: 'Thank you for joining the ' + RT_NAME,
     body: hello_(name) + '\n\n' +
       'Thank you for joining ' + rtTitle_(ev) + '. We appreciated your time and perspective.\n\n' +
       (wantsUpdates ? 'As you requested, we will let you know about future roundtables.\n\n' : '') +
@@ -1003,7 +1079,9 @@ function setup() {
       'Event ID': 'rt-01',
       'Title': 'From AI Capabilities to Real-World Value: What Does It Take to Operationalize AI?',
       'Start': '', 'Duration (min)': 60, 'Capacity': 25, 'Registration open': true, 'Meeting link (private)': '',
-      'Notes': 'Capacity 25 is a placeholder. Set Start and Meeting link once confirmed.',
+      'Notes': 'Capacity 25 is a placeholder. While Start is blank the form only collects interest (no places). ' +
+        'Once the date is confirmed: set Start and Meeting link, keep Registration open ticked, update the website config, ' +
+        'then run Parseus > Invite interested people to register.',
     }));
   }
 
@@ -1045,6 +1123,7 @@ function onOpen() {
     .addItem('Show consultation places used', 'showConsultationCap')
     .addItem('Send consultation follow-ups (Completed)', 'sendConsultationFollowUps')
     .addSeparator()
+    .addItem('Invite interested people to register', 'inviteInterestedToRegister')
     .addItem('Send event details to registrants', 'sendEventDetails')
     .addItem('Promote from waitlist', 'promoteFromWaitlist')
     .addItem('Send due reminders now', 'sendRemindersNow')
@@ -1389,6 +1468,46 @@ function sendEventDetails() {
   }, pending.length, 'Event details sent', skippedNote);
 }
 
+/**
+ * Menu: once an event has a confirmed Start and Registration open is ticked, email everyone
+ * who registered interest ("Interested", no "Invited at") the date and the public
+ * registration page. It does NOT register them: they must register on the website, and
+ * places are first come, first served. Their row then becomes Registered / Waitlisted.
+ */
+function inviteInterestedToRegister() {
+  const ui = SpreadsheetApp.getUi();
+  const ready = {};
+  const notReady = [];
+  readEvents_().forEach(ev => {
+    if (ev.start && isEventOpen_(ev)) ready[ev.id] = ev;
+    else notReady.push(ev.id);
+  });
+  const t0 = readTable_(sheet_('reg'));
+  if (!('Invited at' in t0.idx)) { ui.alert('The "Invited at" column is missing. Run Parseus > Run setup first. No emails were sent.'); return; }
+  const select = t => {
+    const out = [];
+    t.rows.forEach((r, i) => {
+      if (ready[String(r[t.idx['Event ID']])] && String(r[t.idx['Registration status']]) === 'Interested' &&
+          isBlank_(r[t.idx['Invited at']]) && !isAnon_(t, r)) out.push(i);
+    });
+    return out;
+  };
+  const skippedNote = notReady.length ? '\n\nSkipped (needs a future Start and Registration open ticked in the Events tab): ' + notReady.join(', ') : '';
+  const pending = select(t0);
+  if (!pending.length) { ui.alert('Nobody with status "Interested" is waiting for an invitation to register.' + skippedNote); return; }
+  confirmAndSend_('Invite interested people to register',
+    n => 'Email ' + n + ' interested person(s) the confirmed date and the registration page (' + SITE_ROUNDTABLES_URL + ')?\n\n' +
+      'This does not register them. They keep the status "Interested" until they register on the website.',
+    {
+      key: 'reg',
+      select: select,
+      message: (t, i) => Object.assign({ to: unsafe_(cell_(t, i, 'Email')).trim() },
+        inviteEmail_(cell_(t, i, 'Name'), ready[String(cell_(t, i, 'Event ID'))])),
+      claim: (t, i, now) => setCell_(t, i, 'Invited at', now),
+      revert: (t, i) => setCell_(t, i, 'Invited at', ''),
+    }, pending.length, 'Invitations to register sent', skippedNote);
+}
+
 /** Fill freed capacity from the waitlist in submission order. Returns the bulkSend_ result. */
 function promoteWaitlistCore_() {
   const events = eventMap_();
@@ -1495,7 +1614,8 @@ function sendRoundtableFollowUps() {
     const out = [];
     t.rows.forEach((r, i) => {
       const att = r[t.idx['Attended']];
-      if ((att === true || String(att).toUpperCase() === 'TRUE') && isBlank_(r[t.idx['Follow-up sent at']]) && !isAnon_(t, r)) out.push(i);
+      if ((att === true || String(att).toUpperCase() === 'TRUE') && isBlank_(r[t.idx['Follow-up sent at']]) &&
+          String(r[t.idx['Registration status']]) !== 'Interested' && !isAnon_(t, r)) out.push(i);
     });
     return out;
   };

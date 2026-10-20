@@ -19,9 +19,10 @@
 :focus-visible{outline:3px solid var(--persian);outline-offset:3px;border-radius:4px;}
 
 /* Header row */
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.7rem 0;}
-.brand{display:flex;align-items:baseline;gap:0.04em;font-family:var(--serif);font-weight:600;font-size:1.9rem;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;line-height:1.2;white-space:nowrap;}
-.brand .pi{font-size:2.2rem;color:var(--persian);position:relative;top:0.05em;}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1rem 0;}
+/* Parseus identity: optimized crop of the approved two-pillar artwork (assets/brand/README.md) */
+.brand{display:inline-flex;align-items:center;flex-shrink:0;line-height:0;text-decoration:none;border-radius:6px;}
+.brand-mark{display:block;height:56px;width:auto;max-width:none;}
 
 /* Menu button + drawer chrome: hidden on desktop */
 .nav-toggle,.nav-head,.nav-cta,.nav-scrim{display:none;}
@@ -62,9 +63,8 @@
 @media (max-width:900px){
   /* Sticky header so the menu button is always within reach */
   .site-header{position:sticky;top:0;z-index:100;background:var(--ivory);box-shadow:0 1px 0 var(--line);}
-  .topbar{padding:0.7rem 0;}
-  .brand{font-size:1.6rem;}
-  .brand .pi{font-size:1.85rem;}
+  .topbar{padding:0.55rem 0;}
+  .brand-mark{height:44px;}
 
   .nav-toggle{display:inline-flex;align-items:center;justify-content:center;gap:0.55rem;min-width:48px;min-height:48px;padding:0 0.9rem;margin-right:-0.4rem;background:#fff;border:1.5px solid var(--line);border-radius:10px;color:var(--ink);font:600 0.9rem var(--sans);cursor:pointer;}
   .nav-toggle:hover{border-color:var(--persian);color:var(--persian);}
@@ -78,8 +78,8 @@
   .nav-open .topnav{transform:translateX(0);visibility:visible;}
 
   .nav-head{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 0 0.9rem;margin-bottom:0.4rem;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--ivory);z-index:1;}
-  .nav-head .brand{font-size:1.45rem;min-height:48px;align-items:center;}
-  .nav-head .brand .pi{font-size:1.7rem;}
+  .nav-head .brand{min-height:48px;}
+  .nav-head .brand-mark{height:40px;}
   .nav-close{display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;min-width:48px;min-height:48px;padding:0 0.8rem;background:#fff;border:1.5px solid var(--line);border-radius:10px;color:var(--ink);font:600 0.9rem var(--sans);cursor:pointer;}
   .nav-close:hover{border-color:var(--persian);color:var(--persian);}
   .nav-close .x{font-size:1.35rem;line-height:1;}
@@ -109,6 +109,7 @@
 
 @media (max-width:360px){
   .nav-toggle .label{display:none;}
+  .brand-mark{height:40px;}
 }
 
 @media (prefers-reduced-motion:reduce){

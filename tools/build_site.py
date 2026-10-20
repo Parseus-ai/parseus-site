@@ -36,31 +36,28 @@ NAV = [
     ("Home", "/"),
     ("About", "/who-we-are.html"),
     ("Expertise", "/expertise.html"),
-    ("Products & Projects", [
-        ("All products and projects", "/products.html"),
-        ("Maestro AI", MAESTRO_DOCS, "external"),
-    ]),
+    ("Projects", "/projects/"),
     ("Insights", "/insights.html"),
-    ("Events & Conversations", [
-        ("Beyond AI Headlines", "/beyond-ai-headlines/"),
-        ("Strategy conversations", "/beyond-ai-headlines/conversations/"),
-        ("Monthly roundtables", "/beyond-ai-headlines/roundtables/"),
+    ("Conversations & Events", [
+        ("Overview", "/conversations/"),
+        ("AI strategy conversations", "/conversations/ai-strategy/"),
+        ("AI roundtables", "/conversations/roundtables/"),
     ]),
     ("Contact", "/contact.html"),
 ]
-DRAWER_CTA = ("Apply for a strategy conversation", "/beyond-ai-headlines/conversations/")
+DRAWER_CTA = ("Request an AI strategy conversation", "/conversations/ai-strategy/")
 
 FOOTER = [
     ("Parseus AI", [
-        ("Who we are", "/who-we-are.html"),
+        ("About", "/who-we-are.html"),
         ("Expertise", "/expertise.html"),
-        ("Products & projects", "/products.html"),
+        ("Projects", "/projects/"),
         ("Insights", "/insights.html"),
     ]),
-    ("Beyond AI Headlines", [
-        ("Overview", "/beyond-ai-headlines/"),
-        ("Strategy conversations", "/beyond-ai-headlines/conversations/"),
-        ("Monthly roundtables", "/beyond-ai-headlines/roundtables/"),
+    ("Conversations & Events", [
+        ("Overview", "/conversations/"),
+        ("AI strategy conversations", "/conversations/ai-strategy/"),
+        ("AI roundtables", "/conversations/roundtables/"),
     ]),
     ("Contact", [
         (EMAIL, "mailto:" + EMAIL),
@@ -69,34 +66,47 @@ FOOTER = [
     ]),
 ]
 
+# Old URLs kept working: file -> new URL. Each becomes a small redirect page.
+REDIRECTS = {
+    "products.html": "/projects/",
+    "beyond-ai-headlines/index.html": "/conversations/",
+    "beyond-ai-headlines/conversations/index.html": "/conversations/ai-strategy/",
+    "beyond-ai-headlines/roundtables/index.html": "/conversations/roundtables/",
+}
+
+# Header identity: optimized crop of the approved two-pillar artwork (see assets/brand/README.md)
+IDENTITY = ('<img class="brand-mark" src="/assets/brand/parseus-header-identity-84.webp" '
+            'srcset="/assets/brand/parseus-header-identity-84.webp 1x, /assets/brand/parseus-header-identity-168.webp 2x" '
+            'width="225" height="84" alt="" />')
+
 # ---------------------------------------------------------------------------
 # Pages: file -> (url path, <title>, meta description, indexable)
 # ---------------------------------------------------------------------------
 PAGES = {
     "index.html": ("/", "Parseus AI | Beyond AI Headlines: From Innovation to Real-World Impact",
-                   "Parseus AI connects scientific research, intelligent technologies, system architecture and operations to turn AI innovation into reliable, real-world impact.", True),
-    "who-we-are.html": ("/who-we-are.html", "Who we are | Parseus AI",
+                   "Parseus AI turns emerging AI and intelligent systems into solutions that work in practice, across enterprise AI, robotics, manufacturing, system architecture and operations.", True),
+    "who-we-are.html": ("/who-we-are.html", "About | Parseus AI",
                         "Scientist by training, builder by nature. The founder's story behind Parseus AI, and the meaning of its name: the courage of Perseus, the craft of Persia.", True),
     "expertise.html": ("/expertise.html", "Expertise | Parseus AI",
                        "Areas of expertise across enterprise and agentic AI, physical AI and robotics, manufacturing, computer vision, enterprise architecture and implementation.", True),
-    "products.html": ("/products.html", "Products & Projects | Parseus AI",
-                      "Maestro AI is available today. See what Parseus AI has released and what is still in development.", True),
+    "projects/index.html": ("/projects/", "Projects | Parseus AI",
+                            "Maestro AI and other Parseus AI projects: what is available today and what is still in development.", True),
     "insights.html": ("/insights.html", "Insights | Parseus AI",
-                      "Independent analysis on enterprise AI, agentic AI, physical AI, robotics, manufacturing and what it takes to implement them.", True),
+                      "Analysis on enterprise and agentic AI, architecture and governance, physical AI and robotics, industrial AI, and taking research to real-world implementation.", True),
+    "conversations/index.html": ("/conversations/", "Conversations & Events | Parseus AI",
+                                 "Complimentary 20-minute AI strategy conversations and monthly 60-minute AI roundtables on turning emerging AI capabilities into real-world value.", True),
+    "conversations/ai-strategy/index.html": ("/conversations/ai-strategy/", "AI Strategy Conversations | Parseus AI",
+                                             "Apply for one of ten complimentary 20-minute AI strategy conversations with Parseus AI. Applications are reviewed individually.", True),
+    "conversations/roundtables/index.html": ("/conversations/roundtables/", "AI Roundtables | Parseus AI",
+                                             "Monthly 60-minute AI roundtables with Parseus AI. First proposed topic: from AI capabilities to real-world value: what does it take to operationalize AI?", True),
     "contact.html": ("/contact.html", "Contact | Parseus AI",
-                     "Get in touch with Parseus AI, apply for a complimentary strategy conversation, or register for a monthly AI roundtable.", True),
+                     "Get in touch with Parseus AI, apply for a complimentary AI strategy conversation, or register your interest in an AI roundtable.", True),
     "privacy.html": ("/privacy.html", "Privacy | Parseus AI",
                      "How Parseus AI handles the information you share through this website.", True),
-    "beyond-ai-headlines/index.html": ("/beyond-ai-headlines/", "Beyond AI Headlines: From Innovation to Real-World Impact | Parseus AI",
-                                       "Independent insights, ten complimentary 20-minute AI strategy conversations and monthly 60-minute roundtables on making AI work in the real world.", True),
-    "beyond-ai-headlines/conversations/index.html": ("/beyond-ai-headlines/conversations/", "Apply for a complimentary AI strategy conversation | Parseus AI",
-                                                     "Apply for one of ten complimentary 20-minute AI strategy conversations with Parseus AI. Applications are reviewed individually.", True),
-    "beyond-ai-headlines/roundtables/index.html": ("/beyond-ai-headlines/roundtables/", "Monthly AI roundtables | Parseus AI",
-                                                   "Register for a monthly 60-minute AI roundtable. First topic: From AI capabilities to real-world value: what does it take to operationalize AI?", True),
     "coming-soon.html": ("/coming-soon.html", "Coming soon | Parseus AI",
-                         "This Parseus AI page is still being built. Explore our expertise, products and the Beyond AI Headlines initiative in the meantime.", False),
+                         "This Parseus AI page is still being built. Explore our expertise, projects, insights and conversations in the meantime.", False),
     "404.html": ("/404.html", "Page not found | Parseus AI",
-                 "The page you were looking for could not be found. Find your way back to Parseus AI and the Beyond AI Headlines initiative.", False),
+                 "The page you were looking for could not be found. Find your way back to Parseus AI: expertise, projects, insights and conversations.", False),
 }
 
 E = html.escape
@@ -121,7 +131,7 @@ def render_head(file):
 <meta property="og:image" content="{OG_IMAGE}" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Parseus AI wordmark: a blue stone pillar and a gold pillar with Persian geometric patterns form the letter P. The courage of Perseus, the craft of Persia." />
+<meta property="og:image:alt" content="Parseus AI wordmark: a blue stone pillar and a gold pillar with Persian geometric patterns form the letter P." />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -171,11 +181,11 @@ def render_header(file):
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="wrap site-header">
     <header class="topbar">
-      <a class="brand" href="/"{home_cur} aria-label="Parseus AI, home"><span class="pi" aria-hidden="true">&Pi;</span><span aria-hidden="true">arseus AI</span></a>
+      <a class="brand" href="/"{home_cur} aria-label="Parseus AI, home">{IDENTITY.replace('class="brand-mark"', 'class="brand-mark" fetchpriority="high"')}</a>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span><span class="label">Menu</span><span class="sr-only"> (main navigation)</span></button>
       <nav id="site-nav" class="topnav" aria-label="Main">
         <div class="nav-head">
-          <a class="brand" href="/" aria-label="Parseus AI, home"><span class="pi" aria-hidden="true">&Pi;</span><span aria-hidden="true">arseus AI</span></a>
+          <a class="brand" href="/" aria-label="Parseus AI, home">{IDENTITY}</a>
           <button type="button" class="nav-close"><span class="x" aria-hidden="true">&times;</span><span>Close</span><span class="sr-only"> menu</span></button>
         </div>
         <ul class="navlist">
@@ -205,14 +215,12 @@ def render_footer(file):
     <div class="wrap">
       <div class="foot-grid">
         <div class="foot-about">
-          <div class="foot-brand"><span class="pi" aria-hidden="true">&Pi;</span>arseus AI</div>
-          <p class="foot-tag">The courage of Perseus, the craft of Persia.</p>
+          <a class="foot-brand" href="/" aria-label="Parseus AI, home">{IDENTITY.replace(' alt=""', ' alt="" loading="lazy"')}</a>
         </div>
 {cols}
       </div>
       <div class="foot-legal">
         <span>&copy; 2026 Parseus AI. All rights reserved.</span>
-        <span>Beyond AI Headlines: From Innovation to Real-World Impact</span>
       </div>
     </div>
   </footer>
@@ -323,6 +331,38 @@ OPTIONAL_RENDERERS = {
 RENDERERS = {"head": render_head, "header": render_header, "footer": render_footer}
 
 
+def render_redirect(target):
+    url = SITE_URL + target
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>This page has moved | Parseus AI</title>
+<meta name="robots" content="noindex" />
+<link rel="canonical" href="{url}" />
+<meta http-equiv="refresh" content="0; url={target}" />
+<script>location.replace({target!r} + location.search + location.hash);</script>
+</head>
+<body>
+<p>This page has moved to <a href="{target}">{url}</a>.</p>
+</body>
+</html>
+"""
+
+
+def write_redirects(check, stale):
+    for file, target in REDIRECTS.items():
+        p = ROOT / file
+        html_out = render_redirect(target)
+        if not p.exists() or p.read_text(encoding="utf-8") != html_out:
+            stale.append(file)
+            if not check:
+                p.parent.mkdir(parents=True, exist_ok=True)
+                p.write_text(html_out, encoding="utf-8", newline="\n")
+                print(f"updated redirect {file} -> {target}")
+
+
 def build(check=False):
     stale = []
     for file in PAGES:
@@ -350,6 +390,7 @@ def build(check=False):
                 p.write_text(out, encoding="utf-8", newline="\n")
                 print(f"updated {file}")
     write_sitemap(check, stale)
+    write_redirects(check, stale)
     if check and stale:
         print("Out of date:", ", ".join(sorted(set(stale))))
         sys.exit(1)

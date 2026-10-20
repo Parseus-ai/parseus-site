@@ -4,19 +4,19 @@
 <!-- head:start -->
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Who we are | Parseus AI</title>
+<title>About | Parseus AI</title>
 <meta name="description" content="Scientist by training, builder by nature. The founder&#x27;s story behind Parseus AI, and the meaning of its name: the courage of Perseus, the craft of Persia." />
 <link rel="canonical" href="https://parseus.ai/who-we-are.html" />
 <meta name="theme-color" content="#F7F5F0" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Parseus AI" />
-<meta property="og:title" content="Who we are | Parseus AI" />
+<meta property="og:title" content="About | Parseus AI" />
 <meta property="og:description" content="Scientist by training, builder by nature. The founder&#x27;s story behind Parseus AI, and the meaning of its name: the courage of Perseus, the craft of Persia." />
 <meta property="og:url" content="https://parseus.ai/who-we-are.html" />
 <meta property="og:image" content="https://parseus.ai/assets/brand/parseus-og-1200x630.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Parseus AI wordmark: a blue stone pillar and a gold pillar with Persian geometric patterns form the letter P. The courage of Perseus, the craft of Persia." />
+<meta property="og:image:alt" content="Parseus AI wordmark: a blue stone pillar and a gold pillar with Persian geometric patterns form the letter P." />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -62,18 +62,16 @@
   .colhead{display:none;}
 
   .why{background:var(--ivory-brand);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:3.6rem 0;margin:2rem 0 1rem;}
-  .why-grid{display:grid;grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr);gap:3rem;align-items:center;}
-  .why .brand-art{max-width:470px;margin:0;}
-  .why .brand-phrases{font-size:clamp(0.98rem,1.5vw,1.12rem);gap:1rem;flex-wrap:wrap;}
-  .why h2{margin-bottom:1.2rem;}
+  .why-inner{max-width:760px;}
+  .why-title{font-size:clamp(1.6rem,3.4vw,2.3rem);font-style:italic;font-weight:500;line-height:1.2;margin:0.2rem 0 1.4rem;}
+  .why-title span{white-space:nowrap;}
+  @media (max-width:520px){.why-title span{display:block;}}
   .closeline{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(1.4rem,2.8vw,1.9rem);line-height:1.34;letter-spacing:-0.01em;color:var(--ink);margin:2.4rem 0 0;max-width:40ch;}
   .next-links{margin-top:2.4rem;}
 
   @media (max-width:900px){
     .hero-band{display:none;}
-    .why-grid{grid-template-columns:1fr;gap:2rem;}
-    .why .brand-art{margin:0 auto;}
-    .grid-tl{grid-template-columns:1fr;}
+        .grid-tl{grid-template-columns:1fr;}
     .grid-tl::before{left:13px;top:0.8rem;}
     .ghead,.cell.empty{display:none;}
     .cell.l,.cell.r{text-align:left;padding-left:2.6rem;padding-right:0;}
@@ -96,36 +94,30 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="wrap site-header">
     <header class="topbar">
-      <a class="brand" href="/" aria-label="Parseus AI, home"><span class="pi" aria-hidden="true">&Pi;</span><span aria-hidden="true">arseus AI</span></a>
+      <a class="brand" href="/" aria-label="Parseus AI, home"><img class="brand-mark" fetchpriority="high" src="/assets/brand/parseus-header-identity-84.webp" srcset="/assets/brand/parseus-header-identity-84.webp 1x, /assets/brand/parseus-header-identity-168.webp 2x" width="225" height="84" alt="" /></a>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span><span class="label">Menu</span><span class="sr-only"> (main navigation)</span></button>
       <nav id="site-nav" class="topnav" aria-label="Main">
         <div class="nav-head">
-          <a class="brand" href="/" aria-label="Parseus AI, home"><span class="pi" aria-hidden="true">&Pi;</span><span aria-hidden="true">arseus AI</span></a>
+          <a class="brand" href="/" aria-label="Parseus AI, home"><img class="brand-mark" src="/assets/brand/parseus-header-identity-84.webp" srcset="/assets/brand/parseus-header-identity-84.webp 1x, /assets/brand/parseus-header-identity-168.webp 2x" width="225" height="84" alt="" /></a>
           <button type="button" class="nav-close"><span class="x" aria-hidden="true">&times;</span><span>Close</span><span class="sr-only"> menu</span></button>
         </div>
         <ul class="navlist">
         <li class="navitem"><a class="navlabel" href="/">Home</a></li>
         <li class="navitem"><a class="navlabel" href="/who-we-are.html" aria-current="page">About</a></li>
         <li class="navitem"><a class="navlabel" href="/expertise.html">Expertise</a></li>
-        <li class="navitem">
-          <button type="button" class="navlabel" aria-expanded="false" aria-controls="sub-products-projects">Products &amp; Projects <span class="caret" aria-hidden="true">&#9662;</span></button>
-          <ul class="dropdown" id="sub-products-projects">
-            <li><a href="/products.html">All products and projects</a></li>
-            <li><a href="https://parseus-ai.github.io/maestro-ai/" target="_blank" rel="noopener">Maestro AI <span class="ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
-          </ul>
-        </li>
+        <li class="navitem"><a class="navlabel" href="/projects/">Projects</a></li>
         <li class="navitem"><a class="navlabel" href="/insights.html">Insights</a></li>
         <li class="navitem">
-          <button type="button" class="navlabel" aria-expanded="false" aria-controls="sub-events-conversations">Events &amp; Conversations <span class="caret" aria-hidden="true">&#9662;</span></button>
-          <ul class="dropdown" id="sub-events-conversations">
-            <li><a href="/beyond-ai-headlines/">Beyond AI Headlines</a></li>
-            <li><a href="/beyond-ai-headlines/conversations/">Strategy conversations</a></li>
-            <li><a href="/beyond-ai-headlines/roundtables/">Monthly roundtables</a></li>
+          <button type="button" class="navlabel" aria-expanded="false" aria-controls="sub-conversations-events">Conversations &amp; Events <span class="caret" aria-hidden="true">&#9662;</span></button>
+          <ul class="dropdown" id="sub-conversations-events">
+            <li><a href="/conversations/">Overview</a></li>
+            <li><a href="/conversations/ai-strategy/">AI strategy conversations</a></li>
+            <li><a href="/conversations/roundtables/">AI roundtables</a></li>
           </ul>
         </li>
         <li class="navitem"><a class="navlabel nav-contact" href="/contact.html">Contact</a></li>
         </ul>
-        <a class="nav-cta" href="/beyond-ai-headlines/conversations/">Apply for a strategy conversation <span aria-hidden="true">&rarr;</span></a>
+        <a class="nav-cta" href="/conversations/ai-strategy/">Request an AI strategy conversation <span aria-hidden="true">&rarr;</span></a>
       </nav>
       <button type="button" class="nav-scrim" tabindex="-1" aria-hidden="true"></button>
     </header>
@@ -254,22 +246,14 @@
   </div></section>
 
   <section class="why" id="why-parseus" aria-labelledby="ch-why">
-    <div class="wrap why-grid">
-      <figure class="brand-art">
-        <img src="/assets/brand/parseus-pillars-wordmark-680.webp" width="696" height="275" alt="Parseus AI wordmark: a navy stone pillar and a gold pillar with Persian geometric patterns together form the letter P." loading="lazy" decoding="async" />
-        <figcaption class="brand-phrases">
-          <span class="phrase">The courage of Perseus</span>
-          <span class="divider" aria-hidden="true"></span>
-          <span class="phrase">The craft of Persia</span>
-        </figcaption>
-      </figure>
-      <div>
-        <span class="eyebrow">The story behind the name</span>
-        <h2 id="ch-why">Why Parseus?</h2>
+    <div class="wrap">
+      <div class="why-inner">
+        <span class="eyebrow">Why Parseus?</span>
+        <h2 id="ch-why" class="why-title"><span>The courage of Perseus,</span> <span>the craft of Persia.</span></h2>
         <div class="prose">
           <p>The name carries two foundations. From Greece, <em>Perseus</em>: the hero who faced an impossible challenge and won not by force, but with courage, ingenuity and the right tool used wisely. That is how I want Parseus to approach difficult problems: head-on, with judgment about which tools truly fit.</p>
           <p>From Persia, <em>Pars</em>, its ancient name, and my own heritage. It is a culture defined by craft, by creativity and by precision: the same lessons I learned at the loom long before I learned engineering, where every row is checked as it forms and care is part of the design, not an afterthought.</p>
-          <p>Parseus is both: the courage to take on hard problems, and the craft to turn difficult ideas into useful, reliable systems.</p>
+          <p>The two pillars in the Parseus identity carry the same idea: a navy pillar for Perseus, and a gold pillar carved with Persian geometric patterns for Persia, joined to form the P. Parseus is both: the courage to take on hard problems, and the craft to turn difficult ideas into useful, reliable systems.</p>
         </div>
       </div>
     </div>
@@ -279,12 +263,12 @@
     <h2 id="ch-today">Parseus today</h2>
     <div class="prose">
       <p>I started Parseus to solve hard problems the way I&rsquo;d learned to: systematically, strategically, with the right technology for the job rather than the trendiest one. AI is a powerful part of that toolkit, but it&rsquo;s a means, not the point. The point is to take what research makes possible and turn it into systems that work, in operations that can run them, with results people can measure and trust.</p>
-      <p>That is also why I started <a href="/beyond-ai-headlines/">Beyond AI Headlines</a>: to look past the announcements at what it really takes to turn AI capability into real-world value.</p>
+      <p>That is also the purpose of our <a href="/conversations/">conversations and roundtables</a>: to look past the headlines at what it really takes to turn AI capability into real-world value.</p>
     </div>
     <p class="closeline">I built Parseus to take on hard, real-world problems the way they deserve: start from the science, design for the conditions a system will actually face, and stay with it until it works in practice.</p>
     <div class="actions next-links">
       <a class="btn btn-primary" href="/expertise.html">Areas of expertise <span class="arr" aria-hidden="true">&rarr;</span></a>
-      <a class="btn btn-secondary" href="/products.html">Products and projects</a>
+      <a class="btn btn-secondary" href="/projects/">Projects</a>
     </div>
   </div></section>
 
@@ -295,24 +279,23 @@
     <div class="wrap">
       <div class="foot-grid">
         <div class="foot-about">
-          <div class="foot-brand"><span class="pi" aria-hidden="true">&Pi;</span>arseus AI</div>
-          <p class="foot-tag">The courage of Perseus, the craft of Persia.</p>
+          <a class="foot-brand" href="/" aria-label="Parseus AI, home"><img class="brand-mark" src="/assets/brand/parseus-header-identity-84.webp" srcset="/assets/brand/parseus-header-identity-84.webp 1x, /assets/brand/parseus-header-identity-168.webp 2x" width="225" height="84" alt="" loading="lazy" /></a>
         </div>
         <div class="foot-col">
           <h2>Parseus AI</h2>
           <ul>
-            <li><a href="/who-we-are.html">Who we are</a></li>
+            <li><a href="/who-we-are.html">About</a></li>
             <li><a href="/expertise.html">Expertise</a></li>
-            <li><a href="/products.html">Products &amp; projects</a></li>
+            <li><a href="/projects/">Projects</a></li>
             <li><a href="/insights.html">Insights</a></li>
           </ul>
         </div>
         <div class="foot-col">
-          <h2>Beyond AI Headlines</h2>
+          <h2>Conversations &amp; Events</h2>
           <ul>
-            <li><a href="/beyond-ai-headlines/">Overview</a></li>
-            <li><a href="/beyond-ai-headlines/conversations/">Strategy conversations</a></li>
-            <li><a href="/beyond-ai-headlines/roundtables/">Monthly roundtables</a></li>
+            <li><a href="/conversations/">Overview</a></li>
+            <li><a href="/conversations/ai-strategy/">AI strategy conversations</a></li>
+            <li><a href="/conversations/roundtables/">AI roundtables</a></li>
           </ul>
         </div>
         <div class="foot-col">
@@ -326,7 +309,6 @@
       </div>
       <div class="foot-legal">
         <span>&copy; 2026 Parseus AI. All rights reserved.</span>
-        <span>Beyond AI Headlines: From Innovation to Real-World Impact</span>
       </div>
     </div>
   </footer>

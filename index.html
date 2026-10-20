@@ -5,18 +5,18 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Parseus AI | Beyond AI Headlines: From Innovation to Real-World Impact</title>
-<meta name="description" content="Parseus AI connects scientific research, intelligent technologies, system architecture and operations to turn AI innovation into reliable, real-world impact." />
+<meta name="description" content="Parseus AI turns emerging AI and intelligent systems into solutions that work in practice, across enterprise AI, robotics, manufacturing, system architecture and operations." />
 <link rel="canonical" href="https://parseus.ai/" />
 <meta name="theme-color" content="#F7F5F0" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Parseus AI" />
 <meta property="og:title" content="Parseus AI | Beyond AI Headlines: From Innovation to Real-World Impact" />
-<meta property="og:description" content="Parseus AI connects scientific research, intelligent technologies, system architecture and operations to turn AI innovation into reliable, real-world impact." />
+<meta property="og:description" content="Parseus AI turns emerging AI and intelligent systems into solutions that work in practice, across enterprise AI, robotics, manufacturing, system architecture and operations." />
 <meta property="og:url" content="https://parseus.ai/" />
 <meta property="og:image" content="https://parseus.ai/assets/brand/parseus-og-1200x630.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Parseus AI wordmark: a blue stone pillar and a gold pillar with Persian geometric patterns form the letter P. The courage of Perseus, the craft of Persia." />
+<meta property="og:image:alt" content="Parseus AI wordmark: a blue stone pillar and a gold pillar with Persian geometric patterns form the letter P." />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,61 +28,44 @@
 {"@context":"https://schema.org","@type":"Organization","name":"Parseus AI","url":"https://parseus.ai/","email":"info@parseus.ai","image":"https://parseus.ai/assets/brand/parseus-og-1200x630.jpg","slogan":"Beyond AI Headlines: From Innovation to Real-World Impact"}
 </script>
 <style>
-  .home-hero{padding:5rem 0 3.4rem;position:relative;}
-  .home-hero .inner{max-width:900px;margin:0 auto;text-align:center;}
-  .home-hero h1{font-size:clamp(2.6rem,7vw,5rem);letter-spacing:-0.03em;line-height:1.02;}
-  .home-hero .subtitle{margin:1.1rem auto 0;font-size:clamp(1.3rem,3vw,2rem);}
-  .home-hero .rule{margin-top:2rem;}
-  .home-hero .lede{max-width:56ch;margin:1.8rem auto 0;}
-  .home-hero .actions{justify-content:center;margin-top:2.2rem;}
+  .home-hero{padding:4.2rem 0 3.4rem;}
+  .home-hero .inner{max-width:880px;margin:0 auto;text-align:center;}
+  .home-hero h1{font-size:clamp(2.5rem,6.6vw,4.8rem);letter-spacing:-0.03em;line-height:1.02;}
+  .home-hero .subtitle{margin:0.9rem auto 0;font-size:clamp(1.25rem,2.8vw,1.9rem);}
+  .home-hero .rule{margin-top:1.8rem;}
+  .home-hero .lede{max-width:52ch;margin:1.6rem auto 0;}
+  .home-hero .actions{justify-content:center;margin-top:2rem;}
 
-  .position{display:grid;grid-template-columns:1.05fr 1fr;gap:3.4rem;align-items:start;}
-  .position h2{max-width:17ch;}
-  .grounded{margin-top:2rem;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem 1.5rem 1.3rem;}
-  .grounded h3{font-family:var(--sans);font-size:0.74rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.8rem;}
-  .grounded ul{list-style:none;}
-  .grounded li{padding:0.55rem 0;border-top:1px solid var(--ivory-warm);font-size:0.95rem;color:var(--body);}
-  .grounded li:first-child{border-top:0;padding-top:0;}
-  .grounded .text-link{display:inline-block;margin-top:0.8rem;font-size:0.93rem;}
+  .areas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;}
+  .area-card{display:flex;flex-direction:column;gap:0.35rem;background:#fff;border:1px solid var(--line);border-radius:12px;padding:1.2rem 1.3rem;transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s;}
+  .area-card:hover{border-color:var(--persian);transform:translateY(-2px);box-shadow:0 14px 30px -22px rgba(30,62,140,0.45);}
+  .area-card h3{font-size:1.08rem;}
+  .area-card p{font-size:0.92rem;color:var(--body);line-height:1.55;}
+  .section-foot{margin-top:1.4rem;}
+  @media (max-width:900px){.areas{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  @media (max-width:560px){.areas{grid-template-columns:1fr;}}
 
-  .areas .card{padding:1.6rem 1.5rem;}
-  .areas .card h3{font-size:1.18rem;}
-  .area-icon{width:30px;height:30px;color:var(--gold);margin-bottom:1rem;}
+  .project{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,0.7fr);gap:2rem;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:1.8rem 1.9rem;}
+  .project .top{display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;margin-bottom:0.6rem;}
+  .project h3{font-size:1.5rem;}
+  .project p{color:var(--body);}
+  .project .side{border-left:1px solid var(--ivory-warm);padding-left:1.6rem;}
+  .project .side p{font-size:0.92rem;}
+  .project .actions{margin-top:1.1rem;}
+  @media (max-width:860px){.project{grid-template-columns:1fr;padding:1.4rem 1.2rem;}.project .side{border-left:0;border-top:1px solid var(--ivory-warm);padding:1.1rem 0 0;}}
 
+  .choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.1rem;}
+  .choice{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:1.6rem 1.5rem;transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s;}
+  .choice:hover{border-color:var(--persian);transform:translateY(-3px);box-shadow:0 16px 38px -22px rgba(30,62,140,0.45);}
+  .choice .k{font-size:0.74rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.6rem;}
+  .choice h3{font-size:1.25rem;margin-bottom:0.5rem;}
+  .choice p{font-size:0.95rem;color:var(--body);}
+  .choice .more{margin-top:auto;padding-top:1.1rem;}
+  @media (max-width:860px){.choices{grid-template-columns:1fr;}}
 
-  .product-row{display:grid;grid-template-columns:1.1fr 1fr;gap:1.25rem;}
-  .card .top{display:flex;align-items:center;justify-content:space-between;gap:0.8rem;flex-wrap:wrap;margin-bottom:0.9rem;}
-  .card .top h3{font-size:1.45rem;margin:0;}
-  .product .links{display:flex;flex-wrap:wrap;gap:0.6rem 1.4rem;margin-top:1.2rem;}
-  .dev-list{list-style:none;margin-top:0.4rem;}
-  .dev-list li{padding:0.55rem 0;border-top:1px solid var(--ivory-warm);font-size:0.95rem;color:var(--body);}
-  .dev-list .group{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);padding-top:0.9rem;}
-  .dev-list li:first-child{border-top:0;}
-
-  .brand-story .story{max-width:680px;margin:2.4rem auto 0;text-align:center;}
-  .brand-story .story p{color:var(--body);font-size:1.02rem;line-height:1.75;}
-  .brand-story .story p+p{margin-top:0.9rem;}
-
-  .band .bah-head{max-width:760px;}
-  .band .grid{margin-top:2.4rem;}
-  .bah-card{display:flex;flex-direction:column;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);border-radius:var(--radius);padding:1.7rem 1.6rem;transition:background 0.2s,border-color 0.2s,transform 0.2s;}
-  .bah-card:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.45);transform:translateY(-3px);}
-  .bah-card .k{font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#E2C48F;margin-bottom:0.7rem;}
-  .bah-card h3{font-size:1.3rem;margin-bottom:0.6rem;}
-  .bah-card p{font-size:0.96rem;line-height:1.6;}
-  .bah-card .more{margin-top:auto;padding-top:1.2rem;color:#fff;font-weight:600;display:inline-flex;gap:0.4rem;align-items:center;}
-  .bah-card:hover .arr{transform:translateX(4px);}
-  .bah-card .arr{transition:transform 0.2s;}
-
-  .contact-cta{text-align:center;}
-  .contact-cta h2{max-width:22ch;margin:0 auto;}
-  .contact-cta p{max-width:56ch;margin:1rem auto 0;color:var(--body);}
-  .contact-cta .actions{justify-content:center;margin-top:1.8rem;}
-
-  @media (max-width:900px){
-    .position,.product-row{grid-template-columns:1fr;gap:1.6rem;}
-    .home-hero{padding:2.6rem 0 2.4rem;}
-  }
+  .name-note{margin-top:2.6rem;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:0.3rem 0.8rem;text-align:center;font-size:0.95rem;color:var(--body);}
+  .name-note em{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--ink);}
+  @media (max-width:600px){.home-hero{padding:2.2rem 0 2.2rem;}}
 </style>
 </head>
 <body>
@@ -90,36 +73,30 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="wrap site-header">
     <header class="topbar">
-      <a class="brand" href="/" aria-current="page" aria-label="Parseus AI, home"><span class="pi" aria-hidden="true">&Pi;</span><span aria-hidden="true">arseus AI</span></a>
+      <a class="brand" href="/" aria-current="page" aria-label="Parseus AI, home"><img class="brand-mark" fetchpriority="high" src="/assets/brand/parseus-header-identity-84.webp" srcset="/assets/brand/parseus-header-identity-84.webp 1x, /assets/brand/parseus-header-identity-168.webp 2x" width="225" height="84" alt="" /></a>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span><span class="label">Menu</span><span class="sr-only"> (main navigation)</span></button>
       <nav id="site-nav" class="topnav" aria-label="Main">
         <div class="nav-head">
-          <a class="brand" href="/" aria-label="Parseus AI, home"><span class="pi" aria-hidden="true">&Pi;</span><span aria-hidden="true">arseus AI</span></a>
+          <a class="brand" href="/" aria-label="Parseus AI, home"><img class="brand-mark" src="/assets/brand/parseus-header-identity-84.webp" srcset="/assets/brand/parseus-header-identity-84.webp 1x, /assets/brand/parseus-header-identity-168.webp 2x" width="225" height="84" alt="" /></a>
           <button type="button" class="nav-close"><span class="x" aria-hidden="true">&times;</span><span>Close</span><span class="sr-only"> menu</span></button>
         </div>
         <ul class="navlist">
         <li class="navitem"><a class="navlabel" href="/" aria-current="page">Home</a></li>
         <li class="navitem"><a class="navlabel" href="/who-we-are.html">About</a></li>
         <li class="navitem"><a class="navlabel" href="/expertise.html">Expertise</a></li>
-        <li class="navitem">
-          <button type="button" class="navlabel" aria-expanded="false" aria-controls="sub-products-projects">Products &amp; Projects <span class="caret" aria-hidden="true">&#9662;</span></button>
-          <ul class="dropdown" id="sub-products-projects">
-            <li><a href="/products.html">All products and projects</a></li>
-            <li><a href="https://parseus-ai.github.io/maestro-ai/" target="_blank" rel="noopener">Maestro AI <span class="ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
-          </ul>
-        </li>
+        <li class="navitem"><a class="navlabel" href="/projects/">Projects</a></li>
         <li class="navitem"><a class="navlabel" href="/insights.html">Insights</a></li>
         <li class="navitem">
-          <button type="button" class="navlabel" aria-expanded="false" aria-controls="sub-events-conversations">Events &amp; Conversations <span class="caret" aria-hidden="true">&#9662;</span></button>
-          <ul class="dropdown" id="sub-events-conversations">
-            <li><a href="/beyond-ai-headlines/">Beyond AI Headlines</a></li>
-            <li><a href="/beyond-ai-headlines/conversations/">Strategy conversations</a></li>
-            <li><a href="/beyond-ai-headlines/roundtables/">Monthly roundtables</a></li>
+          <button type="button" class="navlabel" aria-expanded="false" aria-controls="sub-conversations-events">Conversations &amp; Events <span class="caret" aria-hidden="true">&#9662;</span></button>
+          <ul class="dropdown" id="sub-conversations-events">
+            <li><a href="/conversations/">Overview</a></li>
+            <li><a href="/conversations/ai-strategy/">AI strategy conversations</a></li>
+            <li><a href="/conversations/roundtables/">AI roundtables</a></li>
           </ul>
         </li>
         <li class="navitem"><a class="navlabel nav-contact" href="/contact.html">Contact</a></li>
         </ul>
-        <a class="nav-cta" href="/beyond-ai-headlines/conversations/">Apply for a strategy conversation <span aria-hidden="true">&rarr;</span></a>
+        <a class="nav-cta" href="/conversations/ai-strategy/">Request an AI strategy conversation <span aria-hidden="true">&rarr;</span></a>
       </nav>
       <button type="button" class="nav-scrim" tabindex="-1" aria-hidden="true"></button>
     </header>
@@ -132,205 +109,107 @@
   <section class="home-hero" aria-labelledby="hero-title">
     <div class="wrap">
       <div class="inner">
-        <span class="eyebrow">Parseus AI</span>
         <h1 id="hero-title">Beyond AI Headlines</h1>
         <p class="subtitle">From Innovation to Real-World Impact</p>
         <div class="rule"></div>
-        <p class="lede">Parseus AI connects scientific research, intelligent technologies, system architecture and day-to-day operations, so that what AI promises in the headlines can be built, run and trusted in the real world.</p>
+        <p class="lede">Parseus AI turns emerging AI and intelligent systems into solutions that work in practice, across enterprise AI, robotics, manufacturing, system architecture and operations.</p>
         <div class="actions">
           <a class="btn btn-primary" href="/expertise.html">Explore our expertise <span class="arr" aria-hidden="true">&rarr;</span></a>
-          <a class="btn btn-secondary" href="/beyond-ai-headlines/">The Beyond AI Headlines initiative</a>
+          <a class="btn btn-secondary" href="/conversations/">Conversations &amp; Events</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 2. Positioning -->
-  <section class="section" aria-labelledby="position-title">
-    <div class="wrap position">
-      <div>
-        <span class="eyebrow">From innovation to real-world impact</span>
-        <h2 id="position-title">The real work happens between the announcement and the operation.</h2>
-      </div>
-      <div>
-        <div class="prose">
-          <p>New models and capabilities arrive every week. Turning them into systems that run reliably, inside real constraints, with results you can measure, takes more than the capability itself. It takes the right architecture, honest engineering about limits and risk, and an operating model that people can understand and run.</p>
-          <p>Parseus AI works at that intersection: from scientific research to production systems, and from strategy to the operations that have to live with the result.</p>
-        </div>
-        <div class="grounded">
-          <h3>From the founder&rsquo;s career</h3>
-          <ul>
-            <li>Computer vision for mining and welding, built to work through dust, glare and vibration</li>
-            <li>Large-scale systems at Amazon, including image-safety review with people making the final call</li>
-            <li>Connected data and planning across circuit-board manufacturing sites</li>
-            <li>Perception for driving systems facing rare, unseen situations</li>
-          </ul>
-          <a class="text-link" href="/who-we-are.html">Read the full story</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3. Areas -->
-  <section class="section areas" aria-labelledby="areas-title" style="padding-top:1rem;">
+  <!-- 2. Where we work -->
+  <section class="section tight" aria-labelledby="work-title">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow">Where we focus</span>
-        <h2 id="areas-title">Core technology and application areas</h2>
-        <p>These are the areas where our experience runs deepest. They describe professional expertise, not a catalogue of packaged services.</p>
+        <span class="eyebrow">Where we work</span>
+        <h2 id="work-title">Fields of expertise and application</h2>
       </div>
-      <div class="grid cols-3">
-        <a class="card" href="/expertise.html#enterprise-ai">
-          <svg class="area-icon" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 3l11 6.5v13L16 29 5 22.5v-13z"/><circle cx="16" cy="16" r="3.2"/></g></svg>
-          <h3>Enterprise AI and agentic AI</h3>
-          <p>Putting models and AI agents to work inside real business processes, with clear boundaries, oversight and accountability.</p>
-        </a>
-        <a class="card" href="/expertise.html#physical-ai">
-          <svg class="area-icon" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 3l11 6.5v13L16 29 5 22.5v-13z"/><path d="M11 18l5-6 5 6"/></g></svg>
-          <h3>Physical AI and robotics</h3>
-          <p>Perception and decision systems for machines that act in the physical world, where conditions are messy and mistakes are costly.</p>
-        </a>
-        <a class="card" href="/expertise.html#manufacturing">
-          <svg class="area-icon" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 3l11 6.5v13L16 29 5 22.5v-13z"/><path d="M10 20h12M10 16h12M10 12h12"/></g></svg>
-          <h3>Manufacturing and industrial automation</h3>
-          <p>Connecting data, equipment and people so operations can anticipate problems instead of reacting to them.</p>
-        </a>
-        <a class="card" href="/expertise.html#computer-vision">
-          <svg class="area-icon" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 3l11 6.5v13L16 29 5 22.5v-13z"/><ellipse cx="16" cy="16" rx="6.5" ry="4"/><circle cx="16" cy="16" r="1.6"/></g></svg>
-          <h3>Intelligent systems and computer vision</h3>
-          <p>Vision and sensing systems that hold up outside the lab: through dust, glare, vibration and scale.</p>
-        </a>
-        <a class="card" href="/expertise.html#architecture">
-          <svg class="area-icon" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 3l11 6.5v13L16 29 5 22.5v-13z"/><path d="M11 21v-8h10v8M16 13v8"/></g></svg>
-          <h3>Enterprise architecture and operating models</h3>
-          <p>The structures, data flows and ownership that let AI become part of how an organization actually runs.</p>
-        </a>
-        <a class="card" href="/expertise.html#strategy">
-          <svg class="area-icon" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 3l11 6.5v13L16 29 5 22.5v-13z"/><path d="M10 21l4-4 3 3 5-6"/></g></svg>
-          <h3>Strategy, implementation and scaling</h3>
-          <p>Choosing where AI is worth it, proving it in a pilot, and taking it to production without losing reliability.</p>
-        </a>
+      <div class="areas">
+        <a class="area-card" href="/expertise.html#enterprise-ai"><h3>Enterprise and agentic AI</h3><p>AI agents and models inside real business processes, with clear oversight.</p></a>
+        <a class="area-card" href="/expertise.html#physical-ai"><h3>Physical AI and robotics</h3><p>Perception and decision systems for machines that act in the physical world.</p></a>
+        <a class="area-card" href="/expertise.html#manufacturing"><h3>Manufacturing and industrial automation</h3><p>Connected data, equipment and people on the factory floor.</p></a>
+        <a class="area-card" href="/expertise.html#computer-vision"><h3>Intelligent systems and computer vision</h3><p>Vision and sensing that hold up outside the lab.</p></a>
+        <a class="area-card" href="/expertise.html#architecture"><h3>Architecture and operating models</h3><p>The structures and ownership that let AI become part of operations.</p></a>
+        <a class="area-card" href="/expertise.html#strategy"><h3>Strategy, implementation and scaling</h3><p>From the right use case to a pilot to reliable production.</p></a>
       </div>
+      <p class="section-foot"><a class="text-link" href="/expertise.html">More about our expertise</a></p>
     </div>
   </section>
 
-  <!-- 4. Research-to-production philosophy -->
-  <section class="section philosophy" aria-labelledby="approach-title" style="padding-top:1rem;">
+  <!-- 3. From innovation to implementation -->
+  <section class="section tight" aria-labelledby="approach-title">
     <div class="wrap">
       <div class="section-head">
         <span class="eyebrow">Our approach</span>
-        <h2 id="approach-title">From research to production</h2>
-        <p>Whether we&rsquo;re building a product or helping with a problem, the work follows the same path. Skipping a step is how promising technology turns into an expensive experiment.</p>
+        <h2 id="approach-title">From innovation to implementation</h2>
       </div>
       <ol class="steps" style="--n:5">
-        <li><span class="step-title">Understand the science</span><span class="step-text">What the research actually enables, and what it doesn&rsquo;t.</span></li>
-        <li><span class="step-title">Design the architecture</span><span class="step-text">Systems, data and integration built for the real environment.</span></li>
-        <li><span class="step-title">Prove it in practice</span><span class="step-text">Pilots measured against real operating conditions.</span></li>
-        <li><span class="step-title">Operate reliably</span><span class="step-text">Monitoring, clear limits and human accountability.</span></li>
-        <li><span class="step-title">Measure the impact</span><span class="step-text">Outcomes the business can see and verify.</span></li>
+        <li><span class="step-title">Understand the problem</span><span class="step-text">Start from the outcome that matters.</span></li>
+        <li><span class="step-title">Evaluate the technology</span><span class="step-text">What it really enables, and its limits.</span></li>
+        <li><span class="step-title">Design and integrate</span><span class="step-text">Architecture built for the real environment.</span></li>
+        <li><span class="step-title">Validate performance</span><span class="step-text">Measured against real operating conditions.</span></li>
+        <li><span class="step-title">Operationalize and scale</span><span class="step-text">Reliable, monitored, owned by people.</span></li>
       </ol>
     </div>
   </section>
 
-  <!-- 5. Products and projects -->
-  <section class="section" aria-labelledby="products-title" style="padding-top:1rem;">
+  <!-- 4. Selected projects -->
+  <section class="section tight" aria-labelledby="projects-title">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow">Products and practical projects</span>
-        <h2 id="products-title">Built, shipped, and in development</h2>
+        <span class="eyebrow">Selected projects</span>
+        <h2 id="projects-title">Built and in use</h2>
       </div>
-      <div class="product-row">
-        <div class="card product">
+      <article class="project">
+        <div>
           <div class="top"><h3>Maestro AI</h3><span class="status available">Available now</span></div>
-          <p>Maestro AI helps job seekers discover roles, build tailored applications and track everything in one place. Specialized agents find roles, score fit, tailor resumes and cover letters, and fact-check the output, while every decision that matters stays with you. It&rsquo;s free and runs on your own machine.</p>
-          <div class="links">
-            <a class="text-link" href="https://parseus-ai.github.io/maestro-ai/" target="_blank" rel="noopener">Documentation<span class="sr-only"> (opens in a new tab)</span></a>
-            <a class="text-link" href="https://github.com/parseus-ai-inc/maestro-ai" target="_blank" rel="noopener">Download on GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+          <p>A practical multi-agent application: specialized agents find job openings, tailor resumes and cover letters, and fact-check the results, while every decision stays with the person using it.</p>
+          <div class="actions">
+            <a class="btn btn-secondary" href="https://parseus-ai.github.io/maestro-ai/" target="_blank" rel="noopener">Maestro AI documentation <span class="sr-only">(opens in a new tab)</span></a>
           </div>
         </div>
-        <div class="card">
-          <div class="top"><h3>In development</h3><span class="status dev">Not yet released</span></div>
-          <p>Working names. Scope and availability will be confirmed at launch.</p>
-          <ul class="dev-list">
-            <li class="group">For people</li>
-            <li>Personal finance advisor &middot; Health and wellness coach &middot; Career mentor</li>
-            <li class="group">For builders and enterprises</li>
-            <li>Agent interface layer &middot; Agent observability &middot; Agent topology &middot; Lab protocol platform</li>
-          </ul>
-          <div class="card-foot"><a class="text-link" href="/products.html">All products and projects</a></div>
+        <div class="side">
+          <p>Other projects are in development and will be described when they are ready.</p>
+          <p style="margin-top:0.8rem;"><a class="text-link" href="/projects/">All projects</a></p>
         </div>
-      </div>
+      </article>
     </div>
   </section>
 
-  <!-- 6. The meaning behind Parseus -->
-  <section class="section brand-story" aria-labelledby="meaning-title">
+  <!-- 5. Explore and connect -->
+  <section class="section" aria-labelledby="connect-title">
     <div class="wrap">
-      <div class="section-head center" style="margin-bottom:2rem;">
-        <h2 id="meaning-title" class="eyebrow" style="font-family:var(--sans);font-size:0.74rem;letter-spacing:0.14em;">The meaning behind Parseus</h2>
+      <div class="section-head">
+        <span class="eyebrow">Explore and connect</span>
+        <h2 id="connect-title">Where would you like to start?</h2>
       </div>
-      <figure class="brand-art">
-        <picture>
-          <source media="(max-width:700px)" srcset="/assets/brand/parseus-pillars-wordmark-680.webp 696w, /assets/brand/parseus-pillars-wordmark.webp 1393w" sizes="calc(100vw - 2rem)" type="image/webp" />
-          <img src="/assets/brand/parseus-pillars-wordmark.webp" width="1393" height="550" alt="Parseus AI. The letter P is formed by two connected stone pillars: a deep navy pillar on the left and a warm gold pillar carved with Persian geometric patterns on the right." loading="lazy" decoding="async" />
-        </picture>
-        <figcaption class="brand-phrases">
-          <span class="phrase">The courage of Perseus</span>
-          <span class="divider" aria-hidden="true"></span>
-          <span class="phrase">The craft of Persia</span>
-        </figcaption>
-      </figure>
-      <div class="story">
-        <p>Two foundations hold up everything we build. <strong>Perseus</strong>, the hero who faced an impossible challenge with courage and ingenuity, and won with the right tool used wisely. And <strong>Persia</strong>, the founder&rsquo;s heritage: a culture of creativity, precision and craftsmanship.</p>
-        <p>Together they describe how we work: take on hard problems, and turn difficult ideas into useful, reliable systems with care.</p>
-        <p style="margin-top:1.3rem;"><a class="text-link" href="/who-we-are.html#why-parseus">The story behind the name</a></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 7 + 8. Beyond AI Headlines: insights, conversations, roundtables -->
-  <section class="section band" aria-labelledby="bah-title">
-    <div class="wrap">
-      <div class="bah-head">
-        <span class="eyebrow">Beyond AI Headlines</span>
-        <h2 id="bah-title">Insights, conversations and roundtables</h2>
-        <p style="margin-top:0.9rem;">An initiative for leaders who want to understand what AI can really do for their organization: what the research enables, what it takes to implement, and where the value is.</p>
-      </div>
-      <div class="grid cols-3">
-        <a class="bah-card" href="/insights.html">
-          <span class="k">Insights</span>
-          <h3>Independent analysis</h3>
-          <p>What new research actually enables, the architecture it needs, the risks it carries, and where the measurable value is, with links to the original pieces.</p>
-          <span class="more">About Insights <span class="arr" aria-hidden="true">&rarr;</span></span>
+      <div class="choices">
+        <a class="choice" href="/insights.html">
+          <span class="k">Read</span>
+          <h3>Explore Insights</h3>
+          <p>Analysis of what new AI research enables and what it takes to implement.</p>
+          <span class="more text-link">Go to Insights</span>
         </a>
-        <a class="bah-card" href="/beyond-ai-headlines/conversations/">
-          <span class="k">By application</span>
-          <h3>Ten complimentary strategy conversations</h3>
-          <p>Twenty minutes, one-to-one, focused on a specific AI challenge you&rsquo;re working on. Applications are reviewed individually.</p>
-          <span class="more">How to apply <span class="arr" aria-hidden="true">&rarr;</span></span>
+        <a class="choice" href="/conversations/ai-strategy/">
+          <span class="k">Talk</span>
+          <h3>Request an AI Strategy Conversation</h3>
+          <p>Ten complimentary 20-minute conversations about a specific AI challenge.</p>
+          <span class="more text-link">How to apply</span>
         </a>
-        <a class="bah-card" href="/beyond-ai-headlines/roundtables/">
-          <span class="k">Monthly</span>
-          <h3>60-minute AI roundtables</h3>
-          <p>Peer conversations on making AI work. First topic: from AI capabilities to real-world value: what does it take to operationalize AI?</p>
-          <span class="more">About the roundtables <span class="arr" aria-hidden="true">&rarr;</span></span>
+        <a class="choice" href="/conversations/roundtables/">
+          <span class="k">Discuss</span>
+          <h3>Join an AI Roundtable</h3>
+          <p>Monthly 60-minute group discussions on making AI work in practice.</p>
+          <span class="more text-link">About the roundtables</span>
         </a>
       </div>
 <!-- insights-featured:start -->
 <!-- insights-featured:end -->
-    </div>
-  </section>
-
-  <!-- 9. Contact -->
-  <section class="section contact-cta" aria-labelledby="contact-title">
-    <div class="wrap">
-      <span class="eyebrow">Contact and collaboration</span>
-      <h2 id="contact-title">Tell us what you&rsquo;re working on.</h2>
-      <p>Whether you&rsquo;re exploring an idea, planning a pilot or scaling something that already works, we&rsquo;d like to hear about it.</p>
-      <div class="actions">
-        <a class="btn btn-primary" href="mailto:info@parseus.ai">Email info@parseus.ai</a>
-        <a class="btn btn-secondary" href="/contact.html">Other ways to connect</a>
-      </div>
+      <p class="name-note"><span>Why &ldquo;Parseus&rdquo;?</span> <em>The courage of Perseus, the craft of Persia.</em> <a class="text-link" href="/who-we-are.html#why-parseus">The story behind the name</a></p>
     </div>
   </section>
 
@@ -341,24 +220,23 @@
     <div class="wrap">
       <div class="foot-grid">
         <div class="foot-about">
-          <div class="foot-brand"><span class="pi" aria-hidden="true">&Pi;</span>arseus AI</div>
-          <p class="foot-tag">The courage of Perseus, the craft of Persia.</p>
+          <a class="foot-brand" href="/" aria-label="Parseus AI, home"><img class="brand-mark" src="/assets/brand/parseus-header-identity-84.webp" srcset="/assets/brand/parseus-header-identity-84.webp 1x, /assets/brand/parseus-header-identity-168.webp 2x" width="225" height="84" alt="" loading="lazy" /></a>
         </div>
         <div class="foot-col">
           <h2>Parseus AI</h2>
           <ul>
-            <li><a href="/who-we-are.html">Who we are</a></li>
+            <li><a href="/who-we-are.html">About</a></li>
             <li><a href="/expertise.html">Expertise</a></li>
-            <li><a href="/products.html">Products &amp; projects</a></li>
+            <li><a href="/projects/">Projects</a></li>
             <li><a href="/insights.html">Insights</a></li>
           </ul>
         </div>
         <div class="foot-col">
-          <h2>Beyond AI Headlines</h2>
+          <h2>Conversations &amp; Events</h2>
           <ul>
-            <li><a href="/beyond-ai-headlines/">Overview</a></li>
-            <li><a href="/beyond-ai-headlines/conversations/">Strategy conversations</a></li>
-            <li><a href="/beyond-ai-headlines/roundtables/">Monthly roundtables</a></li>
+            <li><a href="/conversations/">Overview</a></li>
+            <li><a href="/conversations/ai-strategy/">AI strategy conversations</a></li>
+            <li><a href="/conversations/roundtables/">AI roundtables</a></li>
           </ul>
         </div>
         <div class="foot-col">
@@ -372,7 +250,6 @@
       </div>
       <div class="foot-legal">
         <span>&copy; 2026 Parseus AI. All rights reserved.</span>
-        <span>Beyond AI Headlines: From Innovation to Real-World Impact</span>
       </div>
     </div>
   </footer>

@@ -1,6 +1,11 @@
-# Campaign messages: Beyond AI Headlines
+# Campaign messages: AI strategy conversations and roundtables
 
-Email templates for **Beyond AI Headlines: From Innovation to Real-World Impact**, the Parseus AI initiative behind the complimentary AI strategy conversations and the monthly roundtables.
+Email templates for **Conversations & Events** at Parseus AI (<https://parseus.ai/conversations/>), which has two options:
+
+- **AI Strategy Conversations**: complimentary 20-minute AI strategy conversations. Application page: <https://parseus.ai/conversations/ai-strategy/>
+- **AI Roundtables**: Parseus AI roundtables. Interest / registration page: <https://parseus.ai/conversations/roundtables/>
+
+In emails, call them "AI strategy conversation" and "Parseus AI roundtable" (or "AI roundtable with Parseus AI"). The homepage positioning line is not a programme name and is not used in emails. Every email is signed "Parseus AI" and "info@parseus.ai", one line each.
 
 *The courage of Perseus, the craft of Persia.* The tone follows the brand: confident and direct (courage), careful and well made (craft). In practice that means short, warm sentences, no hype, no promises we have not kept yet, and a clear next step in every message.
 
@@ -13,34 +18,44 @@ Email templates for **Beyond AI Headlines: From Innovation to Real-World Impact*
   - `{{ref}}`: the reference created when the form was submitted, for example `C-1A2B3C` or `R-4D5E6F`.
   - `{{booking_link}}`: the private appointment schedule link from the `BOOKING_URL` Script Property. It never appears on the website.
   - `{{event_title}}`, `{{date_time}}`, `{{meeting_link}}`: from the Events tab of the private Sheet. `{{date_time}}` is written like "Thursday, November 12, 2026 at 9:00 AM PST (60 minutes)", in the script's time zone.
+- Website addresses in emails (such as `https://parseus.ai/conversations/roundtables/`) are public pages, written as plain text.
 - The number of conversations ("ten") comes from the `CONSULTATION_CAP` Script Property and changes automatically if that setting changes.
 - Automatic emails never repeat what the person wrote in the free-text fields (challenge, desired outcome, question). Those appear only in the internal notification to info@parseus.ai.
-- Writing rules: no em dashes or en dashes; no dates, links or outcomes that have not been confirmed; never say someone is selected, booked or registered before that has actually happened.
+- Writing rules: no em dashes or en dashes; no dates, links or outcomes that have not been confirmed; never say someone is selected, booked or registered before that has actually happened. In particular, **registering interest in a roundtable never reserves a place**, and no message to an "Interested" person may suggest it does.
+
+## Roundtables: interest first, registration once the date is confirmed
+
+The Events tab in the private Sheet decides what the roundtable form does:
+
+- **Start blank (date not confirmed)**: the form collects interest only. The person is stored as **Interested**, does not use a place, and receives message 7a. The website shows "Register Your Interest".
+- **Start set and Registration open ticked**: the form registers people. They are **Registered** while places remain (only Registered rows count toward Capacity), otherwise **Waitlisted**.
+- When the date is confirmed, run **Parseus > Invite interested people to register** (message 7b). It does not register anyone: people must register on the website, first come, first served. When an Interested person registers with the same email address, their existing row is updated to Registered or Waitlisted (same reference, no duplicate row) and they receive the normal message 7c or 9.
 
 ## When each message is sent
 
 | # | Message | When | Sent by |
 |---|---|---|---|
-| 1 | Application received | Immediately after a consultation application is stored | Automatic (website form) |
+| 1 | Application received | Immediately after an AI strategy conversation application is stored | Automatic (website form) |
 | 2 | Applicant selected (without link) | Only if you want to tell someone they are selected before the booking calendar is ready | Manual |
 | 3 | Selected, with private booking invitation | After you set Status to **Selected** | Menu: **Parseus > Send booking links to Selected applicants** |
 | 4 | Not selected | After you set Status to **Not selected** | Menu: **Parseus > Send decision notices (Not selected / Held)** |
 | 4b | Held for a later round | After you set Status to **Held for later round** | Same menu as 4 |
 | 5 | Consultation meeting reminder | Usually not needed: Google Calendar handles it (see below) | Manual, only if Calendar reminders are off |
 | 6 | Post-consultation follow-up | After you set Status to **Completed** | Menu: **Parseus > Send consultation follow-ups (Completed)** |
-| 7a | Roundtable registration confirmed, date not yet set | Immediately after registration, while the event has no Start | Automatic (website form) |
-| 7b | Roundtable registration confirmed, date set | Immediately after registration, once Start is set (with or without the meeting link) | Automatic (website form) |
-| 7c | Joining details | When Start and Meeting link are set after people registered | Menu: **Parseus > Send event details to registrants** |
-| 8 | Roundtable reminder | Once, within the 24 hours before the event | Automatic (hourly trigger) or menu **Send due reminders now** |
+| 7a | Roundtable interest received | Immediately after someone registers interest while the event has no Start (status **Interested**, no place reserved) | Automatic (website form) |
+| 7b | Invitation to register | Once Start is set and **Registration open** is ticked, to **Interested** people not yet invited | Menu: **Parseus > Invite interested people to register** |
+| 7c | Roundtable registration confirmed | Immediately after registration, once Start is set (with or without the meeting link); also when an Interested person registers | Automatic (website form) |
+| 7d | Joining details | When the Meeting link is set after people registered | Menu: **Parseus > Send event details to registrants** |
+| 8 | Roundtable reminder | Once, within the 24 hours before the event, to Registered people only | Automatic (hourly trigger) or menu **Send due reminders now** |
 | 9 | Roundtable waitlist | Immediately after registration when the event is full | Automatic (website form) |
 | 9b | Waitlist place opened | After you mark someone **Cancelled** and promote | Menu: **Parseus > Promote from waitlist** |
 | 10 | Post-roundtable thank-you | After you tick **Attended** | Menu: **Parseus > Send roundtable follow-ups (Attended)** |
 
-Every menu action shows how many people will be emailed and asks for confirmation first. Each person receives each message at most once: the Sheet records when it was sent ("Booking link sent at", "Decision sent at", "Details sent at", "Reminder sent at", "Follow-up sent at"). To send a message to someone again on purpose, clear that cell and run the menu again.
+Every menu action shows how many people will be emailed and asks for confirmation first. Each person receives each message at most once: the Sheet records when it was sent ("Booking link sent at", "Decision sent at", "Invited at", "Details sent at", "Reminder sent at", "Follow-up sent at"). To send a message to someone again on purpose, clear that cell and run the menu again. Joining details, reminders and follow-ups never go to people whose status is **Interested**.
 
 ---
 
-## Strategy conversations
+## AI strategy conversations
 
 ### 1. Application received
 
@@ -52,7 +67,7 @@ Subject: We received your application ({{ref}})
 
 Hello {{name}},
 
-Thank you for applying for a complimentary AI strategy conversation through Beyond AI Headlines: From Innovation to Real-World Impact. We have received your application. Your reference is {{ref}}.
+Thank you for applying for a complimentary AI strategy conversation with Parseus AI. We have received your application. Your reference is {{ref}}.
 
 What happens next:
 1. Review: we read every application individually.
@@ -66,7 +81,7 @@ Please do not send confidential or commercially sensitive information by email o
 If you would like to withdraw your application, or if you did not submit it, simply reply to this email and we will remove your details.
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```
 
@@ -88,7 +103,7 @@ Ahead of the conversation, please do not send confidential or commercially sensi
 If you are no longer able to take part, simply reply to this email so we can offer the place to someone else.
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```
 
@@ -116,7 +131,7 @@ Ahead of the conversation, please do not send confidential or commercially sensi
 If you are no longer able to take part, simply reply to this email so we can offer the place to someone else.
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```
 
@@ -126,7 +141,7 @@ Sent by the system when you run **Parseus > Send decision notices (Not selected 
 
 <!-- template: not-selected -->
 ```text
-Subject: Your Beyond AI Headlines application ({{ref}})
+Subject: Your AI strategy conversation application ({{ref}})
 
 Hello {{name}},
 
@@ -134,12 +149,13 @@ Thank you for applying for a complimentary AI strategy conversation, and for the
 
 We are able to offer only ten conversations in this round, and we are not able to offer you a place this time. This is not a judgement on the value of your work.
 
-You are warmly invited to join one of our monthly Beyond AI Headlines roundtables, where we discuss how organizations move AI from promising ideas to real-world impact. Details and registration are on parseus.ai.
+You are warmly invited to join one of our AI roundtables with Parseus AI, where we discuss how organizations move AI from promising ideas to real-world impact. Details are on our website:
+https://parseus.ai/conversations/roundtables/
 
 If you have any questions, simply reply to this email.
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```
 
@@ -149,7 +165,7 @@ Sent by the same menu for rows with Status **Held for later round**. Use this st
 
 <!-- template: held -->
 ```text
-Subject: An update on your Beyond AI Headlines application ({{ref}})
+Subject: An update on your AI strategy conversation application ({{ref}})
 
 Hello {{name}},
 
@@ -159,10 +175,11 @@ We are not able to offer you a place in the current round. We would like to keep
 
 If you would prefer that we do not keep your application, simply reply to this email and we will delete it.
 
-In the meantime, you are warmly invited to join one of our monthly Beyond AI Headlines roundtables, where we discuss how organizations move AI from promising ideas to real-world impact. Details and registration are on parseus.ai.
+In the meantime, you are warmly invited to join one of our AI roundtables with Parseus AI, where we discuss how organizations move AI from promising ideas to real-world impact. Details are on our website:
+https://parseus.ai/conversations/roundtables/
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```
 
@@ -184,7 +201,7 @@ The conversation lasts 20 minutes. If you need to change the time, please use th
 We look forward to speaking with you.
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```
 
@@ -202,41 +219,68 @@ Thank you for taking the time to speak with us. We enjoyed learning about your w
 
 If we agreed on any next steps, we will follow up on them with you directly. If you would like to continue the discussion in the meantime, simply reply to this email.
 
-You are warmly invited to join one of our monthly Beyond AI Headlines roundtables, where we discuss how organizations move AI from promising ideas to real-world impact. Details and registration are on parseus.ai.
+You are warmly invited to join one of our AI roundtables with Parseus AI, where we discuss how organizations move AI from promising ideas to real-world impact. Details are on our website:
+https://parseus.ai/conversations/roundtables/
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```
 
 ---
 
-## Roundtables
+## Parseus AI roundtables
 
-### 7a. Registration confirmed, date not yet set
+### 7a. Roundtable interest received
 
-Sent by the system, automatically, when the person gets a place and the event has no Start date yet.
+Sent by the system, automatically, when someone uses the "Register Your Interest" form while the event has no Start date. The row is stored as **Interested**. It says clearly that no place is reserved.
 
-<!-- template: registered-no-date -->
+<!-- template: rt-interest -->
 ```text
-Subject: Your roundtable registration is confirmed ({{ref}})
+Subject: We received your interest in the Parseus AI roundtable ({{ref}})
 
 Hello {{name}},
 
-Thank you for registering for the Beyond AI Headlines roundtable "{{event_title}}". Your place is confirmed. Your reference is {{ref}}.
+Thank you for registering your interest in the Parseus AI roundtable "{{event_title}}". Your reference is {{ref}}.
 
-The date and joining details have not been confirmed yet. We will email them to you as soon as they are set.
+The date has not been confirmed yet, so this email does not reserve a place for you. When the date is confirmed and registration opens, we will email you so that you can register and secure a place. Places are limited and are offered on a first come, first served basis.
 
-If your plans change, simply reply to this email and we will offer your place to someone on the waitlist. If you did not register, reply and we will remove your details.
+If you would rather not hear from us about this roundtable, or if you did not submit this form, simply reply to this email and we will remove your details.
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```
 
-### 7b. Registration confirmed, date set
+### 7b. Invitation to register
 
-Sent by the system, automatically, when the event already has a Start date. If the Meeting link is also set, it is included (first version below) and the row is marked "Details sent at", so message 7c is not sent again. If only the date is set, the second version is used.
+Sent by the system when you run **Parseus > Invite interested people to register**, to rows with status **Interested** and an empty "Invited at". The menu only works for events that have a future **Start** and **Registration open** ticked. It does not register anyone and never includes the private meeting link: people register on the public page, and places are first come, first served.
+
+<!-- template: rt-invite -->
+```text
+Subject: Registration is now open: {{event_title}}
+
+Hello {{name}},
+
+Thank you for registering your interest in the Parseus AI roundtable "{{event_title}}". The date is now confirmed and registration is open.
+
+When: {{date_time}}
+
+Registering your interest did not reserve a place. To secure a place, please register here, using this email address:
+https://parseus.ai/conversations/roundtables/
+
+Places are limited and are offered on a first come, first served basis.
+
+If you are no longer interested, simply reply to this email and we will remove your details.
+
+Warm regards,
+Parseus AI
+info@parseus.ai
+```
+
+### 7c. Registration confirmed
+
+Sent by the system, automatically, when someone registers for an event that has a Start date and a place is free. If the Meeting link is also set, it is included (first version below) and the row is marked "Details sent at", so message 7d is not sent again. If only the date is set, the second version is used.
 
 <!-- template: registered-date-and-link -->
 ```text
@@ -244,7 +288,7 @@ Subject: Your roundtable registration is confirmed ({{ref}})
 
 Hello {{name}},
 
-Thank you for registering for the Beyond AI Headlines roundtable "{{event_title}}". Your place is confirmed. Your reference is {{ref}}.
+Thank you for registering for the Parseus AI roundtable "{{event_title}}". Your place is confirmed. Your reference is {{ref}}.
 
 When: {{date_time}}
 Joining link: {{meeting_link}}
@@ -254,7 +298,7 @@ Please keep this link to yourself, as it is for registered participants only.
 If your plans change, simply reply to this email and we will offer your place to someone on the waitlist. If you did not register, reply and we will remove your details.
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```
 
@@ -264,7 +308,7 @@ Subject: Your roundtable registration is confirmed ({{ref}})
 
 Hello {{name}},
 
-Thank you for registering for the Beyond AI Headlines roundtable "{{event_title}}". Your place is confirmed. Your reference is {{ref}}.
+Thank you for registering for the Parseus AI roundtable "{{event_title}}". Your place is confirmed. Your reference is {{ref}}.
 
 When: {{date_time}}
 Joining link: we will email it to you before the session.
@@ -272,13 +316,13 @@ Joining link: we will email it to you before the session.
 If your plans change, simply reply to this email and we will offer your place to someone on the waitlist. If you did not register, reply and we will remove your details.
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```
 
-### 7c. Joining details
+### 7d. Joining details
 
-Sent by the system when you run **Parseus > Send event details to registrants**, to everyone registered before the date and link were set.
+Sent by the system when you run **Parseus > Send event details to registrants**, to everyone Registered before the meeting link was set.
 
 <!-- template: joining-details -->
 ```text
@@ -286,7 +330,7 @@ Subject: Joining details: {{event_title}}
 
 Hello {{name}},
 
-Here are the details for the Beyond AI Headlines roundtable "{{event_title}}".
+Here are the details for the Parseus AI roundtable "{{event_title}}".
 
 When: {{date_time}}
 Joining link: {{meeting_link}}
@@ -294,13 +338,13 @@ Joining link: {{meeting_link}}
 Please keep this link to yourself, as it is for registered participants only. If you can no longer attend, simply reply to this email so we can offer your place to someone on the waitlist.
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```
 
 ### 8. Roundtable reminder
 
-Sent by the system once per person, within the 24 hours before the event, by the hourly trigger (install it once with **Parseus > Install reminder trigger**) or straight away with **Send due reminders now**. Only events with a Start date and a Meeting link get reminders.
+Sent by the system once per Registered person, within the 24 hours before the event, by the hourly trigger (install it once with **Parseus > Install reminder trigger**) or straight away with **Send due reminders now**. Only events with a Start date and a Meeting link get reminders.
 
 <!-- template: rt-reminder -->
 ```text
@@ -308,7 +352,7 @@ Subject: Reminder: {{event_title}}
 
 Hello {{name}},
 
-A reminder that the Beyond AI Headlines roundtable "{{event_title}}" takes place soon.
+A reminder that the Parseus AI roundtable "{{event_title}}" takes place soon.
 
 When: {{date_time}}
 Joining link: {{meeting_link}}
@@ -316,7 +360,7 @@ Joining link: {{meeting_link}}
 We look forward to the conversation. If you can no longer attend, simply reply to this email so we can offer your place to someone on the waitlist.
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```
 
@@ -330,20 +374,20 @@ Subject: You are on the roundtable waitlist ({{ref}})
 
 Hello {{name}},
 
-Thank you for your interest in the Beyond AI Headlines roundtable "{{event_title}}". The session is currently full, so we have added you to the waitlist. Your reference is {{ref}}.
+Thank you for your interest in the Parseus AI roundtable "{{event_title}}". The session is currently full, so we have added you to the waitlist. Your reference is {{ref}}.
 
 This email does not confirm a place. If a place opens, we will email you, and your place is confirmed only when you receive that email.
 
 If you would rather not stay on the waitlist, or if you did not register, simply reply to this email and we will remove your details.
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```
 
 ### 9b. Waitlist place opened
 
-Sent by the system when you run **Parseus > Promote from waitlist** after marking someone **Cancelled**. People are promoted in the order they registered. The date and link lines follow the same rules as message 7 (the version below is for an event with both set).
+Sent by the system when you run **Parseus > Promote from waitlist** after marking someone **Cancelled**. People are promoted in the order they registered. The link line follows the same rules as message 7c (the version below is for an event with both date and link set).
 
 <!-- template: waitlist-promoted -->
 ```text
@@ -351,7 +395,7 @@ Subject: A place has opened: {{event_title}}
 
 Hello {{name}},
 
-Good news: a place has opened at the Beyond AI Headlines roundtable "{{event_title}}", and your registration is now confirmed.
+Good news: a place has opened at the Parseus AI roundtable "{{event_title}}", and your registration is now confirmed.
 
 When: {{date_time}}
 Joining link: {{meeting_link}}
@@ -361,7 +405,7 @@ Please keep this link to yourself, as it is for registered participants only.
 If you can no longer attend, simply reply to this email so we can offer your place to someone else.
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```
 
@@ -371,32 +415,32 @@ Sent by the system when you run **Parseus > Send roundtable follow-ups (Attended
 
 <!-- template: rt-thank-you -->
 ```text
-Subject: Thank you for joining the Beyond AI Headlines roundtable
+Subject: Thank you for joining the Parseus AI roundtable
 
 Hello {{name}},
 
-Thank you for joining the Beyond AI Headlines roundtable "{{event_title}}". We appreciated your time and perspective.
+Thank you for joining the Parseus AI roundtable "{{event_title}}". We appreciated your time and perspective.
 
 If you have thoughts on the discussion or ideas for future topics, simply reply to this email.
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```
 
 <!-- template: rt-thank-you-updates -->
 ```text
-Subject: Thank you for joining the Beyond AI Headlines roundtable
+Subject: Thank you for joining the Parseus AI roundtable
 
 Hello {{name}},
 
-Thank you for joining the Beyond AI Headlines roundtable "{{event_title}}". We appreciated your time and perspective.
+Thank you for joining the Parseus AI roundtable "{{event_title}}". We appreciated your time and perspective.
 
 As you requested, we will let you know about future roundtables.
 
 If you have thoughts on the discussion or ideas for future topics, simply reply to this email.
 
 Warm regards,
-Parseus AI · Beyond AI Headlines
+Parseus AI
 info@parseus.ai
 ```

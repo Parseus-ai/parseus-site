@@ -1,9 +1,11 @@
 # Parseus AI: website forms backend (Google Apps Script)
 
-This folder holds the private backend for the two forms on the Parseus AI website:
+This folder holds the private backend for the two forms in **Conversations & Events** (`https://parseus.ai/conversations/`) on the Parseus AI website:
 
-- **Consultation application** (ten complimentary 20-minute AI strategy conversations)
-- **Roundtable registration**
+- **AI Strategy Conversations application** (ten complimentary 20-minute AI strategy conversations), on `https://parseus.ai/conversations/ai-strategy/`
+- **AI Roundtables**, on `https://parseus.ai/conversations/roundtables/`: "Register Your Interest" while the date is not confirmed, then registration once it is (see [From interest to registration](#from-interest-to-registration))
+
+(Old `/beyond-ai-headlines/...` addresses redirect to these pages.)
 
 Submissions are stored in a **private Google Sheet** in the parseus.ai Google Workspace account, and emails are sent from the Google account that deploys the script. Nothing is stored on the website or in this repository.
 
@@ -29,8 +31,11 @@ For a short, non-technical version of the setup, see **[ops/SETUP-CHECKLIST.md](
 | `TURNSTILE_SECRET` | Script Properties only, **never on the website or in Git** | Required before public activation |
 | Turnstile **site** key | Website file `assets/forms-config.js` → `turnstileSiteKey` (public by design) | Required before public activation |
 | Other settings | Script Properties (defaults are added by `setup()`) | See [step 4](#4-set-script-properties) |
+| Roundtable page text (`roundtable: { eventId, title, dateText, timeZone, status }`) | Website file `assets/forms-config.js` (public; no private links) | Required; must match the Events tab (see [From interest to registration](#from-interest-to-registration)) |
 
-**The forms stay hidden on the website until `endpoint` is set** in `assets/forms-config.js`. Nothing breaks while you set this up.
+**The forms stay hidden on the website until `endpoint` is set** in `assets/forms-config.js`. Nothing breaks while you set this up. Adding `?preview=forms` to a page address shows the forms without an endpoint (they send nothing).
+
+**Two sources, one truth.** The **Events tab in the Sheet** is the source of truth for what the backend does (interest or registration, capacity, open or closed). The website config `roundtable` fields only control what the page *says* (title, date text, "Register Your Interest" or "Register"). Always update both together.
 
 ---
 
@@ -59,7 +64,7 @@ For a short, non-technical version of the setup, see **[ops/SETUP-CHECKLIST.md](
    - Click **Allow**. The script asks to: manage spreadsheets, send email as you, connect to an external service (Cloudflare Turnstile), manage its own triggers, and show menus and dialogs in the Sheet.
 3. Return to the Sheet tab and reload it. You should now see:
    - Tabs **Consultations**, **Roundtable registrations**, **Events** (bold, frozen header rows; Status dropdowns; checkboxes).
-   - One event row: **rt-01**, "From AI Capabilities to Real-World Value: What Does It Take to Operationalize AI?", Duration 60, **Capacity 25 (a placeholder: change it to the real number)**, Registration open ticked, Start and Meeting link blank.
+   - One event row: **rt-01**, "From AI Capabilities to Real-World Value: What Does It Take to Operationalize AI?", Duration 60, **Capacity 25 (a placeholder: change it to the real number)**, Registration open ticked, Start and Meeting link blank. With Start blank, the roundtable form collects **interest only** (no places are reserved).
    - A **Parseus** menu in the menu bar.
 
 `setup()` is safe to run again. It never deletes or moves data and never adds a second seed event. When the code is updated and needs new columns, running it again **adds the missing columns at the end** of each tab, so existing Sheets keep working.
@@ -137,11 +142,11 @@ Why at activation: as soon as `TURNSTILE_SECRET` is set, every submission must c
 
 1. Make sure `TURNSTILE_SECRET` is not set yet and `REQUIRE_TURNSTILE` is `false`, and leave `turnstileSiteKey` empty in your local copy.
 2. In a **local copy** of the website, put the `/exec` URL into `endpoint` in `assets/forms-config.js`. **Do not commit or push this change.**
-3. From the repository folder, run `python -m http.server 8765` and open `http://localhost:8765/beyond-ai-headlines/conversations/`.
+3. From the repository folder, run `python -m http.server 8765` and open `http://localhost:8765/conversations/ai-strategy/`.
 4. Submit an application with your own email address, at a normal pace (faster than 3 seconds is silently ignored as a bot). Check: a new row with Status *New*, *Consent given at* and *Privacy notice version* filled in; message 1 in your inbox; a notification at `NOTIFY_EMAIL`.
 5. Submit the same email again: the page shows the same reference, no new row, no new email.
 6. In the Sheet, set your row to **Selected** and run **Parseus → Send booking links**; check the email and that *Booking link sent at* is filled. Try **Not selected** and **Held for later round** on other test rows with **Send decision notices**.
-7. Open `http://localhost:8765/beyond-ai-headlines/roundtables/`, register, and check the row and message 7a or 7b. Set the event's Capacity to `1` and register with a second address to see the waitlist message (9). Mark the first one **Cancelled** and run **Promote from waitlist** (9b). Set Capacity back afterwards.
+7. Open `http://localhost:8765/conversations/roundtables/` (local `roundtable.status` = `"interest"`, Events tab Start blank) and register interest: check the row says **Interested** and message 7a arrives. Then try the move to registration on a test event: set a future **Start**, set local `roundtable.status` to `"open"`, run **Parseus → Invite interested people to register** (message 7b; the row stays *Interested*, *Invited at* is filled), then register on the page with the same email: the same row becomes **Registered** and message 7c arrives. Set Capacity to `1` and register with a second address to see the waitlist message (9). Mark the first one **Cancelled** and run **Promote from waitlist** (9b). Put Start, Capacity and the local config back afterwards.
 8. Run **Parseus → Check setup**.
 9. Delete your test rows, and undo the local `forms-config.js` change (for example `git checkout assets/forms-config.js`).
 
@@ -149,7 +154,7 @@ Why at activation: as soon as `TURNSTILE_SECRET` is set, every submission must c
 
 1. In Script Properties, add `TURNSTILE_SECRET` (and optionally `TURNSTILE_HOSTNAMES`), and set `REQUIRE_TURNSTILE` to `true` ([step 6](#6-cloudflare-turnstile-spam-protection)). Run **Parseus → Check setup**: it should report no problems.
 2. Put the `/exec` URL into `endpoint` and the Turnstile **site** key into `turnstileSiteKey` in `assets/forms-config.js`, commit, and publish the website (with the founder's approval).
-3. On parseus.ai, submit one real application and one registration with your own address. Check the rows and emails. If anything fails, clear `endpoint` and publish again: the forms hide and visitors see the email alternative.
+3. On parseus.ai, submit one real application (`/conversations/ai-strategy/`) and one roundtable interest or registration (`/conversations/roundtables/`) with your own address. Check the rows and emails. If anything fails, clear `endpoint` and publish again: the forms hide and visitors see the email alternative.
 4. Install the reminder trigger (**Parseus → Install reminder trigger**) if you have not already.
 
 ---
@@ -171,15 +176,32 @@ Every menu action that sends email shows how many people will be emailed and ask
 
 ### Roundtables (tabs **Events** and **Roundtable registrations**)
 
-1. **Edit the event** in the **Events** tab: set the real **Capacity**, and when confirmed the **Start** (date and time) and **Meeting link (private)**. To add another roundtable, add a row with a new Event ID (e.g. `rt-02`) and give the website the same ID.
-2. Registrations arrive as **Registered** until capacity is reached, then **Waitlisted**. A repeat registration with the same email for the same event is not stored again.
-3. To close registration, untick **Registration open**. Registration also closes automatically once the Start time has passed.
-4. **Send details**: once Start and Meeting link are set, **Parseus → Send event details to registrants** (message 7c).
-5. **Cancellations**: set the person's Registration status to **Cancelled**, then **Parseus → Promote from waitlist** (message 9b). Places are filled in the order people signed up.
-6. **Reminders**: run **Parseus → Install reminder trigger** once. Every hour the script sends a single reminder (message 8) to Registered people for any event starting within the next 24 hours. **Send due reminders now** does the same immediately.
-7. **After the event**: tick **Attended** for those who came, then **Parseus → Send roundtable follow-ups (Attended)** (message 10).
+Registration statuses: **Interested** (registered interest while the date was not confirmed; no place reserved), **Registered** (has a place), **Waitlisted**, **Cancelled**. Only **Registered** rows count toward **Capacity**.
+
+1. **Edit the event** in the **Events** tab: set the real **Capacity**. To add another roundtable, add a row with a new Event ID (e.g. `rt-02`) and give the website the same `eventId`.
+2. **While Start is blank** (date not confirmed), the form collects **interest only**: rows arrive as **Interested**, use no place, and get message 7a ("this email does not reserve a place"). A repeat from the same email for the same event is not stored again and gets no email.
+3. **Once Start is set**, the form registers people: **Registered** until capacity is reached, then **Waitlisted** (messages 7c / 9). See [From interest to registration](#from-interest-to-registration) for the switch-over.
+4. To close the form (interest or registration), untick **Registration open**. Registration also closes automatically once the Start time has passed.
+5. **Send details**: once Start and Meeting link are set, **Parseus → Send event details to registrants** (message 7d) emails Registered people who do not have the link yet.
+6. **Cancellations**: set the person's Registration status to **Cancelled**, then **Parseus → Promote from waitlist** (message 9b). Places are filled in the order people registered.
+7. **Reminders**: run **Parseus → Install reminder trigger** once. Every hour the script sends a single reminder (message 8) to Registered people for any event starting within the next 24 hours. **Send due reminders now** does the same immediately.
+8. **After the event**: tick **Attended** for those who came, then **Parseus → Send roundtable follow-ups (Attended)** (message 10).
+
+Joining details, reminders, promotions and follow-ups never go to **Interested** rows.
 
 Anyone who registers receives the meeting link, and links can be forwarded. In Google Meet, use host controls so that people outside your organisation must ask to join and you admit them.
+
+### From interest to registration
+
+When the roundtable date is confirmed, do these steps in order, the same day:
+
+1. **Events tab** (the source of truth for the backend): set **Start** (date and time, in the Sheet's time zone), paste the **Meeting link (private)** if you have it, check **Capacity**, and make sure **Registration open** is ticked. From this moment the backend registers people instead of collecting interest.
+2. **Website config** (`assets/forms-config.js`, public): update the `roundtable` fields so the page matches: `eventId` (same as the Event ID), `title`, `dateText` (the confirmed date as visitors should read it), `timeZone`, and `status: "open"`. Publish the website. The config only controls what the page *says* ("Register Your Interest" for `"interest"`, a registration form for `"open"`, a closed notice for `"closed"`); it never changes what the backend does. If the two disagree, the backend follows the Sheet: for example a page still saying "Register Your Interest" would actually register people once Start is set, and a page saying "open" while Start is blank would only record interest. Never put the meeting link or any private link in this file.
+3. **Parseus → Invite interested people to register** (message 7b). It shows how many people will be emailed and asks YES or NO. It only works for events with a future Start and **Registration open** ticked, and only emails **Interested** rows with an empty **Invited at**. It fills **Invited at** before sending (a failed email is put back and noted in **Last email error**; run the menu again). It sends the confirmed date and the public page `https://parseus.ai/conversations/roundtables/`, never the meeting link.
+4. **The invitation does not register anyone.** People register on the website; places are first come, first served. When someone who registered interest registers **with the same email address**, their existing row is updated in place: status becomes **Registered** (or **Waitlisted** if the event is already full), the same Ref is kept, the details they typed this time replace the old ones, **Submitted at** becomes the registration time (so the waitlist order is fair), and **Invited at** is kept as a record. They receive the normal confirmation (7c or 9). No duplicate row is created. If they use a different email address, they get a new row and the old Interested row simply stays as it is.
+5. Interested people who never register keep the status **Interested**. They use no place and get no further automatic emails.
+
+To close registration later, untick **Registration open** and set the website `status` to `"closed"`.
 
 ---
 
@@ -207,7 +229,7 @@ Anyone who registers receives the meeting link, and links can be forwarded. In G
   - *Completed* / *Follow-up sent*: `RETENTION_COMPLETED_MONTHS` (12) after the conversation date.
   - *New*, *Under review*, *Held for later round*: `RETENTION_COMPLETED_MONTHS` (12) after submission.
   - *Selected*, *Booking link sent*, *Scheduled* are never touched (update their Status first).
-  - Roundtable registrations: `RETENTION_ROUNDTABLE_MONTHS` (6) after the event. People who answered **Yes** to *Future updates* keep name and email only (remove them on request).
+  - Roundtable registrations: `RETENTION_ROUNDTABLE_MONTHS` (6) after the event (or after submission, while the event has no Start; this includes **Interested** rows). People who answered **Yes** to *Future updates* keep name and email only (remove them on request).
   - Copies in email inboxes are not affected; delete old notification emails separately.
 - Rate-limit counters are kept in Apps Script's cache for at most one hour and contain only a hash of the email address. The global limit stores only timestamps.
 
@@ -243,6 +265,9 @@ This keeps the same `/exec` URL, so the website does not need changing. (Choosin
 | `{"ok":false,"error":"spam"}` for every real visitor | `turnstileSiteKey` on the website is missing or belongs to a different widget, the site's hostname isn't listed on the widget (or in `TURNSTILE_HOSTNAMES`). |
 | "This roundtable could not be found" | The website's event ID doesn't match the **Event ID** in the Events tab exactly. |
 | Roundtable form says registration is closed | **Registration open** is unticked, or **Start** is in the past. |
+| People are told "interest received" although the page says registration is open (or the other way round) | The website `roundtable.status` and the Events tab disagree. The backend follows the Sheet: Start blank = interest, Start set = registration. Update both ([From interest to registration](#from-interest-to-registration)). |
+| **Invite interested people to register** says an event was skipped | The event needs a future **Start** and **Registration open** ticked. |
+| **Interested** is missing from the status dropdown, or there is no **Invited at** column | Run **Parseus → Run setup** once after updating the code. |
 | Code edits don't take effect on the website | You saved but didn't redeploy. Use **Manage deployments → Edit → New version**. |
 | No **Parseus** menu | Reload the Sheet. If still missing, run `onOpen` once from the editor. |
 | "Selected" keeps reverting | The cap is reached. Check **Show consultation places used**, or raise `CONSULTATION_CAP`. |

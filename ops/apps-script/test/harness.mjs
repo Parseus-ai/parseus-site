@@ -279,7 +279,10 @@ function eq(a, b, msg) {
   const A = JSON.stringify(a), B = JSON.stringify(b);
   if (A !== B) throw new Error((msg ? msg + ': ' : '') + `expected ${B}, got ${A}`);
 }
-const SIGN = 'Warm regards,\nParseus AI · Beyond AI Headlines\ninfo@parseus.ai';
+const SIGN = 'Warm regards,\nParseus AI\ninfo@parseus.ai';
+const RT_PAGE = 'https://parseus.ai/conversations/roundtables/';
+// The seed event has no Start (interest only); this confirms a future date so registration applies.
+const dated = (env, patch = {}) => env.setEvent('rt-01', { Start: HOURS(24 * 10), ...patch });
 const HOURS = h => new Date(Date.now() + h * 3600 * 1000);
 
 // ---------------------------------------------------------------------------
@@ -290,7 +293,8 @@ test('setup() creates tabs, headers, frozen rows, seed event; idempotent', () =>
   const env = makeEnv();
   eq(env.ss.getSheets().map(s => s.name), ['Consultations', 'Roundtable registrations', 'Events'], 'tabs');
   eq(env.consult().headers().length, 21, 'consult header count');
-  eq(env.reg().headers().length, 18, 'reg header count');
+  eq(env.reg().headers().length, 19, 'reg header count');
+  eq(env.reg().headers()[18], 'Invited at');
   eq(env.consult().headers()[10], 'Status');
   eq(env.reg().headers()[12], 'Attended');
   eq(env.events().headers()[6], 'Meeting link (private)');
@@ -473,8 +477,9 @@ test('email failure after storing still returns ok (row kept)', () => {
 // Tests: roundtable
 // ---------------------------------------------------------------------------
 
-test('roundtable within capacity → registered; no date/link invented', () => {
+test('roundtable with a date, within capacity → registered; link not invented', () => {
   const env = makeEnv();
+  dated(env);
   const res = env.post(rtPayload());
   eq(res.ok, true); eq(res.status, 'registered');
   assert(/^R-[0-9A-F]{6}$/.test(res.ref), 'ref ' + res.ref);
@@ -489,7 +494,8 @@ test('roundtable within capacity → registered; no date/link invented', () => {
   const conf = env.sent[0];
   eq(conf.to, 'ben@example.com');
   assert(conf.body.includes('From AI Capabilities to Real-World Value'), 'topic');
-  assert(conf.body.includes('The date and joining details have not been confirmed yet. We will email them to you as soon as they are set.'), 'TBC wording');
+  assert(conf.body.includes('Your place is confirmed.'), 'confirmed wording');
+  assert(conf.body.includes('Joining link: we will email it to you before the session.'), 'link to follow');
   assert(!/https?:\/\//.test(conf.body), 'no links in confirmation');
   assert(conf.body.trim().endsWith(SIGN));
   eq(env.sent[1].to, 'info@parseus.ai');
@@ -497,6 +503,7 @@ test('roundtable within capacity → registered; no date/link invented', () => {
 
 test('roundtable optional fields: question blank, updates omitted', () => {
   const env = makeEnv();
+  dated(env);
   const f = rtFields({ question: '' }); delete f.updates;
   const res = env.post({ form: 'roundtable', fields: f, meta: meta() });
   eq(res.status, 'registered');
@@ -527,7 +534,7 @@ test('roundtable with Start AND link → both included, Details sent at stamped'
 
 test('roundtable at capacity → waitlisted with waitlist email', () => {
   const env = makeEnv();
-  env.setEvent('rt-01', { Capacity: 2 });
+  dated(env, { Capacity: 2 });
   eq(env.post(rtPayload({ email: 'a1@example.com' })).status, 'registered');
   eq(env.post(rtPayload({ email: 'a2@example.com' })).status, 'registered');
   const res = env.post(rtPayload({ email: 'a3@example.com' }));
@@ -539,7 +546,7 @@ test('roundtable at capacity → waitlisted with waitlist email', () => {
 
 test('cancelled registrations free capacity for new sign-ups', () => {
   const env = makeEnv();
-  env.setEvent('rt-01', { Capacity: 1 });
+  dated(env, { Capacity: 1 });
   env.post(rtPayload({ email: 'a1@example.com' }));
   env.reg().data[1][env.reg().col('Registration status')] = 'Cancelled';
   eq(env.post(rtPayload({ email: 'a2@example.com' })).status, 'registered');
@@ -565,7 +572,7 @@ test('unknown eventId → validation error on eventId', () => {
 
 test('duplicate registration (same email + event) → existing status, no new row', () => {
   const env = makeEnv();
-  env.setEvent('rt-01', { Capacity: 1 });
+  dated(env, { Capacity: 1 });
   const first = env.post(rtPayload({ email: 'dup@example.com' }));
   const w = env.post(rtPayload({ email: 'wait@example.com' }));
   eq(w.status, 'waitlisted');
@@ -601,7 +608,7 @@ test('onOpen adds the Parseus menu with all workflow items', () => {
   const m = env.menus.find(x => x.name === 'Parseus');
   assert(m, 'menu created');
   const fns = m.log.filter(l => l[0] === 'addItem').map(l => l[2]);
-  for (const fn of ['sendBookingLinks', 'sendEventDetails', 'promoteFromWaitlist', 'sendRemindersNow',
+  for (const fn of ['sendBookingLinks', 'sendEventDetails', 'inviteInterestedToRegister', 'promoteFromWaitlist', 'sendRemindersNow',
     'sendConsultationFollowUps', 'sendRoundtableFollowUps', 'installReminderTrigger', 'showConsultationCap']) {
     assert(fns.includes(fn), 'menu item ' + fn);
     assert(typeof env.ctx[fn] === 'function', 'function exists ' + fn);
@@ -679,7 +686,7 @@ test('onEdit: refuses to mark more than the cap as Selected', () => {
 
 test('promote from waitlist fills freed capacity in submission order and emails', () => {
   const env = makeEnv();
-  env.setEvent('rt-01', { Capacity: 2 });
+  dated(env, { Capacity: 2 });
   ['r1', 'r2', 'w1', 'w2'].forEach(n => env.post(rtPayload({ email: n + '@example.com' })));
   eq(env.reg().rows().map(r => r[env.reg().col('Registration status')]), ['Registered', 'Registered', 'Waitlisted', 'Waitlisted']);
   env.sent.length = 0;
@@ -1149,20 +1156,248 @@ test('booking link: refuses a non-https BOOKING_URL', () => {
   assert(env.alerts.at(-1).includes('https://'));
 });
 
+// ---------------------------------------------------------------------------
+// Tests: Phase 4, roundtable interest (no date) vs registration
+// ---------------------------------------------------------------------------
+
+const regStatuses = env => env.reg().rows().map(r => r[env.reg().col('Registration status')]);
+const regRule = env => env.reg().validations
+  .filter(v => v.col === env.reg().col('Registration status') + 1 && v.rule && v.rule.log)
+  .map(v => v.rule.log.find(l => l[0] === 'requireValueInList'))
+  .filter(Boolean);
+
+test('roundtable without a confirmed date → "interest": stored as Interested, no place reserved, interest email + notification', () => {
+  const env = makeEnv();
+  const res = env.post(rtPayload());
+  eq(res.ok, true); eq(res.status, 'interest');
+  assert(/^R-[0-9A-F]{6}$/.test(res.ref), 'ref ' + res.ref);
+  const reg = env.reg();
+  eq(reg.rows().length, 1);
+  eq(reg.cell(0, 'Registration status'), 'Interested');
+  eq(reg.cell(0, 'Details sent at'), '');
+  eq(reg.cell(0, 'Invited at'), '');
+  eq(reg.cell(0, 'Attended'), false);
+  assert(isDate(reg.cell(0, 'Consent given at')), 'consent recorded');
+  eq(env.sent.length, 2);
+  const conf = env.sent[0];
+  eq(conf.to, 'ben@example.com');
+  eq(conf.subject, 'We received your interest in the Parseus AI roundtable (' + res.ref + ')');
+  assert(conf.body.includes('this email does not reserve a place'), 'no place reserved');
+  assert(conf.body.includes('When the date is confirmed and registration opens, we will email you'), 'will email when open');
+  assert(!/place is confirmed|registration is confirmed|You are registered/i.test(conf.body), 'never implies a seat');
+  assert(!/https?:\/\//.test(conf.body), 'no links');
+  assert(conf.body.endsWith(SIGN), 'signature');
+  const note = env.sent[1];
+  eq(note.to, 'info@parseus.ai');
+  assert(note.subject.startsWith('Roundtable interest ' + res.ref + ' (Interested)'), note.subject);
+  assert(note.body.includes('no place reserved'), 'owner told no place reserved');
+});
+
+test('Registration open unticked with no date → "closed" (interest collection can be switched off)', () => {
+  const env = makeEnv();
+  env.setEvent('rt-01', { 'Registration open': false });
+  eq(env.post(rtPayload()), { ok: false, error: 'closed' });
+  eq(env.reg().rows().length, 0);
+});
+
+test('duplicate interest (same email + event) → same ref and status, no new row, no email', () => {
+  const env = makeEnv();
+  const first = env.post(rtPayload());
+  env.sent.length = 0;
+  const again = env.post(rtPayload({ email: ' BEN@example.com ', question: 'Another question' }));
+  eq(again, { ok: true, status: 'interest', ref: first.ref });
+  eq(env.reg().rows().length, 1);
+  eq(env.sent.length, 0);
+});
+
+test('capacity counts only Registered: Interested, Waitlisted and Cancelled rows never use a place', () => {
+  const env = makeEnv();
+  env.setEvent('rt-01', { Capacity: 2 });
+  for (const n of ['i1', 'i2', 'i3']) eq(env.post(rtPayload({ email: n + '@example.com' })).status, 'interest');
+  env.reg().addRow({ Ref: 'R-W', 'Event ID': 'rt-01', Email: 'w@example.com', 'Registration status': 'Waitlisted' });
+  env.reg().addRow({ Ref: 'R-C', 'Event ID': 'rt-01', Email: 'c@example.com', 'Registration status': 'Cancelled' });
+  dated(env, { Capacity: 2 });
+  eq(env.post(rtPayload({ email: 'n1@example.com' })).status, 'registered', 'first place');
+  eq(env.post(rtPayload({ email: 'n2@example.com' })).status, 'registered', 'second place despite 3 Interested rows');
+  eq(env.post(rtPayload({ email: 'n3@example.com' })).status, 'waitlisted', 'full');
+  // Promotion also counts only Registered rows.
+  env.sent.length = 0;
+  env.ctx.promoteFromWaitlist();
+  eq(env.sent.length, 0, 'no free place, nobody promoted');
+});
+
+test('interest → registration: the same row and Ref are updated (no duplicate row) and the normal confirmation is sent', () => {
+  const env = makeEnv();
+  const first = env.post(rtPayload({ name: 'Ben Example', question: 'Old question', updates: false }));
+  eq(first.status, 'interest');
+  env.reg().data[1][env.reg().col('Invited at')] = new Date(Date.now() - 3600000);
+  env.reg().data[1][env.reg().col('Submitted at')] = new Date(Date.now() - 86400000 * 20);
+  dated(env, { 'Meeting link (private)': 'https://meet.example/abc' });
+  env.sent.length = 0;
+  env.cache.clear();
+  const res = env.post(rtPayload({ email: 'Ben@Example.com', question: 'New question', updates: true }));
+  eq(res, { ok: true, status: 'registered', ref: first.ref });
+  const reg = env.reg();
+  eq(reg.rows().length, 1, 'no duplicate row');
+  eq(reg.cell(0, 'Registration status'), 'Registered');
+  eq(reg.cell(0, 'Question'), 'New question');
+  eq(reg.cell(0, 'Future updates'), 'Yes');
+  assert(isDate(reg.cell(0, 'Details sent at')), 'link was in the confirmation');
+  assert(isDate(reg.cell(0, 'Invited at')), 'Invited at kept as history');
+  assert(Date.now() - reg.cell(0, 'Submitted at').getTime() < 60000, 'Submitted at = registration time (first come, first served)');
+  eq(env.sent.length, 2);
+  assert(env.sent[0].subject.startsWith('Your roundtable registration is confirmed (' + first.ref + ')'), env.sent[0].subject);
+  assert(env.sent[0].body.includes('https://meet.example/abc'));
+  assert(env.sent[1].subject.includes('from Interested'), 'owner told it was an upgrade');
+  // A further repeat is now a plain duplicate.
+  env.sent.length = 0;
+  eq(env.post(rtPayload()), { ok: true, status: 'registered', ref: first.ref });
+  eq(env.sent.length, 0);
+});
+
+test('interest → registration when the event is already full → same row becomes Waitlisted', () => {
+  const env = makeEnv();
+  const first = env.post(rtPayload({ email: 'late@example.com' }));
+  dated(env, { Capacity: 1 });
+  eq(env.post(rtPayload({ email: 'early@example.com' })).status, 'registered');
+  env.sent.length = 0;
+  const res = env.post(rtPayload({ email: 'late@example.com' }));
+  eq(res, { ok: true, status: 'waitlisted', ref: first.ref });
+  eq(regStatuses(env), ['Waitlisted', 'Registered']);
+  assert(env.sent[0].subject.startsWith('You are on the roundtable waitlist'), env.sent[0].subject);
+});
+
+test('invite menu: needs Start + Registration open; emails only Interested rows without "Invited at"; stamps; never registers', () => {
+  const env = makeEnv();
+  env.post(rtPayload({ email: 'i1@example.com' }));
+  env.post(rtPayload({ email: 'i2@example.com' }));
+  env.reg().addRow({ Ref: 'R-INV', 'Event ID': 'rt-01', Name: 'Done', Email: 'done@example.com', 'Registration status': 'Interested', 'Invited at': new Date() });
+  env.reg().addRow({ Ref: 'R-CAN', 'Event ID': 'rt-01', Name: 'Can', Email: 'can@example.com', 'Registration status': 'Cancelled' });
+  env.reg().addRow({ Ref: 'R-REG', 'Event ID': 'rt-01', Name: 'Reg', Email: 'reg@example.com', 'Registration status': 'Registered' });
+  env.sent.length = 0;
+
+  env.ctx.inviteInterestedToRegister();
+  eq(env.sent.length, 0, 'no date → nothing sent');
+  assert(env.alerts.at(-1).includes('rt-01'), 'explains the skip: ' + env.alerts.at(-1));
+
+  dated(env, { 'Registration open': false });
+  env.ctx.inviteInterestedToRegister();
+  eq(env.sent.length, 0, 'registration closed → nothing sent');
+
+  dated(env, { 'Registration open': true, 'Meeting link (private)': 'https://meet.example/private' });
+  env.ctx.inviteInterestedToRegister();
+  const q = env.alerts.find(a => a.startsWith('Invite interested people to register ::'));
+  assert(q && q.includes('Email 2 interested person(s)'), 'YES/NO confirmation with count: ' + q);
+  eq(env.sent.map(m => m.to), ['i1@example.com', 'i2@example.com']);
+  const m = env.sent[0];
+  eq(m.subject, 'Registration is now open: From AI Capabilities to Real-World Value: What Does It Take to Operationalize AI?');
+  assert(m.body.includes(RT_PAGE), 'public registration page');
+  assert(m.body.includes('America/Vancouver'), 'date in script time zone');
+  assert(m.body.includes('did not reserve a place') && m.body.includes('first come, first served'), 'no seat implied');
+  assert(!m.body.includes('meet.example'), 'private meeting link never in the invitation');
+  assert(m.body.endsWith(SIGN));
+  eq(regStatuses(env), ['Interested', 'Interested', 'Interested', 'Cancelled', 'Registered'], 'nobody converted');
+  assert(isDate(env.reg().cell(0, 'Invited at')) && isDate(env.reg().cell(1, 'Invited at')), 'stamped');
+  assert(env.alerts.at(-1).includes('Invitations to register sent: 2'), env.alerts.at(-1));
+
+  env.ctx.inviteInterestedToRegister();
+  eq(env.sent.length, 2, 'not sent twice');
+});
+
+test('invite menu: rows stamped before sending, sent outside the lock; a failure is rolled back and retried; NO sends nothing', () => {
+  const env = makeEnv({ confirm: 'NO' });
+  env.post(rtPayload({ email: 'ok@example.com' }));
+  env.post(rtPayload({ email: 'bad@example.com' }));
+  dated(env);
+  env.sent.length = 0;
+  env.ctx.inviteInterestedToRegister();
+  eq(env.sent.length, 0, 'NO = nothing sent');
+  eq(env.reg().cell(0, 'Invited at'), '', 'NO = nothing stamped');
+
+  env.ctx.SpreadsheetApp.getUi().alert = (...a) => { env.alerts.push(a.join(' :: ')); return 'YES'; };
+  let stampedBeforeSend = true;
+  env.failFor = to => {
+    if (env.reg().rows().some(r => r[env.reg().col('Invited at')] === '')) stampedBeforeSend = false;
+    return to === 'bad@example.com';
+  };
+  env.ctx.inviteInterestedToRegister();
+  assert(stampedBeforeSend, 'both rows stamped before the first email');
+  eq(env.sent.map(m => m.to), ['ok@example.com']);
+  assert(env.sent.every(m => !m.lockHeld), 'no email sent while holding the lock');
+  const sh = env.reg();
+  eq(sh.cell(1, 'Invited at'), '', 'failed row un-stamped');
+  assert(/send failed/.test(sh.cell(1, 'Last email error')), 'error noted');
+  eq(sh.cell(1, 'Registration status'), 'Interested');
+  assert(env.alerts.at(-1).includes(sh.cell(1, 'Ref')), 'report names the failed ref');
+  env.failFor = null;
+  env.ctx.inviteInterestedToRegister();
+  eq(env.sent.map(m => m.to), ['ok@example.com', 'bad@example.com']);
+  eq(sh.cell(1, 'Last email error'), '', 'cleared after success');
+});
+
+test('invite menu: respects the daily quota and the batch size', () => {
+  const env = makeEnv({ quota: 3 });
+  for (let i = 0; i < 5; i++) env.reg().addRow({ Ref: 'R-' + i, 'Event ID': 'rt-01', Name: 'P', Email: `p${i}@example.com`, 'Registration status': 'Interested' });
+  dated(env);
+  env.ctx.inviteInterestedToRegister();
+  eq(env.sent.length, 3);
+  eq(env.reg().rows().filter(r => r[env.reg().col('Invited at')] !== '').length, 3, 'only sent rows stamped');
+});
+
+test('details, reminders, promotion and follow-ups never go to Interested rows', () => {
+  const env = makeEnv();
+  dated(env, { Start: HOURS(2), 'Meeting link (private)': 'https://meet.example/soon' });
+  env.reg().addRow({ Ref: 'R-I', 'Event ID': 'rt-01', Name: 'I', Email: 'i@example.com', 'Registration status': 'Interested', Attended: true });
+  env.reg().addRow({ Ref: 'R-R', 'Event ID': 'rt-01', Name: 'R', Email: 'r@example.com', 'Registration status': 'Registered' });
+  env.ctx.sendEventDetails();
+  env.ctx.sendReminders();
+  env.ctx.promoteFromWaitlist();
+  env.ctx.sendRoundtableFollowUps();
+  eq(env.sent.filter(m => m.to === 'i@example.com').length, 0);
+  eq(env.sent.filter(m => m.to === 'r@example.com').length, 2, 'registered person got details + reminder');
+  eq(env.reg().cell(0, 'Registration status'), 'Interested');
+});
+
+test('setup() adds "Interested" to the status dropdown and the "Invited at" column to an existing Sheet, idempotently', () => {
+  const env = makeEnv();
+  const OLD = env.reg().headers().slice(0, 18);
+  const sh = env.reg();
+  sh.data = [OLD.slice(), OLD.map(h => (h === 'Registration status' ? 'Registered' : h === 'Email' ? 'old@example.com' : h === 'Event ID' ? 'rt-01' : ''))];
+  sh.validations = [];
+  env.ctx.setup();
+  eq(sh.headers().slice(0, 18), OLD, 'old columns unchanged');
+  eq(sh.headers().slice(18), ['Invited at']);
+  eq(sh.cell(0, 'Email'), 'old@example.com', 'data in place');
+  const rules = regRule(env);
+  assert(rules.length > 0, 'status dropdown applied');
+  eq(rules.at(-1)[1], ['Registered', 'Waitlisted', 'Interested', 'Cancelled']);
+  env.ctx.setup();
+  eq(sh.headers().length, 19, 'idempotent');
+  // New rows get the same dropdown.
+  const before = regRule(env).length;
+  env.post(rtPayload());
+  assert(regRule(env).length > before && regRule(env).at(-1)[1].includes('Interested'), 'row validation includes Interested');
+});
+
 test('emails contain no em/en dashes, no unfilled placeholders, and end with the signature', () => {
   const env = makeEnv({ props: { BOOKING_URL: 'https://calendar.example/private' } });
-  env.setEvent('rt-01', { Capacity: 1 });
+  dated(env, { Capacity: 1 });
   env.post(consultPayload()); env.post(rtPayload()); env.post(rtPayload({ email: 'w@example.com' }));
+  env.setEvent('rt-02', {});
+  env.post(rtPayload({ eventId: 'rt-02', email: 'i@example.com' }));
+  env.setEvent('rt-02', { Start: HOURS(48) }); env.ctx.inviteInterestedToRegister();
   addConsult(env, 1, { Status: 'Selected' }); env.ctx.sendBookingLinks();
   addConsult(env, 1, { Status: 'Not selected' }); addConsult(env, 1, { Status: 'Held for later round' }); env.ctx.sendDecisionNotices();
   addConsult(env, 1, { Status: 'Completed' }); env.ctx.sendConsultationFollowUps();
   env.reg().data[1][env.reg().col('Attended')] = true; env.ctx.sendRoundtableFollowUps();
   const mails = applicantMails(env);
-  assert(mails.length >= 8, 'covered ' + mails.length);
+  assert(mails.length >= 10, 'covered ' + mails.length);
+  assert(mails.some(m => m.subject.startsWith('We received your interest')) && mails.some(m => m.subject.startsWith('Registration is now open')), 'interest + invite covered');
   for (const m of mails) {
     assert(!/[\u2013\u2014]/.test(m.subject + m.body), 'dash in ' + m.subject);
     assert(!/\{\{|\}\}|undefined|null|NaN/.test(m.subject + m.body), 'placeholder in ' + m.subject);
     assert(m.body.endsWith(SIGN), 'signature in ' + m.subject);
+    assert(!/Beyond AI Headlines/i.test(m.subject + m.body), 'old programme name in ' + m.subject);
   }
 });
 
@@ -1171,6 +1406,8 @@ test('ops/campaign-messages.md matches the emails Code.gs sends, word for word',
   const blocks = {};
   for (const m of md.matchAll(/<!-- template: ([\w-]+) -->\r?\n```text\r?\n([\s\S]*?)\r?\n```/g)) blocks[m[1]] = m[2].replace(/\r\n/g, '\n');
   assert(!/[\u2013\u2014]/.test(md), 'no em/en dashes anywhere in campaign-messages.md');
+  assert(!/Beyond AI Headlines/i.test(md), 'the old programme name is not used in campaign-messages.md');
+  assert(!/Beyond AI Headlines/i.test(CODE), 'the old programme name is not used in Code.gs');
   const env = makeEnv();
   const ctx = env.ctx;
   ctx.Utilities.formatDate = () => 'DATETIME';
@@ -1185,7 +1422,8 @@ test('ops/campaign-messages.md matches the emails Code.gs sends, word for word',
     'not-selected': ctx.notSelectedEmail_(N, R, cfg),
     held: ctx.heldEmail_(N, R),
     'consult-follow-up': ctx.consultFollowUpEmail_(N),
-    'registered-no-date': ctx.registeredEmail_(N, evNo, R),
+    'rt-interest': ctx.interestEmail_(N, evNo, R),
+    'rt-invite': ctx.inviteEmail_(N, evDate),
     'registered-date-no-link': ctx.registeredEmail_(N, evDate, R),
     'registered-date-and-link': ctx.registeredEmail_(N, evFull, R),
     'joining-details': ctx.detailsEmail_(N, evFull),
@@ -1214,7 +1452,7 @@ test('ops/campaign-messages.md matches the emails Code.gs sends, word for word',
 
 const passed = results.filter(r => r.ok).length;
 const failed = results.filter(r => !r.ok);
-console.log('\nParseus forms backend — Code.gs test harness');
+console.log('\nParseus forms backend: Code.gs test harness');
 console.log('='.repeat(48));
 for (const r of results) {
   console.log(`${r.ok ? 'PASS' : 'FAIL'}  ${r.name}`);
