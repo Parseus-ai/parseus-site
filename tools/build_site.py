@@ -23,7 +23,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE_URL = "https://parseus.ai"
-OG_IMAGE = SITE_URL + "/assets/brand/parseus-og-1200x630.jpg"
+OG_IMAGE = SITE_URL + "/assets/brand/social/parseus-og-1200x630.jpg"
 EMAIL = "info@parseus.ai"
 MAESTRO_DOCS = "https://parseus-ai.github.io/maestro-ai/"
 
@@ -74,17 +74,17 @@ REDIRECTS = {
     "beyond-ai-headlines/roundtables/index.html": "/conversations/roundtables/",
 }
 
-# Header identity: optimized crop of the approved two-pillar artwork (see assets/brand/README.md)
-IDENTITY = ('<img class="brand-mark" src="/assets/brand/parseus-header-identity-84.webp" '
-            'srcset="/assets/brand/parseus-header-identity-84.webp 1x, /assets/brand/parseus-header-identity-168.webp 2x" '
-            'width="225" height="84" alt="" />')
+# Header wordmark: the approved transparent Parseus AI wordmark, phrases cropped off (see assets/brand/README.md)
+IDENTITY = ('<img class="brand-mark" src="/assets/brand/header/parseus-wordmark-84.webp" '
+            'srcset="/assets/brand/header/parseus-wordmark-84.webp 1x, /assets/brand/header/parseus-wordmark-168.webp 2x" '
+            'width="230" height="84" alt="" />')
 
 # ---------------------------------------------------------------------------
 # Pages: file -> (url path, <title>, meta description, indexable)
 # ---------------------------------------------------------------------------
 PAGES = {
     "index.html": ("/", "Parseus AI | Beyond AI Headlines: From Innovation to Real-World Impact",
-                   "Parseus AI turns emerging AI and intelligent systems into solutions that work in practice, across enterprise AI, robotics, manufacturing, system architecture and operations.", True),
+                   "Parseus AI is focused on turning emerging AI into useful, reliable systems, building on its founder's hands-on experience in enterprise AI, robotics, manufacturing and operations.", True),
     "who-we-are.html": ("/who-we-are.html", "About | Parseus AI",
                         "Scientist by training, builder by nature. The founder's story behind Parseus AI, and the meaning of its name: the courage of Perseus, the craft of Persia.", True),
     "expertise.html": ("/expertise.html", "Expertise | Parseus AI",
@@ -123,6 +123,11 @@ def render_head(file):
 <meta name="description" content="{E(desc)}" />{robots}
 <link rel="canonical" href="{url}" />
 <meta name="theme-color" content="#F7F5F0" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/icons/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/brand/icons/favicon-16.png" />
+<link rel="apple-touch-icon" href="/assets/brand/icons/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Parseus AI" />
 <meta property="og:title" content="{E(title)}" />

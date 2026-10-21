@@ -5,7 +5,7 @@ exclude:
   - tools/
   - content/
   - assets/brand/source/
-  - assets/brand/derived/
+  - assets/brand/masters/
   - assets/brand/README.md
   - README.md
   - LICENSE
