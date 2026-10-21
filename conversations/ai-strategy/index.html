@@ -32,16 +32,13 @@
 <style>
   .breadcrumb{font-size:0.88rem;color:var(--slate);margin-bottom:1.1rem;}
   .breadcrumb a{color:var(--persian);text-decoration:underline;text-underline-offset:3px;}
-  .facts-row{display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:1.3rem;list-style:none;}
-  .facts-row li{font-size:0.86rem;font-weight:600;padding:0.32rem 0.8rem;border-radius:999px;background:var(--ivory-warm);color:#3F4655;}
-  .period{margin-top:1rem;font-weight:600;color:var(--ink);}
-  .apply-grid{display:grid;grid-template-columns:minmax(0,0.8fr) minmax(0,1.2fr);gap:2.8rem;align-items:start;}
-  .about-conv h2{font-size:1.15rem;margin:0 0 0.5rem;}
-  .about-conv h2:not(:first-child){margin-top:1.5rem;}
-  .about-conv p,.about-conv li{color:var(--body);font-size:0.96rem;}
-  .about-conv ul,.about-conv ol{padding-left:1.15rem;}
-  .about-conv li{margin:0.3rem 0;}
-  @media (max-width:900px){.apply-grid{grid-template-columns:1fr;gap:2rem;}}
+  .guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem;}
+  .guide h2{font-size:1.2rem;margin-bottom:0.6rem;}
+  .guide p,.guide li{color:var(--body);font-size:0.97rem;}
+  .guide ul{padding-left:1.15rem;}
+  .guide li{margin:0.3rem 0;}
+  @media (max-width:900px){.guide{grid-template-columns:1fr;gap:1.6rem;}}
+  .apply-section .form-card{max-width:860px;}
 </style>
 </head>
 <body>
@@ -80,47 +77,71 @@
 <!-- header:end -->
 
 <main id="main">
-  <section class="page-hero"><div class="wrap">
+  <section class="page-hero" style="padding-bottom:1.4rem;"><div class="wrap">
     <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/conversations/">Conversations &amp; Events</a> &rsaquo; AI strategy conversations</nav>
     <h1>AI Strategy Conversations</h1>
     <p class="lede">A complimentary, one-to-one conversation for professionals working through a specific AI challenge: whether an idea is technically sound, what it would take to implement, or how to move a pilot into production.</p>
-    <ul class="facts-row"><li>20 minutes</li><li>Ten initial places</li><li>Online</li><li>By application</li><li>No cost</li></ul>
-    <p class="period" data-config-text="consultation.period" hidden></p>
-    <p class="jump-form"><a class="text-link" href="#application">Go to the application <span aria-hidden="true">&darr;</span></a></p>
+    <ul class="key-facts">
+      <li>20 minutes</li><li>10 initial places</li><li>Online</li><li>Complimentary</li><li>By application</li>
+    </ul>
   </div></section>
 
-  <section class="section" style="padding-top:0.4rem;"><div class="wrap apply-grid">
-    <div class="about-conv">
-      <h2>Who it is for</h2>
-      <p>Professionals and teams with a concrete AI question in enterprise AI, robotics, manufacturing, computer vision, architecture or implementation.</p>
-      <h2>What to expect</h2>
-      <p>A focused 20-minute conversation: a second opinion, a clearer next step, or the right questions to ask. It is not a full assessment, a written report or a consulting engagement.</p>
-      <h2>What to prepare</h2>
-      <ul>
-        <li>A short, general description of the challenge</li>
-        <li>What you would like to get from the conversation</li>
-        <li>Where the project stands today</li>
-      </ul>
-      <p class="notice" style="margin-top:0.9rem;"><strong>Please don&rsquo;t share confidential information.</strong> Leave out trade secrets, customer data and anything covered by a non-disclosure agreement.</p>
-      <h2>How selection works</h2>
-      <ol>
-        <li>Every application is read individually.</li>
-        <li>We select the applications where a short conversation is most likely to help, and let every applicant know the outcome by email.</li>
-        <li>Selected applicants receive a private link to book a time.</li>
-        <li>After the conversation, we send a short follow-up.</li>
-      </ol>
+  <section class="wrap" aria-label="Application status">
+    <div class="status-panel" data-form-unavailable>
+      <div>
+        <h2>Online applications are not open yet</h2>
+        <p>You can apply by email now. Include your role and organization, the AI challenge, the outcome you hope for, and the current stage of the project.</p>
+      </div>
+      <a class="btn btn-primary" href="mailto:info@parseus.ai?subject=Application%3A%20AI%20strategy%20conversation&amp;body=Name%3A%0D%0ARole%3A%0D%0AOrganization%3A%0D%0AAI%20challenge%3A%0D%0ADesired%20outcome%3A%0D%0AProject%20stage%3A%0D%0A">Apply by email</a>
+    </div>
+    <div class="status-panel" data-form-open hidden>
+      <div>
+        <h2>Applications are open</h2>
+        <p>Tell us about your challenge. It takes about five minutes, and every application is read individually.</p>
+      </div>
+      <a class="btn btn-primary" href="#application">Start your application <span class="arr" aria-hidden="true">&darr;</span></a>
+    </div>
+    <div class="status-panel closed" data-form-closed hidden>
+      <div>
+        <h2>Applications are currently closed</h2>
+        <p>To hear when further conversations open, email <a href="mailto:info@parseus.ai?subject=AI%20strategy%20conversations">info@parseus.ai</a>, or join an <a href="/conversations/roundtables/">AI roundtable</a>.</p>
+      </div>
+    </div>
+    <p class="period" data-config-text="consultation.period" hidden></p>
+  </section>
+
+  <section class="section" aria-label="About the conversations"><div class="wrap">
+    <div class="guide">
+      <div>
+        <h2>Who it is for</h2>
+        <p>Professionals and teams with a concrete AI question in enterprise AI, robotics, manufacturing, computer vision, architecture or implementation.</p>
+      </div>
+      <div>
+        <h2>What to expect</h2>
+        <p>A focused conversation: a second opinion, a clearer next step, or the right questions to ask. It is not a full assessment, a written report or a consulting engagement.</p>
+      </div>
+      <div>
+        <h2>What to prepare</h2>
+        <ul>
+          <li>A short, general description of the challenge</li>
+          <li>What you would like to get from the conversation</li>
+          <li>Where the project stands today</li>
+        </ul>
+      </div>
     </div>
 
-    <div data-form-box id="application" tabindex="-1">
-      <div class="notice info" data-form-unavailable>
-        <p><strong>Online applications are not open yet.</strong></p>
-        <p style="margin-top:0.5rem;">You can apply by email in the meantime: write to <a href="mailto:info@parseus.ai?subject=Application%3A%20AI%20strategy%20conversation">info@parseus.ai</a> with your name, role, organization, the challenge you&rsquo;d like to discuss, what you hope to get from the conversation, and the stage of the project.</p>
-      </div>
-      <div class="notice info" data-form-closed hidden>
-        <p><strong>Applications are currently closed.</strong></p>
-        <p style="margin-top:0.5rem;">To hear when further conversations open, email <a href="mailto:info@parseus.ai?subject=AI%20strategy%20conversations">info@parseus.ai</a>, or join an <a href="/conversations/roundtables/">AI roundtable</a>.</p>
-      </div>
+    <div style="margin-top:2.6rem;">
+      <h2 class="h3" style="margin-bottom:0.4rem;">How it works</h2>
+      <ol class="flow">
+        <li>Application</li><li>Review</li><li>Selection</li><li>Private booking link</li><li>Conversation</li><li>Follow-up</li>
+      </ol>
+      <p class="muted small" style="margin-top:0.8rem;max-width:70ch;">Every applicant hears the outcome by email. Only selected applicants receive a private link to book a time; there is no public booking calendar.</p>
+      <p class="notice" style="margin-top:1.2rem;max-width:860px;"><strong>Please don&rsquo;t share confidential information.</strong> Leave out trade secrets, customer data and anything covered by a non-disclosure agreement.</p>
+    </div>
+  </div></section>
 
+  <section class="section apply-section" id="application" tabindex="-1" data-apply-section hidden aria-label="Application form" style="padding-top:0;"><div class="wrap">
+    <div data-form-box>
       <form class="form form-card" data-form="consultation" novalidate hidden aria-labelledby="form-title">
         <h2 id="form-title" class="h3">Your application</h2>
         <p class="small muted" style="margin-top:-0.6rem;">All fields are required. It takes about five minutes.</p>

@@ -78,7 +78,7 @@ In the Apps Script editor: **gear icon (Project Settings) → Script Properties*
 | Property | Value |
 |---|---|
 | `NOTIFY_EMAIL` | One address that receives a notification for every new submission (default `info@parseus.ai`). Replies from applicants also go here. For several people, use a Google Group address. |
-| `BOOKING_URL` | Your private Google Calendar appointment schedule link ([step 7](#7-private-booking-link-google-calendar-appointment-schedule)). Must start with `https://`. |
+| `BOOKING_URL` | Your private booking link: a secret Calendly event or a Google Calendar appointment schedule ([step 7](#7-private-booking-link-google-calendar-appointment-schedule)). Must start with `https://`. |
 | `TURNSTILE_SECRET` | Cloudflare Turnstile **secret** key ([step 6](#6-cloudflare-turnstile-spam-protection)). |
 | `REQUIRE_TURNSTILE` | Default `false`. Set to `true` at activation. When `true`, the forms refuse every submission if `TURNSTILE_SECRET` is missing (so an accidentally deleted secret cannot silently switch spam protection off). |
 | `TURNSTILE_HOSTNAMES` | Optional, e.g. `parseus.ai,www.parseus.ai`. If set, Turnstile tokens issued for any other website are refused. |
@@ -127,6 +127,8 @@ Required before the forms go public. Turnstile is Cloudflare's privacy-friendly 
 Why at activation: as soon as `TURNSTILE_SECRET` is set, every submission must carry a valid Turnstile token for the right form, and the local test in step 8 runs without one. Turnstile tokens are checked by Cloudflare and can only be used once.
 
 ## 7. Private booking link (Google Calendar appointment schedule)
+
+`BOOKING_URL` can be any private `https://` booking link. The code does not depend on the provider: it only emails the link to Selected applicants. **Calendly** works the same way: create a 20-minute one-on-one event type, make it **secret** (hidden from your public Calendly page), add a video location, buffer and daily limit, and paste its link into `BOOKING_URL` (see `ops/SETUP-CHECKLIST.md`, step 5, option A). The steps below are for Google Calendar.
 
 1. Open Google Calendar with the deploying account → **Create → Appointment schedule**.
 2. Title `Parseus AI: complimentary AI strategy conversation`, duration **20 minutes**. Set your availability, a **buffer** between appointments (for example 10 minutes), a **maximum bookings per day**, and the booking window.

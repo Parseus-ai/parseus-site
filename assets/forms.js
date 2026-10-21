@@ -61,11 +61,17 @@
 
   function init(form) {
     var box = form.closest('[data-form-box]') || form.parentElement;
-    var unavailable = $('[data-form-unavailable]', box);
+    // Status panels live near the top of the page (or inside the form box on older layouts)
+    var unavailable = $('[data-form-unavailable]', box) || $('[data-form-unavailable]');
+    var closedPanel = $('[data-form-closed]', box) || $('[data-form-closed]');
+    var openPanel = $('[data-form-open]');
+    var section = form.closest('[data-apply-section]');
     if (!live && !preview) return; // stay hidden; the email alternative is already visible
     var closed = form.dataset.form === 'consultation' ? !consultOpen : rtStatus === 'closed';
     if (unavailable) unavailable.hidden = true;
-    if (closed) { var c = $('[data-form-closed]', box); if (c) c.hidden = false; return; }
+    if (closed) { if (closedPanel) closedPanel.hidden = false; return; }
+    if (openPanel) openPanel.hidden = false;
+    if (section) section.hidden = false;
     form.hidden = false;
     if (preview && !live) {
       var banner = document.createElement('p');

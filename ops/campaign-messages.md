@@ -40,7 +40,7 @@ The Events tab in the private Sheet decides what the roundtable form does:
 | 3 | Selected, with private booking invitation | After you set Status to **Selected** | Menu: **Parseus > Send booking links to Selected applicants** |
 | 4 | Not selected | After you set Status to **Not selected** | Menu: **Parseus > Send decision notices (Not selected / Held)** |
 | 4b | Held for a later round | After you set Status to **Held for later round** | Same menu as 4 |
-| 5 | Consultation meeting reminder | Usually not needed: Google Calendar handles it (see below) | Manual, only if Calendar reminders are off |
+| 5 | Consultation meeting reminder | Usually not needed: the booking tool (Calendly or Google Calendar) sends its own reminders | Manual, only if the booking tool's reminders are off |
 | 6 | Post-consultation follow-up | After you set Status to **Completed** | Menu: **Parseus > Send consultation follow-ups (Completed)** |
 | 7a | Roundtable interest received | Immediately after someone registers interest while the event has no Start (status **Interested**, no place reserved) | Automatic (website form) |
 | 7b | Invitation to register | Once Start is set and **Registration open** is ticked, to **Interested** people not yet invited | Menu: **Parseus > Invite interested people to register** |
@@ -122,7 +122,7 @@ Thank you for your application ({{ref}}). We are pleased to let you know that it
 Please choose a time that suits you using this private scheduling link:
 {{booking_link}}
 
-When you book, Google Calendar will send you a confirmation with the date, time and video call details. Your conversation is scheduled once you have received that confirmation.
+When you book, you will receive a booking confirmation with the date, time and video call details. Your conversation is scheduled once you have received that confirmation.
 
 This link is intended for you only, so please do not share or forward it.
 
@@ -185,7 +185,7 @@ info@parseus.ai
 
 ### 5. Consultation meeting reminder
 
-Manual, and usually not needed. Conversations are booked through a Google Calendar appointment schedule. When someone books, Google Calendar sends them a confirmation with the video call link and adds the event to their calendar, where their own calendar notifications remind them. Depending on your Google Workspace plan, the appointment schedule can also send email reminders to the person who booked (check the booking form and reminder settings when you create the schedule). If those reminders are on, do not send this message as well. Use it only if Calendar reminders are not available, or if you want to send a personal note the day before. Copy the date, time and link from the calendar event.
+Manual, and usually not needed. Conversations are booked through a private booking link (Calendly, or a Google Calendar appointment schedule). Both tools send a confirmation when someone books. With Google Calendar, the confirmation with the video call link and adds the event to their calendar, where their own calendar notifications remind them. Depending on your Google Workspace plan, the appointment schedule can also send email reminders to the person who booked (check the booking form and reminder settings when you create the schedule). If those reminders are on, do not send this message as well. Use it only if Calendar reminders are not available, or if you want to send a personal note the day before. Copy the date, time and link from the calendar event.
 
 ```text
 Subject: Reminder: your conversation with Parseus AI
@@ -196,7 +196,7 @@ A reminder that your complimentary AI strategy conversation with Parseus AI is s
 
 Joining link: {{meeting_link}}
 
-The conversation lasts 20 minutes. If you need to change the time, please use the option in your Google Calendar confirmation, or reply to this email.
+The conversation lasts 20 minutes. If you need to change the time, please use the option in your booking confirmation, or reply to this email.
 
 We look forward to speaking with you.
 

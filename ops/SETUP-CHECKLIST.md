@@ -59,8 +59,22 @@ Details: [README step 3](apps-script/README.md#3-run-setup-once) and the setting
 
 Details: [README step 5](apps-script/README.md#5-deploy-as-a-web-app)
 
-### 5. Set up the private booking calendar
-*Needs your Google account · Required before sending booking links*
+### 5. Set up the private booking link
+*Needs your Calendly or Google account · Required before sending booking links*
+
+The website never shows a booking link. Only applicants you mark **Selected** receive it, by email, from the **Parseus → Send booking links** menu. Use **one** of the two options below; the system works the same way with either.
+
+**Option A: Calendly (planned)**
+
+- [ ] In Calendly: create a **one-on-one event type**. Name: **Parseus AI: complimentary AI strategy conversation**. Duration: **20 minutes**.
+- [ ] Location: a video call (for example Google Meet or Zoom, through Calendly's integrations).
+- [ ] Set your availability, a **buffer** between meetings and a **daily limit**.
+- [ ] Make the event type **secret** (hidden from your public Calendly page), so it can only be booked through its link.
+- [ ] If your Calendly plan offers **single-use links**, consider them for extra protection (each selected applicant then needs their own link, sent personally).
+- [ ] Copy the event link and paste it in **Apps Script → Project Settings → Script Properties** as **BOOKING_URL**. Nowhere else.
+- [ ] If the link ever leaks, change the event link (or create a new secret event type), update BOOKING_URL, and turn off the old one.
+
+**Option B: Google Calendar appointment schedule**
 
 - [ ] In Google Calendar (same account): **Create → Appointment schedule**.
 - [ ] Title: **Parseus AI: complimentary AI strategy conversation**. Length: **20 minutes**.

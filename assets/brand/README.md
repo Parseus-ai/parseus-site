@@ -31,7 +31,7 @@ The two monogram filenames appear to be swapped. The originals are kept unchange
 
 | File | Made from | How | Used on |
 |---|---|---|---|
-| `header/parseus-wordmark-84.webp` (1x), `header/parseus-wordmark-168.webp` (2x and 3x) | `Marble and Gold Emblem` | Cropped to the wordmark only (phrases removed by cropping), resized | Header on every page (56px tall on desktop, 44px on tablets and phones, 40px at 360px and narrower), mobile menu (40px), footer (44px). Light backgrounds only |
+| `header/parseus-wordmark-84.webp` (1x), `header/parseus-wordmark-168.webp` (2x and 3x) | `Marble and Gold Emblem` | Cropped to the wordmark only (phrases removed by cropping), resized | Header on every page (60px tall on desktop, 46px on tablets and phones, 42px at 360px and narrower), mobile menu (42px), footer (52px). Light backgrounds only |
 | `story/parseus-brand-story-640.webp`, `story/parseus-brand-story-1280.webp` | `Marble and Gold Emblem` | Trimmed to its edges, resized | About page, "Why Parseus?" section, on screens 760px and wider. On narrower screens the two phrases are shown as text, stacked, each on one line |
 | `icons/favicon-16.png`, `icons/favicon-32.png` | `Monogram ...-Transparent BG` (blue) | Square crop centred on the mark, resized, light sharpening for legibility at tiny sizes | Browser tab icon |
 | `icons/favicon-48.png`, `icons/apple-touch-icon.png` (180), `icons/favicon-192.png`, `icons/favicon-512.png` | Same | Square crop centred on the mark with a little more margin, resized | `/favicon.ico` (16, 32, 48), iOS home screen, web manifest |

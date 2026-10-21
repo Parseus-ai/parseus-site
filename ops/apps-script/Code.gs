@@ -871,7 +871,7 @@ function bookingEmail_(name, ref, url, cfg) {
       'Thank you for your application' + refText_(ref) + '. We are pleased to let you know that it has been selected for one of our ' +
       capWords_(cfg.cap) + ' complimentary 20-minute AI strategy conversations.\n\n' +
       'Please choose a time that suits you using this private scheduling link:\n' + url + '\n\n' +
-      'When you book, Google Calendar will send you a confirmation with the date, time and video call details. ' +
+      'When you book, you will receive a booking confirmation with the date, time and video call details. ' +
       'Your conversation is scheduled once you have received that confirmation.\n\n' +
       'This link is intended for you only, so please do not share or forward it.\n\n' +
       'Ahead of the conversation, please do not send confidential or commercially sensitive information. A general description of your challenge is enough.\n\n' +
