@@ -162,16 +162,17 @@ a.card:hover .more .arr{transform:translateX(4px);}
 
 /* ---------- Footer ---------- */
 .site-footer{margin-top:3rem;border-top:1px solid var(--line);padding:3rem 0 2.2rem;}
-.foot-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:2rem;}
+/* Balanced footer: adequate link-column widths, consistent gutters, logo kept separate. */
+.foot-grid {display: grid; grid-template-columns: 270px 135px 235px 210px;column-gap: 24px; row-gap: 2rem; align-items: start;}
 .foot-brand{display:inline-flex;line-height:0;border-radius:6px;max-width:100%;}
 /* Footer: the complete approved brand image with its one-line slogan, scaled proportionally */
-.foot-brand .sig-full{display:block;width:320px;max-width:100%;height:auto;}
+.foot-brand .sig-full{display:block;width:228px;max-width:100%;height:auto;}
 .foot-col h2{font-family:var(--sans);font-size:0.74rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.7rem;}
 .foot-col ul{list-style:none;}
 .foot-col a{display:inline-block;padding:0.3rem 0;font-size:0.93rem;color:var(--body);}
 .foot-col a:hover{color:var(--persian);text-decoration:underline;}
 .foot-legal{margin-top:2.2rem;padding-top:1.4rem;border-top:1px solid var(--line);font-size:0.84rem;color:var(--slate);display:flex;flex-wrap:wrap;gap:0.4rem 1.4rem;justify-content:space-between;}
-@media (max-width:860px){.foot-grid{grid-template-columns:1fr 1fr;}.foot-grid .foot-about{grid-column:1/-1;}}
+@media (max-width:960px){.foot-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.foot-grid .foot-about{grid-column:1/-1;}}
 @media (max-width:420px){.foot-grid{grid-template-columns:1fr;}.foot-col a{padding:0.55rem 0;}}
 
 /* ---------- Small screens ---------- */
@@ -227,3 +228,16 @@ a.card:hover .more .arr{transform:translateX(4px);}
 @media (max-width:600px){.status-panel{padding:1.2rem 1.1rem;}.status-panel .btn{width:100%;}}
 .apply-section{scroll-margin-top:80px;}
 .apply-section:focus{outline:none;}
+
+
+/* About: optional extended founder story. Native details keeps the narrative
+   accessible to mouse, touch and keyboard users without scripting. */
+.founder-history{margin:0;padding:0;}
+.founder-history-toggle{display:flex;align-items:center;justify-content:space-between;gap:1rem;max-width:980px;margin:0 auto;padding:1.25rem 1rem;color:var(--persian);font-family:var(--serif);font-size:1.18rem;font-style:italic;font-weight:600;cursor:pointer;list-style:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.founder-history-toggle::-webkit-details-marker{display:none;}
+.founder-history-toggle:hover{color:var(--lapis);background:rgba(46,91,201,.035);}
+.founder-history-toggle:focus-visible{outline:3px solid var(--persian);outline-offset:3px;}
+.founder-history-arrow{width:12px;height:12px;flex-shrink:0;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .15s ease;}
+.founder-history[open] .founder-history-arrow{transform:rotate(225deg);}
+@media(prefers-reduced-motion:reduce){.founder-history-arrow{transition:none;}}
+@media(max-width:600px){.founder-history-toggle{font-size:1.06rem;padding:1.15rem 1rem;}}

@@ -7,7 +7,7 @@
   var scrim = document.querySelector('.nav-scrim');
   if (!nav || !toggle) return;
 
-  var mobileQuery = window.matchMedia('(max-width: 900px)');
+  var mobileQuery = window.matchMedia('(max-width: 1280px)');
   var subButtons = Array.prototype.slice.call(nav.querySelectorAll('.navitem > button.navlabel'));
   var savedScrollY = 0;
 

@@ -34,35 +34,35 @@ MAESTRO_DOCS = "https://parseus-ai.github.io/maestro-ai/"
 # ---------------------------------------------------------------------------
 NAV = [
     ("Home", "/"),
-    ("About", "/who-we-are.html"),
-    ("Expertise", "/expertise.html"),
+    ("About", [
+        ("Who We Are", "/who-we-are.html"),
+        ("Experience & Capabilities", "/expertise.html"),
+    ]),
     ("Projects", "/projects/"),
     ("Insights", "/insights.html"),
-    ("Conversations & Events", [
-        ("Overview", "/conversations/"),
-        ("AI strategy conversations", "/conversations/ai-strategy/"),
-        ("AI roundtables", "/conversations/roundtables/"),
+    ("Connect & Engage", [
+        ("Advisory & Brainstorming", "/conversations/ai-strategy/"),
+        ("Roundtables & Discussions", "/conversations/roundtables/"),
+        ("Collaborate With Us", "/contact.html#collaborate"),
     ]),
     ("Contact", "/contact.html"),
 ]
-DRAWER_CTA = ("Request an AI strategy conversation", "/conversations/ai-strategy/")
+DRAWER_CTA = ("Let’s Talk", "/contact.html")
 
 FOOTER = [
-    ("Parseus AI", [
-        ("About", "/who-we-are.html"),
-        ("Expertise", "/expertise.html"),
+    ("Explore", [
         ("Projects", "/projects/"),
         ("Insights", "/insights.html"),
     ]),
-    ("Conversations & Events", [
-        ("Overview", "/conversations/"),
-        ("AI strategy conversations", "/conversations/ai-strategy/"),
-        ("AI roundtables", "/conversations/roundtables/"),
+    ("Connect & Engage", [
+        ("Advisory & Brainstorming", "/conversations/ai-strategy/"),
+        ("Roundtables & Discussions", "/conversations/roundtables/"),
+        ("Collaborate With Us", "/contact.html#collaborate"),
     ]),
-    ("Contact", [
-        (EMAIL, "mailto:" + EMAIL),
-        ("Contact options", "/contact.html"),
-        ("Privacy", "/privacy.html"),
+    ("About", [
+        ("Who We Are", "/who-we-are.html"),
+        ("Experience & Capabilities", "/expertise.html"),
+        ("Contact", "/contact.html"),
     ]),
 ]
 
@@ -74,26 +74,19 @@ REDIRECTS = {
     "beyond-ai-headlines/roundtables/index.html": "/conversations/roundtables/",
 }
 
-# Header and mobile menu: the approved Parseus AI wordmark, without the slogan.
-WORDMARK = ('<img class="brand-mark" src="/assets/brand/header/parseus-wordmark-84.webp" '
-            'srcset="/assets/brand/header/parseus-wordmark-84.webp 1x, /assets/brand/header/parseus-wordmark-168.webp 2x" '
-            'width="230" height="84" alt="" />')
-
-# Footer: the complete approved brand image (wordmark plus "The courage of Perseus |
-# The craft of Persia" on one line), scaled proportionally as one composition.
-SIGNATURE = ('<img class="sig-full" src="/assets/brand/signature/parseus-signature-640.webp" '
-             'srcset="/assets/brand/signature/parseus-signature-640.webp 640w, /assets/brand/signature/parseus-signature-1280.webp 1280w" '
-             'sizes="320px" width="640" height="279" alt="" loading="lazy" />')
-SIG_LABEL = "Parseus AI: the courage of Perseus, the craft of Persia. Home"
+# Header identity: optimized crop of the approved two-pillar artwork (see assets/brand/README.md)
+IDENTITY = ('<img class="brand-mark" src="/assets/brand/parseus-header-identity-84.webp" '
+            'srcset="/assets/brand/parseus-header-identity-84.webp 1x, /assets/brand/parseus-header-identity-168.webp 2x" '
+            'width="225" height="84" alt="" />')
 
 # ---------------------------------------------------------------------------
 # Pages: file -> (url path, <title>, meta description, indexable)
 # ---------------------------------------------------------------------------
 PAGES = {
     "index.html": ("/", "Parseus AI | Beyond AI Headlines: From Innovation to Real-World Impact",
-                   "Parseus AI is focused on turning emerging AI into useful, reliable systems, building on its founder's hands-on experience in enterprise AI, robotics, manufacturing and operations.", True),
+                   "Parseus AI turns emerging AI and intelligent systems into solutions that work in practice, across enterprise AI, robotics, manufacturing, system architecture and operations.", True),
     "who-we-are.html": ("/who-we-are.html", "About | Parseus AI",
-                        "About Parseus AI: from scientific curiosity to real-world impact. What Parseus stands for, the founder's story, and the meaning of its name.", True),
+                        "Scientist by training, builder by nature. The founder's story behind Parseus AI, and the meaning of its name: the courage of Perseus, the craft of Persia.", True),
     "expertise.html": ("/expertise.html", "Expertise | Parseus AI",
                        "Areas of expertise across enterprise and agentic AI, physical AI and robotics, manufacturing, computer vision, enterprise architecture and implementation.", True),
     "projects/index.html": ("/projects/", "Projects | Parseus AI",
@@ -193,7 +186,7 @@ def render_header(file):
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="wrap site-header">
     <header class="topbar">
-      <a class="brand" href="/"{home_cur} aria-label="Parseus AI, home">{WORDMARK.replace('class="brand-mark"', 'class="brand-mark" fetchpriority="high"')}</a>
+      <a class="brand" href="/"{home_cur} aria-label="Parseus AI, home">{WORDMARK}</a>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span><span class="label">Menu</span><span class="sr-only"> (main navigation)</span></button>
       <nav id="site-nav" class="topnav" aria-label="Main">
         <div class="nav-head">
