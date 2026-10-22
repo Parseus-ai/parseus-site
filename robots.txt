@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /ops/
+Disallow: /tools/
+
+Sitemap: https://parseus.ai/sitemap.xml

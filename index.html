@@ -1,305 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- head:start -->
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Parseus AI — AI decodes. You decide. We deliver.</title>
-<meta name="description" content="The hard part isn't building agentic AI — it's trusting it. Parseus builds AI you can see into, govern, and overrule." />
+<title>Parseus AI | Beyond Technology & AI Headlines: From Innovation to Real-World Impact</title>
+<meta name="description" content="Drawing on its founder&#x27;s experience in enterprise AI, robotics, manufacturing and operations, Parseus AI explores how emerging technologies can become useful, reliable systems in the real world." />
+<link rel="canonical" href="https://parseus.ai/" />
+<meta name="theme-color" content="#F7F5F0" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/icons/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/brand/icons/favicon-16.png" />
+<link rel="apple-touch-icon" href="/assets/brand/icons/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Parseus AI" />
+<meta property="og:title" content="Parseus AI | Beyond Technology & AI Headlines: From Innovation to Real-World Impact" />
+<meta property="og:description" content="Drawing on its founder&#x27;s experience in enterprise AI, robotics, manufacturing and operations, Parseus AI explores how emerging technologies can become useful, reliable systems in the real world." />
+<meta property="og:url" content="https://parseus.ai/" />
+<meta property="og:image" content="https://parseus.ai/assets/brand/social/parseus-og-1200x630.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Parseus AI wordmark: a blue stone pillar and a gold pillar with Persian geometric patterns form the letter P." />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/site.css" />
+<link rel="stylesheet" href="/assets/site-nav.css" />
+<!-- head:end -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Parseus AI","url":"https://parseus.ai/","email":"info@parseus.ai","image":"https://parseus.ai/assets/brand/social/parseus-og-1200x630.jpg","slogan":"Beyond Technology & AI Headlines: From Innovation to Real-World Impact"}
+</script>
 <style>
-  :root{
-    --persian:#2E5BC9; --lapis:#1E3E8C; --lapis-deep:#16306e;
-    --ivory:#F7F5F0; --ivory-warm:#EFEBE1; --ink:#1A1A2E; --slate:#5B6472;
-    --amber:#A16207; --line:#DCD8CC; --purple:#5B3FA8; --purple-lt:#F3EEFB;
-    --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,sans-serif;
+  /* Hero */
+  .home-hero{padding:5rem 0 2.65rem;}
+  .home-hero .inner{max-width:1240px;margin:0 auto;text-align:center;}
+  .home-hero h1{font-size:clamp(2.4rem,3.7vw,3.15rem);letter-spacing:-0.035em;line-height:1.1;color:var(--navy);}
+  .home-hero h1 .hl-technology{color:var(--persian);}
+  .home-hero h1 .hl-ai{color:#A67B3D;}
+  @media (min-width:1100px){.home-hero h1{white-space:nowrap;text-wrap:nowrap;}}
+  @media (max-width:1099px){.home-hero h1{white-space:normal;text-wrap:balance;}}
+  .home-hero .subtitle{margin:0.75rem auto 0;font-size:clamp(1.3rem,3vw,2rem);color:var(--navy);font-weight:500;}
+  .home-hero .rule{margin-top:1.35rem;}
+  .home-hero .lede{max-width:52ch;margin:1.15rem auto 0;}
+  .home-hero .actions{justify-content:center;margin-top:1.45rem;}
+  .home-hero .btn{min-width:200px;}
+  .home-hero h1,.home-hero .subtitle,.home-hero .lede{text-wrap:balance;}
+  /* Company identity section: distinct from the five-stage process. */
+  .parseus-today{background:var(--ivory-brand);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .today-layout{display:grid;grid-template-columns:minmax(220px,0.75fr) minmax(0,1.25fr);gap:3.5rem;align-items:start;}
+  .today-layout h2{margin-top:0.45rem;}
+  .today-copy{max-width:63ch;}
+  .today-copy p{color:var(--body);margin-bottom:0.8rem;}
+  .today-copy .today-lead{font-family:var(--serif);font-size:clamp(1.2rem,2.2vw,1.55rem);font-weight:600;line-height:1.35;color:var(--navy);}
+  .today-copy a{display:inline-block;margin-top:0.45rem;}
+  @media(max-width:700px){.today-layout{grid-template-columns:1fr;gap:1rem;}}
+  /* Section heads used on this page */
+  .home .section-head{margin-bottom:1.8rem;}
+  .home .section-head .approach-lead{font-family:var(--serif);font-weight:600;font-size:clamp(1.15rem,2vw,1.35rem);line-height:1.4;color:var(--navy);margin-top:1rem;}
+  .home .section-head .approach-lead+p{margin-top:0.6rem;}
+
+  /* Where would you like to start */
+  .choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1rem;}
+  .choice{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:1.6rem 1.5rem;transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s;}
+  .choice:hover{border-color:var(--persian);transform:translateY(-3px);box-shadow:0 16px 38px -22px rgba(30,62,140,0.45);}
+  .choice .k{font-size:0.74rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.6rem;}
+  .choice.read{background:var(--ivory-brand);}
+  .choice h3{font-size:1.25rem;margin-bottom:0.5rem;}
+  .choice p{font-size:0.95rem;color:var(--body);}
+  .choice .cta{margin-top:auto;padding-top:1.2rem;display:inline-flex;align-items:center;gap:0.45rem;font-weight:600;color:var(--persian);}
+  .choice .cta .arr{transition:transform 0.2s;}
+  .choice:hover .cta .arr{transform:translateX(4px);}
+  @media (max-width:700px){.choices{grid-template-columns:1fr;}}
+  /* Quiet, repeatable invitation after each major homepage section. */
+  .section-invite{display:flex;justify-content:space-between;align-items:center;gap:1.5rem;margin-top:2.1rem;padding:1.15rem 1.35rem;border-top:1px solid var(--line);background:transparent;}
+  .section-invite p{margin:0;color:var(--body);font-size:0.98rem;line-height:1.5;}
+  .section-invite p strong{font-family:var(--serif);font-size:1.13rem;color:var(--navy);font-weight:600;}
+  .section-invite .btn{flex-shrink:0;white-space:nowrap;}
+  @media(max-width:600px){.section-invite{align-items:flex-start;flex-direction:column;gap:0.8rem;padding:1rem 0;}.section-invite .btn{width:auto;min-width:150px;}}
+
+  /* From ideas to working systems */
+  .project{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr);gap:2.2rem;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:2rem 2rem;}
+  .project .top{display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;margin-bottom:0.6rem;}
+  .project h3{font-size:1.55rem;}
+  .project p{color:var(--body);}
+  .project .actions{margin-top:1.3rem;}
+  .project .how h4{font-family:var(--sans);font-size:0.74rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.6rem;}
+  .project .how ul{list-style:none;}
+  .project .how li{position:relative;padding:0.5rem 0 0.5rem 1.3rem;border-top:1px solid var(--ivory-warm);font-size:0.94rem;color:var(--body);}
+  .project .how li:first-child{border-top:0;}
+  .project .how li::before{content:"";position:absolute;left:0;top:1rem;width:7px;height:7px;border:1.5px solid var(--gold);transform:rotate(45deg);}
+  .project .how li strong{color:var(--ink);font-weight:600;}
+  .more-projects{margin-top:1.1rem;font-size:0.95rem;color:var(--body);}
+  @media (max-width:860px){.project{grid-template-columns:1fr;padding:1.4rem 1.2rem;gap:1.4rem;}}
+
+  /* Fields of expertise */
+  .areas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;}
+  .area-card{display:flex;flex-direction:column;gap:0.35rem;background:#fff;border:1px solid var(--line);border-radius:12px;padding:1.2rem 1.3rem;transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s;}
+  .area-card:hover{border-color:var(--persian);transform:translateY(-2px);box-shadow:0 14px 30px -22px rgba(30,62,140,0.45);}
+  .area-card h3{font-size:1.08rem;}
+  .area-card p{font-size:0.92rem;color:var(--body);line-height:1.55;}
+  .section-foot{margin-top:1.4rem;}
+  @media (max-width:900px){.areas{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  @media (max-width:560px){.areas{grid-template-columns:1fr;}}
+
+  .name-note{margin-top:2.8rem;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:0.3rem 0.8rem;text-align:center;font-size:0.95rem;color:var(--body);}
+  .name-note em{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--ink);}
+
+  @media (max-width:600px){
+    .home-hero{padding:1.4rem 0 1.2rem;}
+    .home-hero h1{font-size:clamp(2.55rem,12vw,3rem);}
+    .home-hero .subtitle{font-size:1.2rem;margin-top:0.55rem;}
+    .home-hero .rule{margin-top:1.1rem;}
+    .home-hero .lede{margin-top:1rem;font-size:1rem;line-height:1.6;}
+    .home-hero .actions{margin-top:1.3rem;gap:0.6rem;}
   }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{font-family:var(--sans);color:var(--ink);background:var(--ivory);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-  a{color:inherit;text-decoration:none;}
-  .wrap{max-width:1320px;margin:0 auto;padding:0 2rem;}
-  .topbar{display:flex;align-items:center;justify-content:space-between;padding:1.7rem 0;}
-  .brand{display:flex;align-items:baseline;gap:0.04em;font-family:var(--serif);font-weight:600;font-size:1.9rem;letter-spacing:-0.01em;color:var(--ink);}
-  .brand .pi{font-size:2.2rem;color:var(--persian);position:relative;top:0.05em;}
-  .topnav a{color:var(--slate);font-size:0.92rem;font-weight:500;margin-left:1.9rem;transition:color 0.2s;}
-  .topnav a:hover{color:var(--persian);}
-
-  .hero{padding:4rem 0 3rem;}
-
-  /* Slogan — Option G: oversized, centered, gradient rule under */
-  .slogan-wrap{text-align:center;margin-bottom:3rem;}
-  .slogan{font-family:var(--serif);font-weight:600;letter-spacing:-0.02em;color:var(--ink);font-size:clamp(2.4rem,5.5vw,3.8rem);line-height:1.1;}
-  .slogan .decide{color:var(--persian);font-style:italic;}
-  .slogan-rule{height:2px;background:linear-gradient(90deg,transparent,var(--persian),transparent);margin-top:1.4rem;max-width:680px;margin-left:auto;margin-right:auto;}
-  .cta-band{text-align:center;padding:2.6rem 0 2.4rem;}
-  .cta-line{font-family:var(--sans);font-weight:600;font-size:1rem;color:#fff;background:var(--persian);padding:0.85rem 1.8rem;border-radius:9px;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;transition:transform 0.2s,background 0.2s;}
-  .cta-line:hover{transform:translateY(-2px);background:var(--lapis);}
-  .cta-line .cta-arrow{transition:transform 0.2s;}
-  .cta-line:hover .cta-arrow{transform:translateX(5px);}
-  .cta-rule{height:2px;background:linear-gradient(90deg,transparent,var(--persian),transparent);max-width:680px;margin:0 auto;}
-  .thread-cta{display:inline-flex;align-items:center;gap:0.5rem;margin-top:2.4rem;background:#fff;color:var(--persian);font-family:var(--sans);font-weight:600;font-size:1rem;padding:0.85rem 1.8rem;border-radius:9px;text-decoration:none;transition:transform 0.2s;}
-  .thread-cta:hover{transform:translateY(-2px);}
-  .thread-cta .cta-arrow{transition:transform 0.2s;}
-  .thread-cta:hover .cta-arrow{transform:translateX(4px);}
-
-  /* Hook — lead and close both serif-italic; body Inter */
-  .hook{max-width:920px;margin:2.8rem auto 0;font-family:var(--sans);font-size:0.98rem;line-height:1.7;color:var(--slate);text-align:left;}
-  .hook .lead{display:block;font-family:var(--serif);font-style:italic;font-weight:600;color:var(--ink);font-size:1.5rem;line-height:1.22;letter-spacing:-0.015em;margin-bottom:0.9rem;}
-  .hook strong{color:var(--ink);font-weight:600;}
-  .hook .tag-rule{height:2px;background:linear-gradient(90deg,transparent,var(--persian),transparent);max-width:680px;margin:2.6rem auto 0;}
-  .hook .tag-lead{display:block;margin-top:2.6rem;font-family:var(--sans);font-size:0.98rem;line-height:1.7;color:var(--slate);text-align:center;}
-  .hook .close{display:block;margin-top:0.6rem;font-family:var(--serif);font-style:italic;font-weight:600;color:var(--ink);font-size:1.7rem;line-height:1.3;letter-spacing:-0.015em;text-align:center;}
-
-  /* Cards */
-  .paths{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;padding:3.4rem 0 1rem;align-items:stretch;}
-  .path{display:flex;flex-direction:column;padding:2.4rem 2.2rem 2.2rem;border:1px solid var(--line);border-radius:14px;background:#fff;transition:transform 0.22s ease,box-shadow 0.22s ease,border-color 0.22s ease;}
-  .path:hover{transform:translateY(-4px);box-shadow:0 16px 38px -22px rgba(30,62,140,0.45);border-color:var(--persian);}
-  .path-top{display:flex;align-items:center;gap:0.8rem;margin-bottom:1.4rem;}
-  .path-num{font-family:var(--serif);font-weight:600;font-size:1.1rem;color:#fff;background:var(--persian);width:2rem;height:2rem;border-radius:7px;display:grid;place-items:center;flex-shrink:0;}
-  .path.builders .path-num{background:var(--persian);}
-  .path-eyebrow{font-size:0.72rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:var(--slate);}
-  .path h2{font-family:var(--serif);font-weight:600;font-size:1.45rem;line-height:1.18;letter-spacing:-0.015em;margin-bottom:0.7rem;}
-  .path p.desc{color:var(--slate);font-size:0.96rem;margin-bottom:1.5rem;}
-  .path ul{list-style:none;margin-bottom:1.4rem;margin-top:auto;}
-  .path li{display:flex;align-items:baseline;gap:0.6rem;padding:0.62rem 0;font-size:0.95rem;border-top:1px solid var(--ivory-warm);}
-  .path li:first-child{border-top:none;}
-  .path li .name{font-weight:600;color:var(--ink);}
-  .path li .full{font-weight:400;color:var(--slate);font-size:0.82em;}
-  .path li .tm{font-size:1.2rem;font-weight:700;color:var(--persian);margin-left:-0.08em;position:relative;top:-1px;display:inline-block;line-height:0;}
-  .path li .tag{margin-left:auto;font-size:0.7rem;font-weight:600;letter-spacing:0.02em;padding:0.18rem 0.62rem;border-radius:999px;white-space:nowrap;}
-  .tag.live{background:#E1F5EE;color:#0F6E56;}
-  .tag.date{background:var(--ivory-warm);color:var(--slate);}
-  .path li.dev-divider{padding:0.7rem 0 0.4rem;border-top:1px solid var(--ivory-warm);font-size:0.66rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);}
-  .path li a.name:hover{color:var(--persian);text-decoration:underline;}
-  .path li.dev .name{font-weight:500;font-style:italic;color:var(--slate);}
-  .path .enter{display:inline-flex;align-items:center;gap:0.5rem;font-weight:600;font-size:0.95rem;color:var(--persian);padding-top:0.6rem;}
-  .path.builders .enter{color:var(--persian);}
-  .path .enter .arrow{transition:transform 0.2s;}
-  .path:hover .enter .arrow{transform:translateX(4px);}
-
-  /* Problem / proof */
-  .problem{padding:4rem 0 1rem;max-width:920px;margin:0 auto;}
-  .problem h2{font-family:var(--serif);font-weight:600;font-size:clamp(1.7rem,3.4vw,2.5rem);line-height:1.14;letter-spacing:-0.02em;max-width:none;margin-bottom:1.3rem;}
-  .problem h2 br{display:none;}
-  @media (min-width:620px){.problem h2 br{display:inline;}}
-  .problem .body{max-width:none;color:var(--slate);font-size:0.98rem;}
-  .problem .body p+p{margin-top:1rem;}
-  .problem .body strong{color:var(--ink);font-weight:600;}
-  .proof{margin-top:2rem;border-left:3px solid var(--persian);padding:0.4rem 0 0.4rem 1.4rem;}
-  .proof .pl{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--amber);margin-bottom:0.4rem;}
-  .proof-title{font-family:var(--serif);font-weight:600;font-size:clamp(1.3rem,2.6vw,1.6rem);line-height:1.2;letter-spacing:-0.015em;color:var(--ink);margin-bottom:0.8rem;}
-  .proof p{color:var(--slate);font-size:0.98rem;max-width:none;}
-  .section-tag{font-family:var(--serif);font-style:italic;font-weight:600;font-size:clamp(1.35rem,2.6vw,1.7rem);line-height:1.3;letter-spacing:-0.015em;color:var(--ink);text-align:center;margin-top:2.6rem;}
-  .proof a{color:var(--persian);font-weight:600;}
-
-  .thread{background:var(--lapis-deep);color:#EAF0FC;text-align:center;padding:3.6rem 0;margin-top:4rem;}
-  .thread .k{font-family:var(--serif);font-weight:500;font-size:clamp(1.3rem,3vw,1.9rem);line-height:1.3;letter-spacing:-0.01em;text-transform:none;color:#8FB0EC;margin-bottom:1.2rem;}
-  .thread .setup{font-family:var(--sans);font-weight:400;font-size:clamp(1.15rem,2.4vw,1.5rem);line-height:1.55;letter-spacing:0;color:#B9CBEC;max-width:none;margin:0 auto 1.6rem;}
-  .thread .setup .hl{color:#fff;}
-  .thread .payoff{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(1.6rem,3.6vw,2.5rem);line-height:1.28;letter-spacing:-0.015em;color:#fff;max-width:none;margin:0 auto;}
-
-  footer{padding:3rem 0 2.4rem;}
-  .foot-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding-top:2rem;border-top:1px solid var(--line);}
-  .foot-brand{font-family:var(--serif);font-weight:600;font-size:1.2rem;display:flex;align-items:baseline;gap:0.04em;}
-  .foot-brand .pi{color:var(--persian);font-size:1.45rem;position:relative;top:0.05em;}
-  .foot-meta{font-size:0.85rem;color:var(--slate);}
-  .foot-meta a:hover{color:var(--persian);}
-
-
-  /* Dropdown menus */
-  .topnav{display:flex;align-items:center;}
-  .navitem{position:relative;}
-  .navitem > .navlabel{display:inline-flex;align-items:center;gap:0.35rem;color:var(--slate);font-size:0.92rem;font-weight:500;margin-left:1.9rem;cursor:pointer;padding:0.4rem 0;transition:color 0.2s;}
-  .navitem:hover > .navlabel{color:var(--persian);}
-  .navlabel.active{color:var(--persian);font-weight:600;}
-  .navitem > .navlabel .caret{font-size:0.6rem;transition:transform 0.2s;}
-  .navitem:hover > .navlabel .caret{transform:rotate(180deg);}
-  .dropdown{position:absolute;top:100%;left:1.9rem;min-width:230px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 40px -16px rgba(30,62,140,0.28);padding:0.5rem;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity 0.18s,transform 0.18s,visibility 0.18s;z-index:50;}
-  .navitem:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0);}
-  .dropdown a, .dropdown span.disabled{display:flex;align-items:center;justify-content:flex-start;gap:0;width:100%;margin:0;padding:0.6rem 0.8rem;box-sizing:border-box;text-decoration:none;border-radius:8px;font-size:0.9rem;font-weight:500;color:var(--ink);transition:background 0.15s;}
-  .dropdown a:hover{background:var(--ice,#EAF0FC);color:var(--persian);}
-  .dropdown span.disabled{color:#A8AcB4;cursor:default;}
-  .dropdown .soon{margin-left:auto;font-size:0.62rem;font-weight:600;letter-spacing:0.03em;color:var(--slate);background:var(--ivory-warm);padding:0.1rem 0.45rem;border-radius:999px;white-space:nowrap;}
-  .dropdown .tm{font-size:0.9rem;color:var(--persian);font-weight:700;position:relative;top:-5px;margin-left:1px;line-height:0;}
-  @media (max-width:900px){.topnav{display:none;}}
-  @media (max-width:760px){.paths{grid-template-columns:1fr;}.hook .lead{font-size:1.3rem;}.hook .close{font-size:1.4rem;}}
-  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto;}}
-  :focus-visible{outline:3px solid var(--persian);outline-offset:3px;border-radius:4px;}
 </style>
 </head>
 <body>
-  <div class="wrap">
+<!-- header:start -->
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="wrap site-header">
     <header class="topbar">
-      <div class="brand"><span class="pi">&Pi;</span>arseus AI</div>
-      <nav class="topnav">
-        <div class="navitem"><a class="navlabel active" href="./index.html">Home</a></div>
-        <div class="navitem">
-          <span class="navlabel">For people <span class="caret">▾</span></span>
-          <div class="dropdown">
-            <a href="https://parseus-ai.github.io/maestro-ai/" target="_blank" rel="noopener">Maestro AI</a>
-            <span class="disabled"><em>Personal Finance Advisor</em> <span class="soon">Summer 2026</span></span>
-            <span class="disabled"><em>Health &amp; Wellness Coach</em> <span class="soon">Fall 2026</span></span>
-            <span class="disabled"><em>Career Mentor</em> <span class="soon">Spring 2027</span></span>
-          </div>
+      <a class="brand" href="/" aria-current="page" aria-label="Parseus AI, home"><img class="brand-icon" src="/assets/brand/monogram/parseus-monogram-144.webp" srcset="/assets/brand/monogram/parseus-monogram-144.webp 1x, /assets/brand/monogram/parseus-monogram-288.webp 2x" width="68" height="68" alt="" /><span class="brand-text"><span class="brand-name">Parseus <span>AI</span></span><span class="brand-motto"><span class="motto-line">The courage of Perseus</span><span class="motto-divider" aria-hidden="true"> | </span><span class="motto-line">The craft of Persia</span></span></span></a>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span><span class="label">Menu</span><span class="sr-only"> (main navigation)</span></button>
+      <nav id="site-nav" class="topnav" aria-label="Main">
+        <div class="nav-head">
+          <a class="brand" href="/" aria-label="Parseus AI, home"><img class="brand-icon" src="/assets/brand/monogram/parseus-monogram-144.webp" srcset="/assets/brand/monogram/parseus-monogram-144.webp 1x, /assets/brand/monogram/parseus-monogram-288.webp 2x" width="68" height="68" alt="" /><span class="brand-text"><span class="brand-name">Parseus <span>AI</span></span><span class="brand-motto"><span class="motto-line">The courage of Perseus</span><span class="motto-divider" aria-hidden="true"> | </span><span class="motto-line">The craft of Persia</span></span></span></a>
+          <button type="button" class="nav-close"><span class="x" aria-hidden="true">&times;</span><span>Close</span><span class="sr-only"> menu</span></button>
         </div>
-        <div class="navitem">
-          <span class="navlabel">For builders <span class="caret">▾</span></span>
-          <div class="dropdown">
-            <span class="disabled"><em>Agent Interface Layer</em> <span class="soon">Q2 2026</span></span>
-            <span class="disabled"><em>Agent Observability</em> <span class="soon">Q3 2026</span></span>
-            <span class="disabled"><em>Agent Topology</em> <span class="soon">Q4 2026</span></span>
-            <span class="disabled"><em>Lab Protocol Platform</em> <span class="soon">Q1 2027</span></span>
-          </div>
-        </div>
-        <div class="navitem">
-          <span class="navlabel">Solutions <span class="caret">▾</span></span>
-          <div class="dropdown">
-            <a href="./coming-soon.html">Manufacturing</a>
-            <a href="./coming-soon.html">Robotics</a>
-            <a href="./coming-soon.html">e-Commerce</a>
-            <a href="./coming-soon.html">Mining</a>
-            <a href="./coming-soon.html">Construction</a>
-          </div>
-        </div>
-        <div class="navitem">
-          <span class="navlabel">Consulting <span class="caret">▾</span></span>
-          <div class="dropdown">
-            <a href="./coming-soon.html">Automation</a>
-            <a href="./coming-soon.html">Digital Twin</a>
-            <a href="./coming-soon.html">Digital Transformation</a>
-            <a href="./coming-soon.html">Agentic AI Strategy</a>
-          </div>
-        </div>
-        <div class="navitem">
-          <span class="navlabel">About <span class="caret">▾</span></span>
-          <div class="dropdown">
-            <a href="./who-we-are.html">Who we are</a>
-            <a href="./coming-soon.html">What we do</a>
-            <a href="mailto:info@parseus.ai">Contact us</a>
-          </div>
-        </div>
+        <ul class="navlist">
+        <li class="navitem"><a class="navlabel" href="/" aria-current="page">Home</a></li>
+        <li class="navitem">
+          <button type="button" class="navlabel" aria-expanded="false" aria-controls="sub-about">About <span class="caret" aria-hidden="true">&#9662;</span></button>
+          <ul class="dropdown" id="sub-about">
+            <li><a href="/who-we-are.html">Who We Are</a></li>
+            <li><a href="/expertise.html">Experience &amp; Capabilities</a></li>
+          </ul>
+        </li>
+        <li class="navitem"><a class="navlabel" href="/projects/">Projects</a></li>
+        <li class="navitem"><a class="navlabel" href="/insights.html">Insights</a></li>
+        <li class="navitem">
+          <button type="button" class="navlabel" aria-expanded="false" aria-controls="sub-connect-engage">Connect &amp; Engage <span class="caret" aria-hidden="true">&#9662;</span></button>
+          <ul class="dropdown" id="sub-connect-engage">
+            <li><a href="/conversations/ai-strategy/">Advisory &amp; Brainstorming</a></li>
+            <li><a href="/conversations/roundtables/">Roundtables &amp; Discussions</a></li>
+            <li><a href="/contact.html#collaborate">Collaborate With Us</a></li>
+          </ul>
+        </li>
+        <li class="navitem"><a class="navlabel nav-contact" href="/contact.html">Contact</a></li>
+        </ul>
+        <a class="nav-cta" href="/contact.html">Let’s Talk <span aria-hidden="true">&rarr;</span></a>
       </nav>
+      <button type="button" class="nav-scrim" tabindex="-1" aria-hidden="true"></button>
     </header>
   </div>
+<!-- header:end -->
 
-  <section class="hero">
+<main id="main" class="home">
+
+  <!-- 1. Hero -->
+  <section class="home-hero" aria-labelledby="hero-title">
     <div class="wrap">
-      <div class="slogan-wrap">
-        <div class="slogan">AI decodes. <span class="decide">You decide.</span> We deliver.</div>
-        <div class="slogan-rule"></div>
-      </div>
-
-      <div class="hook" id="solutions">
-        <span class="lead">Parseus builds AI the way you'd want it built: to help you, not replace you.</span>
-        It grew out of years spent deploying AI where a wrong answer had real consequences. Most AI hides how it reached an answer, ignores its boundaries, and spends without limits. On top of that, it acts beyond its authority, something you find out only when it's too late to undo. Parseus closes every one of those gaps: doing the heavy lifting, showing every step, and stopping at the line where judgment begins. The hardest calls stay where they belong: with&nbsp;you.
-        <span class="tag-lead">Parseus builds systems that are:</span>
-        <span class="close">Smart enough to help. Honest enough to trust.</span>
-        <div class="tag-rule"></div>
+      <div class="inner">
+        <h1 id="hero-title">Beyond <span class="hl-technology">Technology</span> &amp; <span class="hl-ai">AI</span> Headlines</h1>
+        <p class="subtitle">From Innovation to Real-World Impact</p>
+        <div class="rule"></div>
+        <p class="lede">Drawing on its founder&rsquo;s experience in enterprise AI, robotics, manufacturing and operations, Parseus AI explores how emerging technologies can become useful, reliable systems in the real world.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/contact.html">Let&rsquo;s Talk <span class="arr" aria-hidden="true">&rarr;</span></a>
+          <a class="btn btn-secondary" href="/insights.html">Explore Insights</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <div class="wrap">
-    <section class="paths">
-
-      <div class="path people">
-        <div class="path-top"><span class="path-num">1</span><span class="path-eyebrow">For people · B2C</span></div>
-        <h2>Approach your life's biggest moments with clarity, and make decisions with confidence</h2>
-        <p class="desc">Apps that get to know you: how you live, what you value, how much risk you're willing to take, and where you draw the line on "good enough." They do the digging and lay out your options clearly, so the choice that used to keep you up at night becomes one you can make with confidence. Less time deliberating, more time living.</p>
-        <ul>
-          <li><a class="name" href="https://parseus-ai.github.io/maestro-ai/" target="_blank" rel="noopener">Maestro AI</a> <span class="tag live">Shipped</span></li>
-          <li class="dev-divider">In development · names at launch</li>
-          <li class="dev"><span class="name">Personal Finance Advisor</span> <span class="tag date">Expected Summer 2026</span></li>
-          <li class="dev"><span class="name">Health &amp; Wellness Coach</span> <span class="tag date">Expected Fall 2026</span></li>
-          <li class="dev"><span class="name">Career Mentor</span> <span class="tag date">Expected Spring 2027</span></li>
-        </ul>
-        <a class="enter" href="./coming-soon.html">Explore the apps <span class="arrow">→</span></a>
-      </div>
-
-      <div class="path builders">
-        <div class="path-top"><span class="path-num">2</span><span class="path-eyebrow">For builders &amp; enterprises · B2B</span></div>
-        <h2>One home for everything your business runs on. Where you decide based on fact, not hope.</h2>
-        <p class="desc">Systems that keep a complete record of everything your business depends on: who's using it, how things have changed, who took action when needed, and whether the outcome can be trusted. Whether it's AI agents or lab protocols, they make sure everything is registered, every change versioned, and every action tracked. On top of that, any result can be reproduced when it counts, and every decision has the receipts behind it.</p>
-        <ul>
-          <li class="dev-divider">In development · names at launch</li>
-          <li class="dev"><span class="name">Agent Interface Layer</span> <span class="tag date">Expected Q2 2026</span></li>
-          <li class="dev"><span class="name">Agent Observability</span> <span class="tag date">Expected Q3 2026</span></li>
-          <li class="dev"><span class="name">Agent Topology</span> <span class="tag date">Expected Q4 2026</span></li>
-          <li class="dev"><span class="name">Lab Protocol Platform</span> <span class="tag date">Expected Q1 2027</span></li>
-        </ul>
-        <a class="enter" href="./coming-soon.html">Explore the platform <span class="arrow">→</span></a>
-      </div>
-
-    </section>
-  </div>
-
-  <div class="wrap">
-    <div class="cta-band">
-      <a class="cta-line" href="mailto:info@parseus.ai">Ready to get started? <span class="cta-arrow">→</span></a>
-    </div>
-    <div class="cta-rule"></div>
-  </div>
-
-  <div class="wrap">
-    <section class="problem">
-      <h2>Powerful AI is easy. <br>Trustworthy AI is the hard part.</h2>
-      <div class="body">
-        <p>Today's AI will confidently draft your resume, move your money, or unleash a fleet of agents on your business, and sound just as sure when it's wrong. The output is cheap; the trust is what's missing. Parseus builds the missing layer.</p>
-        <p>Across every product, the same discipline holds: the system shows its work, checks its own claims, logs what it does, and stops at the decisions that are yours to make. You get the speed of automation without handing over the judgment.</p>
-      </div>
-      <div class="proof">
-        <div class="pl">Proof · Shipped</div>
-        <h3 class="proof-title">Maestro AI: every resume strong, every claim true</h3>
-        <p>Maestro AI is the principle made real. To find and apply for jobs, separate agents hunt down openings, draft resumes and cover letters for the jobs you choose to go after, fact-check every one of the claims, and measure each one against what the job actually asks for, then hand each one back to you. The work that used to eat your evenings, done. But every decision that matters stays with you: which jobs are worth pursuing, what your resume says, how your cover letter positions you, and whether to apply at all. <a href="https://parseus-ai.github.io/maestro-ai/" target="_blank" rel="noopener">See it in action →</a></p>
-      </div>
-      <div class="section-tag">The AI drives. You hold the wheel.</div>
-    </section>
-  </div>
-
-  <section class="thread" id="about">
+<!-- 2. Our approach -->
+  <section class="section tight" aria-labelledby="approach-title">
     <div class="wrap">
-      <div class="k">One principle, Two altitudes</div>
-      <p class="setup">Whether it's one decision in your <span class="hl">life</span><br>or millions for your <span class="hl">business</span>,<br>the same principle holds:</p>
-      <p class="payoff">Let automation scale endlessly.<br>Never let judgment leave your&nbsp;hands.</p>
-      <a class="thread-cta" href="mailto:info@parseus.ai">Put Parseus to work <span class="cta-arrow">→</span></a>
+      <div class="section-head">
+        <span class="eyebrow">Our approach</span>
+        <h2 id="approach-title">From Innovation to Implementation</h2>
+        <p class="approach-lead">Start with the problem, not the technology.</p>
+        <p>At Parseus, we approach technology through the realities of implementation: understanding the business or operational challenge, evaluating possible solutions, designing for actual operating conditions, and validating performance before scaling.</p>
+        <p>The objective isn&rsquo;t simply to demonstrate intelligence or technological capabilities. It&rsquo;s to turn them into reliable systems that organizations can deploy, scale, and sustain.</p>
+      </div>
+      <ol class="steps" style="--n:5">
+        <li><span class="step-title">Understand the problem</span><span class="step-text">Start from the outcome that matters.</span></li>
+        <li><span class="step-title">Evaluate the technology</span><span class="step-text">What it really enables, and its limits.</span></li>
+        <li><span class="step-title">Design and integrate</span><span class="step-text">Architecture built for the real environment.</span></li>
+        <li><span class="step-title">Validate performance</span><span class="step-text">Measured against real operating conditions.</span></li>
+        <li><span class="step-title">Operationalize and scale</span><span class="step-text">Reliable, monitored, owned by people.</span></li>
+      </ol>
+      <div class="section-invite"><p><strong>Have an idea worth exploring?</strong> Discuss where to begin and what it could take to make it work.</p><a class="btn btn-primary" href="/contact.html">Let&rsquo;s Talk <span aria-hidden="true">&rarr;</span></a></div>
     </div>
   </section>
 
-  <div class="wrap">
-    <footer>
-      <div class="foot-row">
-        <div class="foot-brand"><span class="pi">&Pi;</span>arseus AI</div>
-        <div class="foot-meta">The courage of Perseus, the craft of Persia · <a href="mailto:info@parseus.ai">info@parseus.ai</a></div>
+  <!-- 3. Where would you like to start? -->
+  <section class="section tight" aria-labelledby="connect-title">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Explore and connect</span>
+        <h2 id="connect-title">Where would you like to start?</h2>
       </div>
-    </footer>
-  </div>
+      <div class="choices">
+        <a class="choice read" href="/insights.html">
+          <span class="k">Read</span>
+          <h3>Explore Insights</h3>
+          <p>Independent analysis of AI research, architecture, implementation and real-world impact.</p>
+          <span class="cta">Read the Insights <span class="arr" aria-hidden="true">&rarr;</span></span>
+        </a>
+        <a class="choice" href="/conversations/ai-strategy/">
+          <span class="k">Talk</span>
+          <h3>Advisory &amp; Brainstorming</h3>
+          <p>Explore an idea, work through a challenge, or gain a fresh perspective on strategy, technology and implementation.</p>
+          <span class="cta">Explore a Conversation <span class="arr" aria-hidden="true">&rarr;</span></span>
+        </a>
+        <a class="choice" href="/conversations/roundtables/">
+          <span class="k">Discuss</span>
+          <h3>Roundtables &amp; Discussions</h3>
+          <p>Interactive discussions with professionals working across AI, robotics, manufacturing and operations.</p>
+          <span class="cta">Explore Roundtables <span class="arr" aria-hidden="true">&rarr;</span></span>
+        </a>
+        <a class="choice" href="/contact.html#collaborate">
+          <span class="k">Collaborate</span>
+          <h3>Collaborate With Us</h3>
+          <p>Explore partnerships, technology challenges, advisory engagements and opportunities to work together.</p>
+          <span class="cta">Explore Collaboration <span class="arr" aria-hidden="true">&rarr;</span></span>
+        </a>
+      </div>
+      <div class="section-invite"><p><strong>Not sure which path fits?</strong> Tell us what you are working on, and we can explore the possibilities together.</p><a class="btn btn-primary" href="/contact.html">Let&rsquo;s Talk <span aria-hidden="true">&rarr;</span></a></div>
+<!-- insights-featured:start -->
+<!-- insights-featured:end -->
+    </div>
+  </section>
+
+  <!-- 4. Selected work and projects -->
+  <section class="section tight" aria-labelledby="projects-title">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Selected work and projects</span>
+        <h2 id="projects-title">From Ideas to Working Systems</h2>
+        <p>Technology becomes meaningful when it moves beyond the demonstration and works in real use. Maestro AI is one example of that approach at Parseus.</p>
+      </div>
+      <article class="project" aria-labelledby="maestro-title">
+        <div>
+          <div class="top"><h3 id="maestro-title">Maestro AI</h3><span class="status available">Available now</span></div>
+          <p>A multi-agent application for job seekers. It finds openings at target companies, scores each job for fit, tailors resumes and cover letters, and fact-checks the results before handing them back. It never applies on anyone&rsquo;s behalf: every decision that matters stays with the person using it.</p>
+          <div class="actions">
+            <a class="btn btn-secondary" href="https://parseus-ai.github.io/maestro-ai/" target="_blank" rel="noopener">Documentation <span class="sr-only">(opens in a new tab)</span></a>
+            <a class="btn btn-secondary" href="https://github.com/parseus-ai-inc/maestro-ai" target="_blank" rel="noopener">GitHub <span class="sr-only">(opens in a new tab)</span></a>
+          </div>
+        </div>
+        <div class="how">
+          <h4>How it is built</h4>
+          <ul>
+            <li><strong>Specialized agents</strong>, each responsible for one part of the workflow</li>
+            <li><strong>Clear boundaries:</strong> users decide what each agent knows, how it behaves and which AI model runs it</li>
+            <li><strong>Built-in review:</strong> outputs are critiqued and fact-checked before they reach the user</li>
+            <li><strong>Human oversight:</strong> the final call on every application stays with the user</li>
+            <li><strong>Runs locally</strong>, with versions tracked over time</li>
+          </ul>
+        </div>
+      </article>
+      <p class="more-projects">Other Parseus projects are in development and are labelled that way. <a class="text-link" href="/projects/">See all projects</a></p>
+      <div class="section-invite"><p><strong>Building something of your own?</strong> Connect with us about architecture, implementation or a promising new direction.</p><a class="btn btn-primary" href="/contact.html">Let&rsquo;s Talk <span aria-hidden="true">&rarr;</span></a></div>
+    </div>
+  </section>
+
+  <!-- 5. Fields of expertise -->
+  <section class="section" aria-labelledby="work-title">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Where we work</span>
+        <h2 id="work-title">Fields of expertise and application</h2>
+        <p>Areas of professional expertise, drawn from the founder&rsquo;s career and from current Parseus projects.</p>
+      </div>
+      <div class="areas">
+        <a class="area-card" href="/expertise.html#enterprise-ai"><h3>Enterprise and agentic AI</h3><p>AI agents and models inside real business processes, with clear oversight.</p></a>
+        <a class="area-card" href="/expertise.html#physical-ai"><h3>Physical AI and robotics</h3><p>Perception and decision systems for machines that act in the physical world.</p></a>
+        <a class="area-card" href="/expertise.html#manufacturing"><h3>Manufacturing and industrial automation</h3><p>Connected data, equipment and people on the factory floor.</p></a>
+        <a class="area-card" href="/expertise.html#computer-vision"><h3>Intelligent systems and computer vision</h3><p>Vision and sensing that hold up outside the lab.</p></a>
+        <a class="area-card" href="/expertise.html#architecture"><h3>Architecture and operating models</h3><p>The structures and ownership that let AI become part of operations.</p></a>
+        <a class="area-card" href="/expertise.html#strategy"><h3>Strategy, implementation and scaling</h3><p>From the right use case to a pilot to reliable production.</p></a>
+      </div>
+      <p class="section-foot"><a class="text-link" href="/expertise.html">More about our expertise</a></p>
+      <div class="section-invite"><p><strong>Have a real-world challenge?</strong> Let’s discuss where practical experience and emerging technology might help.</p><a class="btn btn-primary" href="/contact.html">Let&rsquo;s Talk <span aria-hidden="true">&rarr;</span></a></div>
+      <p class="name-note"><span>Why the name &ldquo;Parseus&rdquo;?</span> <a class="text-link" href="/who-we-are.html#why-parseus">The story behind the name</a></p>
+    </div>
+  </section>
+
+</main>
+
+<!-- footer:start -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-about">
+          <a class="foot-brand" href="/" aria-label="Parseus AI: the courage of Perseus, the craft of Persia. Home"><img class="sig-full" src="/assets/brand/signature/parseus-signature-640.webp" srcset="/assets/brand/signature/parseus-signature-640.webp 640w, /assets/brand/signature/parseus-signature-1280.webp 1280w" sizes="320px" width="640" height="279" alt="" loading="lazy" /></a>
+        </div>
+        <div class="foot-col">
+          <h2>Explore</h2>
+          <ul>
+            <li><a href="/projects/">Projects</a></li>
+            <li><a href="/insights.html">Insights</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h2>Connect &amp; Engage</h2>
+          <ul>
+            <li><a href="/conversations/ai-strategy/">Advisory &amp; Brainstorming</a></li>
+            <li><a href="/conversations/roundtables/">Roundtables &amp; Discussions</a></li>
+            <li><a href="/contact.html#collaborate">Collaborate With Us</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h2>About</h2>
+          <ul>
+            <li><a href="/who-we-are.html">Who We Are</a></li>
+            <li><a href="/expertise.html">Experience &amp; Capabilities</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-legal">
+        <span>&copy; 2026 Parseus AI. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+  <script src="/assets/site-nav.js" defer></script>
+<!-- footer:end -->
 <!-- Cloudflare Web Analytics -->
-<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bcd1e376c9b046f897496f2af0250541"}'></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bcd1e376c9b046f897496f2af0250541"}'></script>
 <!-- End Cloudflare Web Analytics -->
-<!-- Link click tracking -->
-<script>
-(function(){
-  function track(name, props){
-    try{
-      if(window.__cfBeacon && typeof window.__cfBeacon.trackEvent === 'function'){
-        window.__cfBeacon.trackEvent(name, props);
-      } else if(navigator.sendBeacon){
-        var payload = JSON.stringify({n:name,p:props||{},u:location.pathname});
-        navigator.sendBeacon('https://cloudflareinsights.com/cdn-cgi/rum?', payload);
-      }
-    }catch(e){}
-  }
-  document.addEventListener('click', function(e){
-    var a = e.target.closest && e.target.closest('a');
-    if(!a) return;
-    var href = a.getAttribute('href') || '';
-    var label = (a.textContent || '').trim().slice(0,60);
-    track('link_click', {href:href, label:label, page:location.pathname});
-  }, true);
-})();
-</script>
-<!-- End link click tracking -->
+<script src="/assets/link-tracking.js" defer></script>
 </body>
 </html>

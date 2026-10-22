@@ -1,0 +1,140 @@
+/* Parseus AI: shared site header and navigation.
+   Desktop (>1280px): inline nav with dropdowns (hover, click or keyboard).
+   Mobile (<=1280px): logo + menu button; nav becomes a slide-in drawer with
+   accordion submenus, a close button and a tap-to-close backdrop. */
+
+:root{
+  --nav-bp: 1280px;
+  --nav-ice: #EAF0FC;
+  --nav-muted: #6B7280; /* 4.8:1 on white, used for unreleased items */
+}
+
+/* Skip link */
+.skip-link{position:absolute;left:1rem;top:-100px;z-index:200;background:var(--persian);color:#fff;font-weight:600;font-size:0.95rem;padding:0.7rem 1.1rem;border-radius:8px;text-decoration:none;}
+.skip-link:focus{top:1rem;}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+/* Shared focus ring */
+:focus-visible{outline:3px solid var(--persian);outline-offset:3px;border-radius:4px;}
+
+/* Header row */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:1.2rem;padding:1.05rem 0;}
+/* One consistent horizontal brand lockup, derived from approved Option 2. */
+.brand{display:inline-flex;align-items:center;gap:0.9rem;flex-shrink:0;min-width:0;text-decoration:none;border-radius:6px;color:var(--navy);}
+.brand-icon{display:block;width:68px;height:68px;flex-shrink:0;object-fit:contain;}
+.brand-text{display:flex;flex-direction:column;min-width:0;gap:0.15rem;}
+.brand-name{font-family:var(--serif);font-size:2.06rem;font-weight:600;line-height:1.05;letter-spacing:-0.02em;white-space:nowrap;color:var(--navy);}
+.brand-name>span{color:var(--gold-text);}
+.brand-motto{display:block;font-family:var(--serif);font-size:0.85rem;line-height:1.35;letter-spacing:0.006em;white-space:nowrap;color:var(--navy);}
+.brand-motto .motto-line{white-space:nowrap;}
+.brand-motto .motto-divider{color:var(--gold-text);padding:0 0.23rem;}
+/* Menu button + drawer chrome: hidden on desktop */
+.nav-toggle,.nav-head,.nav-cta,.nav-scrim{display:none;}
+
+/* ---------- Desktop ---------- */
+.topnav{display:flex;align-items:center;}
+.navlist{display:flex;align-items:center;list-style:none;margin:0;padding:0;}
+.navitem{position:relative;}
+.navlabel{display:inline-flex;align-items:center;gap:0.35rem;margin-left:1.34rem;padding:0.4rem 0;background:none;border:0;font:inherit;font-family:var(--sans);font-size:0.94rem;font-weight:500;color:var(--slate);cursor:pointer;text-decoration:none;transition:color 0.2s;}
+.navitem:hover > .navlabel,.navlabel:hover{color:var(--persian);}
+.navlabel.active,.navlabel[aria-current="page"]{color:var(--persian);font-weight:600;}
+.navlabel .caret{font-size:0.6rem;transition:transform 0.2s;}
+.dropdown{position:absolute;top:100%;left:1.9rem;min-width:240px;margin:0;list-style:none;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 40px -16px rgba(30,62,140,0.28);padding:0.5rem;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity 0.18s,transform 0.18s,visibility 0.18s;z-index:50;}
+/* Open on hover, on keyboard focus inside, or when toggled by click */
+@media (min-width:1281px){
+  .navitem:hover > .dropdown,.navitem:focus-within > .dropdown,.navitem.open > .dropdown{opacity:1;visibility:visible;transform:translateY(0);}
+  .navitem:hover > .navlabel .caret,.navitem.open > .navlabel .caret{transform:rotate(180deg);}
+  /* An explicit close (Escape / outside click) wins over hover/focus */
+  .navitem.closed > .dropdown{opacity:0;visibility:hidden;transform:translateY(6px);}
+}
+.dropdown a,.dropdown .disabled{display:flex;align-items:center;gap:0.6rem;width:100%;padding:0.6rem 0.8rem;border-radius:8px;font-size:0.9rem;font-weight:500;color:var(--ink);text-decoration:none;transition:background 0.15s;}
+.dropdown a:hover{background:var(--nav-ice);color:var(--persian);}
+.dropdown a[aria-current="page"],.dropdown a.active{color:var(--persian);font-weight:600;}
+.dropdown .disabled{color:var(--nav-muted);cursor:default;}
+.dropdown .disabled em{font-style:italic;}
+@media (min-width:1281px){.dropdown{min-width:max-content;}.dropdown a,.dropdown .disabled{white-space:nowrap;}}
+.dropdown .soon{margin-left:auto;font-size:0.66rem;font-weight:600;letter-spacing:0.03em;color:var(--slate);background:var(--ivory-warm);padding:0.12rem 0.5rem;border-radius:999px;white-space:nowrap;font-style:normal;}
+/* Contact: a compact filled button that shares the nav's type and spacing */
+@media (min-width:1281px){
+  .navlabel.nav-contact{padding:0.5rem 1rem;border-radius:8px;background:var(--persian);color:#fff;font-weight:600;line-height:1.2;transition:background 0.2s;}
+  .navlabel.nav-contact:hover{background:var(--lapis);color:#fff;}
+  .navlabel.nav-contact[aria-current="page"]{background:var(--lapis);color:#fff;box-shadow:inset 0 -2px 0 rgba(255,255,255,0.55);}
+  .navlabel.nav-contact:focus-visible{outline:3px solid var(--persian);outline-offset:3px;}
+}
+/* Keep the right-most menus inside the viewport */
+.navlist > .navitem:last-child > .dropdown,.navlist > .navitem:nth-last-child(2) > .dropdown{left:auto;right:0;}
+.dropdown .ext{font-size:0.75em;color:var(--slate);margin-left:auto;}
+
+/* ---------- Mobile ---------- */
+@media (max-width:1280px){
+  /* Sticky header so the menu button is always within reach */
+  .site-header{position:sticky;top:0;z-index:100;background:var(--ivory);box-shadow:0 1px 0 var(--line);}
+  .topbar{padding:0.5rem 0;}
+  .brand-icon{width:48px;height:48px;}
+  .brand-name{font-size:1.55rem;}
+  .brand-motto{font-size:0.72rem;display:flex;flex-direction:column;gap:0.02rem;line-height:1.12;}
+  .motto-divider{display:none;}
+
+  .nav-toggle{display:inline-flex;align-items:center;justify-content:center;gap:0.55rem;min-width:48px;min-height:48px;padding:0 0.9rem;margin-right:-0.4rem;background:#fff;border:1.5px solid var(--line);border-radius:10px;color:var(--ink);font:600 0.9rem var(--sans);cursor:pointer;}
+  .nav-toggle:hover{border-color:var(--persian);color:var(--persian);}
+  .nav-toggle .bars,.nav-toggle .bars::before,.nav-toggle .bars::after{display:block;width:20px;height:2px;background:currentColor;border-radius:2px;position:relative;}
+  .nav-toggle .bars::before,.nav-toggle .bars::after{content:"";position:absolute;left:0;}
+  .nav-toggle .bars::before{top:-6px;}
+  .nav-toggle .bars::after{top:6px;}
+
+  /* Drawer */
+  .topnav{position:fixed;top:0;right:0;bottom:0;z-index:120;width:min(380px,88vw);flex-direction:column;align-items:stretch;background:var(--ivory);box-shadow:-20px 0 50px -20px rgba(22,48,110,0.35);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:0 1.1rem 1.5rem;transform:translateX(100%);visibility:hidden;transition:transform 0.28s ease,visibility 0.28s;}
+  .nav-open .topnav{transform:translateX(0);visibility:visible;}
+
+  .nav-head{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 0 0.9rem;margin-bottom:0.4rem;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--ivory);z-index:1;}
+  .nav-head .brand{min-height:48px;}
+  .nav-head .brand-icon{width:44px;height:44px;}
+  .nav-head .brand-name{font-size:1.4rem;}
+  .nav-close{display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;min-width:48px;min-height:48px;padding:0 0.8rem;background:#fff;border:1.5px solid var(--line);border-radius:10px;color:var(--ink);font:600 0.9rem var(--sans);cursor:pointer;}
+  .nav-close:hover{border-color:var(--persian);color:var(--persian);}
+  .nav-close .x{font-size:1.35rem;line-height:1;}
+
+  .navlist{flex-direction:column;align-items:stretch;}
+  .navitem{border-bottom:1px solid var(--ivory-warm);}
+  .navlist > .navitem > .navlabel{display:flex;justify-content:space-between;width:100%;min-height:52px;margin:0;padding:0.75rem 0.4rem;font-size:1.05rem;font-weight:600;color:var(--ink);text-align:left;}
+  .navlabel .caret{font-size:0.75rem;color:var(--slate);}
+  .navlabel[aria-expanded="true"]{color:var(--persian);}
+  .navlabel[aria-expanded="true"] .caret{transform:rotate(180deg);color:var(--persian);}
+
+  .dropdown{position:static;display:none;min-width:0;opacity:1;visibility:visible;transform:none;box-shadow:none;border:0;border-radius:10px;background:#fff;padding:0.35rem;margin:0 0 0.8rem;transition:none;}
+  .navitem.open > .dropdown{display:block;}
+  .dropdown a,.dropdown .disabled{min-height:48px;padding:0.65rem 0.8rem;font-size:0.98rem;flex-wrap:wrap;row-gap:0.25rem;}
+  .dropdown .disabled{flex-direction:column;align-items:flex-start;justify-content:center;}
+  .dropdown .disabled .soon{margin-left:0;}
+
+  .nav-cta{display:flex;align-items:center;justify-content:center;gap:0.5rem;min-height:52px;margin-top:1.4rem;background:var(--persian);color:#fff;border-radius:10px;font-weight:600;font-size:1rem;text-decoration:none;}
+  .nav-cta:hover{background:var(--lapis);}
+
+  .nav-scrim{display:block;position:fixed;inset:0;z-index:110;background:rgba(22,48,110,0.45);opacity:0;visibility:hidden;transition:opacity 0.28s,visibility 0.28s;border:0;padding:0;cursor:pointer;}
+  .nav-open .nav-scrim{opacity:1;visibility:visible;}
+
+  /* Scroll lock while the drawer is open */
+  html.nav-open,html.nav-open body{overflow:hidden;}
+}
+
+@media (max-width:360px){
+  .nav-toggle .label{display:none;}
+  .brand{gap:0.35rem;}
+  .brand-icon{width:40px;height:40px;}
+  .brand-name{font-size:1.28rem;}
+  .brand-motto{font-size:0.63rem;letter-spacing:-0.01em;}
+}
+
+/* Keep every menu label on one line */
+.navlabel{white-space:nowrap;}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important;}
+}
+
+/* Anchor the Connect & Engage dropdown directly below its own trigger,
+   instead of letting the right-alignment rule push it into Insights. */
+@media (min-width:1281px){
+  .navlist > .navitem:nth-last-child(2) > .dropdown{left:0;right:auto;}
+}

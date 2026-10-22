@@ -1,317 +1,377 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- head:start -->
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Who we are — Parseus AI</title>
+<title>About | Parseus AI</title>
+<meta name="description" content="About Parseus AI: from scientific curiosity to real-world impact. What Parseus stands for, the founder&#x27;s story, and the meaning of its name." />
+<link rel="canonical" href="https://parseus.ai/who-we-are.html" />
+<meta name="theme-color" content="#F7F5F0" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/icons/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/brand/icons/favicon-16.png" />
+<link rel="apple-touch-icon" href="/assets/brand/icons/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Parseus AI" />
+<meta property="og:title" content="About | Parseus AI" />
+<meta property="og:description" content="About Parseus AI: from scientific curiosity to real-world impact. What Parseus stands for, the founder&#x27;s story, and the meaning of its name." />
+<meta property="og:url" content="https://parseus.ai/who-we-are.html" />
+<meta property="og:image" content="https://parseus.ai/assets/brand/social/parseus-og-1200x630.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Parseus AI wordmark: a blue stone pillar and a gold pillar with Persian geometric patterns form the letter P." />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,600;9..144,1,400;9..144,1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/site.css" />
+<link rel="stylesheet" href="/assets/site-nav.css" />
+<!-- head:end -->
 <style>
-  :root{
-    --persian:#2E5BC9; --lapis:#1E3E8C; --lapis-deep:#16306e;
-    --ivory:#F7F5F0; --ivory-warm:#EFEBE1; --ink:#1A1A2E; --slate:#5B6472;
-    --amber:#A16207; --line:#DCD8CC;
-    --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,sans-serif;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{font-family:var(--sans);color:var(--ink);background:var(--ivory);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-  a{color:inherit;text-decoration:none;}
-  .wrap{max-width:1200px;margin:0 auto;padding:0 2rem;}
-  .topbar{display:flex;align-items:center;justify-content:space-between;padding:1.7rem 0;}
-  .brand{display:flex;align-items:baseline;gap:0.04em;font-family:var(--serif);font-weight:600;font-size:1.9rem;letter-spacing:-0.01em;}
-  .brand .pi{font-size:2.2rem;color:var(--persian);position:relative;top:0.05em;}
-  .topnav a{color:var(--slate);font-size:0.92rem;font-weight:500;margin-left:1.9rem;}
-  .topnav a:hover{color:var(--persian);}
-  .topnav{display:flex;align-items:center;}
-  .navitem{position:relative;}
-  .navitem > .navlabel{display:inline-flex;align-items:center;gap:0.35rem;color:var(--slate);font-size:0.92rem;font-weight:500;margin-left:1.9rem;cursor:pointer;padding:0.4rem 0;transition:color 0.2s;}
-  .navitem > a.navlabel{text-decoration:none;}
-  .navitem:hover > .navlabel{color:var(--persian);}
-  .navitem > .navlabel.active{color:var(--persian);font-weight:600;}
-  .navitem > .navlabel .caret{font-size:0.6rem;transition:transform 0.2s;}
-  .navitem:hover > .navlabel .caret{transform:rotate(180deg);}
-  .dropdown{position:absolute;top:100%;left:1.9rem;min-width:230px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 40px -16px rgba(30,62,140,0.28);padding:0.5rem;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity 0.18s,transform 0.18s,visibility 0.18s;z-index:50;}
-  .navitem:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0);}
-  .dropdown a, .dropdown span.disabled{display:flex;align-items:baseline;justify-content:flex-start;gap:0;width:100%;margin:0;padding:0.6rem 0.8rem;box-sizing:border-box;text-decoration:none;border-radius:8px;font-size:0.9rem;font-weight:500;color:var(--ink);transition:background 0.15s;}
-  .dropdown a:hover{background:#EAF0FC;color:var(--persian);}
-  .dropdown a.active{color:var(--persian);font-weight:600;}
-  .dropdown span.disabled{color:#A8AcB4;cursor:default;}
-  .dropdown span.disabled em{font-style:italic;}
-  .dropdown .soon{margin-left:auto;font-size:0.62rem;font-weight:600;letter-spacing:0.03em;color:var(--slate);background:var(--ivory-warm);padding:0.1rem 0.45rem;border-radius:999px;white-space:nowrap;}
-
-  .girih{display:flex;align-items:center;gap:1.2rem;padding:1.6rem 0;color:var(--persian);max-width:980px;}
-  .girih .rule{height:1px;background:linear-gradient(90deg,var(--persian),var(--line));flex:1;max-width:560px;opacity:0.5;}
-  .girih svg{width:38px;height:38px;flex-shrink:0;}
-
-  .hero{position:relative;padding:4.5rem 0 2.5rem;}
-  .hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.2rem,5vw,3.7rem);line-height:1.08;letter-spacing:-0.025em;max-width:22ch;}
-  .hero .sub{margin-top:1.8rem;font-family:var(--serif);font-style:italic;font-size:1.35rem;color:var(--slate);line-height:1.35;}
-  .hero .whom{display:flex;align-items:center;gap:0.9rem;margin-top:2.2rem;padding-top:1.4rem;border-top:1px solid var(--line);max-width:420px;}
-  .hero .whom .mono{font-family:var(--serif);font-weight:600;font-size:1.05rem;}
-  .hero .whom .role{font-size:0.9rem;color:var(--slate);}
-  .hero .whom .dot{width:5px;height:5px;border-radius:50%;background:var(--persian);}
+  .about-intro{padding:4.2rem 0 2.6rem;border-bottom:1px solid var(--line);}
+  .about-intro h1{max-width:18ch;}
+  .about-intro .subtitle{margin-top:0.9rem;max-width:40ch;}
+  .about-copy{max-width:950px;margin-top:1.8rem;}
+  .about-copy p{font-size:1.08rem;}
+  .about-key{margin-top:1.6rem;padding-top:1.2rem;border-top:1px solid var(--line);}
+  .about-key strong{font-family:var(--serif);font-weight:600;font-size:1.2rem;line-height:1.5;color:var(--navy);}
+  .about-hero{position:relative;padding:3.4rem 0 2.4rem;}
+  .story-title{font-size:clamp(1.9rem,4.4vw,3rem);line-height:1.08;letter-spacing:-0.02em;max-width:16ch;}
+  .about-hero .subtitle{margin-top:1.2rem;max-width:34ch;}
+  .whom{display:flex;align-items:center;flex-wrap:wrap;gap:0.4rem 0.9rem;margin-top:2rem;padding-top:1.3rem;border-top:1px solid var(--line);max-width:440px;}
+  .whom .mono{font-family:var(--serif);font-weight:600;font-size:1.05rem;}
+  .whom .role{font-size:0.92rem;color:var(--slate);}
+  .whom .dot{width:5px;height:5px;border-radius:50%;background:var(--gold);}
   .hero-band{position:absolute;top:0;right:0;width:300px;height:100%;opacity:0.05;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%232E5BC9' stroke-width='1.2'%3E%3Cpath d='M40 4 L52 16 L52 32 L40 44 L28 32 L28 16 Z'/%3E%3Cpath d='M40 4 L40 -8 M52 16 L64 12 M52 32 L64 36 M40 44 L40 56 M28 32 L16 36 M28 16 L16 12'/%3E%3C/g%3E%3C/svg%3E");}
 
-  section.block{padding:1.6rem 0;}
-  .short-bio{padding:1.6rem 0 0.5rem;}
-  .short-bio p{font-family:var(--serif);font-size:1.18rem;line-height:1.6;color:var(--ink);max-width:980px;margin-bottom:1.4rem;}
-  .short-bio em{font-style:italic;}
-  .bio-cue{font-family:var(--serif);font-style:italic;font-size:1.08rem;color:var(--persian);margin-top:2.2rem;display:inline-flex;align-items:center;gap:0.5rem;}
-  .bio-cue .chev{font-style:normal;color:var(--persian);font-size:1.9rem;line-height:1;position:relative;top:2px;display:inline-block;animation:bioBob 1.4s ease-in-out infinite;}
+  .intro p{font-family:var(--serif);font-size:1.18rem;line-height:1.62;color:var(--ink);max-width:62ch;margin-bottom:1.3rem;}
+  .bio-cue{font-family:var(--serif);font-style:italic;font-size:1.08rem;color:var(--persian);margin-top:1.4rem;display:inline-flex;align-items:center;gap:0.5rem;}
+  .bio-cue .chev{font-style:normal;font-size:1.6rem;line-height:1;display:inline-block;animation:bioBob 1.4s ease-in-out infinite;}
   @keyframes bioBob{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
-  @media (prefers-reduced-motion:reduce){.bio-cue .chev{animation:none;}}
-  p.body{font-size:0.98rem;line-height:1.8;color:#33384a;margin-bottom:1.5rem;max-width:980px;}
-  p.body:last-child{margin-bottom:0;}
-  p.body em{font-style:italic;}
-  p.body strong{color:var(--ink);font-weight:600;}
+
+  /* Co-founders share the same name/role and biography typography. */
+  .navid-founder{padding:2.1rem 0 3rem;}
+  .navid-founder .whom{margin-top:0;}
+  .navid-founder .intro{padding-top:1.2rem;}
+  .navid-founder .intro p{color:var(--slate);font-style:italic;}
+  .chapter{padding:1.2rem 0;}
+  .chapter h2{font-size:clamp(1.45rem,2.8vw,1.95rem);margin-bottom:1.3rem;max-width:26ch;}
+  .chapter .prose{max-width:72ch;}
   .lead-first::first-letter{font-family:var(--serif);font-weight:600;float:left;font-size:3.6rem;line-height:0.82;padding:0.4rem 0.6rem 0 0;color:var(--persian);}
 
-  /* CAREER PATH — two true columns */
-  .careerwrap{background:var(--ivory);padding:1rem 0 1.5rem;margin:0;}
-  .career-intro{max-width:980px;margin-bottom:2.6rem;}
-  .career-intro .lede{font-family:var(--serif);font-size:1.5rem;font-weight:500;line-height:1.3;letter-spacing:-0.01em;color:var(--ink);}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:0;max-width:980px;position:relative;}
-  .grid::before{content:"";position:absolute;left:50%;top:2.6rem;bottom:0.5rem;width:2px;margin-left:-1px;background:linear-gradient(180deg,var(--persian) 0%,var(--persian) 80%,var(--line) 100%);}
-  .ghead{font-size:0.7rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--amber);padding-bottom:1.6rem;}
+  /* Career timeline: two columns on desktop, one on mobile */
+  .grid-tl{display:grid;grid-template-columns:1fr 1fr;max-width:980px;position:relative;margin:2.2rem 0 1rem;}
+  .grid-tl::before{content:"";position:absolute;left:50%;top:2.6rem;bottom:0.5rem;width:2px;margin-left:-1px;background:linear-gradient(180deg,var(--persian) 0%,var(--persian) 80%,var(--line) 100%);}
+  .ghead{font-size:0.72rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--gold-text);padding-bottom:1.6rem;}
   .ghead.l{text-align:right;padding-right:1.3rem;}
-  .ghead.r{text-align:left;padding-left:1.3rem;}
+  .ghead.r{padding-left:1.3rem;}
   .cell{position:relative;padding-bottom:2.4rem;}
   .cell.l{text-align:right;padding-right:1.3rem;}
-  .cell.r{text-align:left;padding-left:1.3rem;}
-  .cell .gnode{position:absolute;top:0.2rem;width:26px;height:26px;color:var(--persian);background:var(--ivory);z-index:2;}
+  .cell.r{padding-left:1.3rem;}
+  /* Intentionally empty timeline slots: no card, border or fill */
+  .cell.empty{visibility:hidden;pointer-events:none;border:0!important;background:transparent!important;box-shadow:none!important;outline:0!important;}
+  .cell .gnode{position:absolute;top:0.2rem;width:26px;height:26px;color:var(--persian);z-index:2;}
   .cell.l .gnode{right:-13px;}
   .cell.r .gnode{left:-13px;}
-  .cell h4{font-family:var(--serif);font-size:1.22rem;font-weight:600;line-height:1.2;}
-  .cell .tag{font-size:0.82rem;font-weight:600;color:var(--persian);letter-spacing:0.02em;margin:0.15rem 0 0.5rem;}
+  .cell h3{font-size:1.22rem;}
+  .cell .tag{font-size:0.82rem;font-weight:600;color:var(--persian);margin:0.15rem 0 0.5rem;}
   .cell p{font-size:0.98rem;color:#4a5160;line-height:1.62;}
   .colhead{display:none;}
 
-  /* trust — quiet full-width turn, no dark box */
-  .trust{max-width:980px;}
-  .trust .turn{font-family:var(--serif);font-weight:600;font-size:clamp(1.7rem,3.6vw,2.5rem);line-height:1.16;letter-spacing:-0.02em;color:var(--ink);margin-bottom:1.8rem;max-width:18ch;}
+  .why{background:var(--ivory-brand);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:3.6rem 0;margin:2rem 0 1rem;}
+  .name-philosophy{font-family:var(--serif);font-size:clamp(1.1rem,2.1vw,1.45rem);color:var(--lapis);margin:0 0 1.4rem;}
+  .name-philosophy span{color:var(--gold);padding:0 0.45rem;}
+  .about-closing{max-width:950px;border-top:1px solid var(--line);padding-top:2rem;}
+  .about-closing p{max-width:750px;color:var(--body);margin:0.9rem 0 1.4rem;}
+  .why-grid{display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:3rem;align-items:center;}
+  .story-art{margin:0;max-width:520px;}
+  .story-art img{width:100%;height:auto;}
+  .why-inner h2{margin:0.2rem 0 1.2rem;}
+  @media (max-width:1023px){.why-grid{grid-template-columns:1fr;gap:1.6rem;}}
+  .closeline{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(1.3rem,2.4vw,1.65rem);line-height:1.35;letter-spacing:-0.01em;color:var(--navy);margin:0.6rem 0 0;max-width:46ch;}
+  .next-links{margin-top:2.4rem;}
 
-  .parseus h2{font-family:var(--serif);font-weight:600;font-size:clamp(1.7rem,3.4vw,2.4rem);line-height:1.14;letter-spacing:-0.02em;margin-bottom:1.4rem;max-width:20ch;}
-  .closeline{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(1.5rem,3vw,2rem);line-height:1.34;letter-spacing:-0.01em;color:var(--ink);margin:2.6rem 0 0;max-width:980px;}
-
-  footer{padding:3.5rem 0 2.4rem;margin-top:2rem;}
-  .foot-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding-top:2rem;border-top:1px solid var(--line);}
-  .foot-brand{font-family:var(--serif);font-weight:600;font-size:1.2rem;display:flex;align-items:baseline;gap:0.04em;}
-  .foot-brand .pi{color:var(--persian);font-size:1.45rem;position:relative;top:0.05em;}
-  .foot-meta{font-size:0.85rem;color:var(--slate);}
-
-  @media (max-width:820px){
-    .topnav{display:none;}.hero-band{display:none;}
-    .career-intro,.career-intro .lede{max-width:none;}
-    .grid{grid-template-columns:1fr;max-width:none;}
-    .grid::before{left:13px;}
-    .ghead{display:none;}
+  @media (max-width:900px){
+    .hero-band{display:none;}
+        .grid-tl{grid-template-columns:1fr;}
+    .grid-tl::before{left:13px;top:0.8rem;}
+    .ghead,.cell.empty{display:none;}
     .cell.l,.cell.r{text-align:left;padding-left:2.6rem;padding-right:0;}
     .cell.l .gnode,.cell.r .gnode{left:1px;right:auto;}
-    .cell.empty{display:none;}
-    .colhead{display:block;font-size:0.64rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber);margin-bottom:0.4rem;}
+    .colhead{display:block;font-size:0.74rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.4rem;}
+  }
+  @media (max-width:600px){
+    .about-intro{padding:2.4rem 0 1.8rem;}
+    .about-copy p{font-size:1rem;}
+    .about-key strong{font-size:1.08rem;}
+    .about-hero{padding:2.2rem 0 1.4rem;}
+    .intro p{font-size:1.06rem;}
+    .lead-first::first-letter{font-size:3rem;}
+    .cell{padding-bottom:1.9rem;}
+    .cell.l,.cell.r{padding-left:2.4rem;}
+    .cell h3{font-size:1.15rem;}
+    .why{padding:2.6rem 0;}
   }
 </style>
 </head>
 <body>
-  <div class="wrap">
+<!-- header:start -->
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="wrap site-header">
     <header class="topbar">
-      <a class="brand" href="./index.html"><span class="pi">&Pi;</span>arseus AI</a>
-      <nav class="topnav">
-        <div class="navitem"><a class="navlabel" href="./index.html">Home</a></div>
-        <div class="navitem">
-          <span class="navlabel">For people <span class="caret">▾</span></span>
-          <div class="dropdown">
-            <a href="https://parseus-ai-inc.github.io/maestro-ai-backend/" target="_blank" rel="noopener">Maestro AI</a>
-            <span class="disabled"><em>Personal Finance Advisor</em> <span class="soon">Summer 2026</span></span>
-            <span class="disabled"><em>Health &amp; Wellness Coach</em> <span class="soon">Fall 2026</span></span>
-            <span class="disabled"><em>Career Mentor</em> <span class="soon">Spring 2027</span></span>
-          </div>
+      <a class="brand" href="/" aria-label="Parseus AI, home"><img class="brand-icon" src="/assets/brand/monogram/parseus-monogram-144.webp" srcset="/assets/brand/monogram/parseus-monogram-144.webp 1x, /assets/brand/monogram/parseus-monogram-288.webp 2x" width="68" height="68" alt="" /><span class="brand-text"><span class="brand-name">Parseus <span>AI</span></span><span class="brand-motto"><span class="motto-line">The courage of Perseus</span><span class="motto-divider" aria-hidden="true"> | </span><span class="motto-line">The craft of Persia</span></span></span></a>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span><span class="label">Menu</span><span class="sr-only"> (main navigation)</span></button>
+      <nav id="site-nav" class="topnav" aria-label="Main">
+        <div class="nav-head">
+          <a class="brand" href="/" aria-label="Parseus AI, home"><img class="brand-icon" src="/assets/brand/monogram/parseus-monogram-144.webp" srcset="/assets/brand/monogram/parseus-monogram-144.webp 1x, /assets/brand/monogram/parseus-monogram-288.webp 2x" width="68" height="68" alt="" /><span class="brand-text"><span class="brand-name">Parseus <span>AI</span></span><span class="brand-motto"><span class="motto-line">The courage of Perseus</span><span class="motto-divider" aria-hidden="true"> | </span><span class="motto-line">The craft of Persia</span></span></span></a>
+          <button type="button" class="nav-close"><span class="x" aria-hidden="true">&times;</span><span>Close</span><span class="sr-only"> menu</span></button>
         </div>
-        <div class="navitem">
-          <span class="navlabel">For builders <span class="caret">▾</span></span>
-          <div class="dropdown">
-            <span class="disabled"><em>Agent Interface Layer</em> <span class="soon">Q2 2026</span></span>
-            <span class="disabled"><em>Agent Observability</em> <span class="soon">Q3 2026</span></span>
-            <span class="disabled"><em>Agent Topology</em> <span class="soon">Q4 2026</span></span>
-            <span class="disabled"><em>Lab Protocol Platform</em> <span class="soon">Q1 2027</span></span>
-          </div>
-        </div>
-        <div class="navitem">
-          <span class="navlabel">Solutions <span class="caret">▾</span></span>
-          <div class="dropdown">
-            <a href="./coming-soon.html">Manufacturing</a>
-            <a href="./coming-soon.html">Robotics</a>
-            <a href="./coming-soon.html">e-Commerce</a>
-            <a href="./coming-soon.html">Mining</a>
-            <a href="./coming-soon.html">Construction</a>
-          </div>
-        </div>
-        <div class="navitem">
-          <span class="navlabel">Consulting <span class="caret">▾</span></span>
-          <div class="dropdown">
-            <a href="./coming-soon.html">Automation</a>
-            <a href="./coming-soon.html">Digital Twin</a>
-            <a href="./coming-soon.html">Digital Transformation</a>
-            <a href="./coming-soon.html">Agentic AI Strategy</a>
-          </div>
-        </div>
-        <div class="navitem">
-          <span class="navlabel active">About <span class="caret">▾</span></span>
-          <div class="dropdown">
-            <a href="./who-we-are.html" class="active">Who we are</a>
-            <a href="./coming-soon.html">What we do</a>
-            <a href="mailto:info@parseus.ai">Contact us</a>
-          </div>
-        </div>
+        <ul class="navlist">
+        <li class="navitem"><a class="navlabel" href="/">Home</a></li>
+        <li class="navitem">
+          <button type="button" class="navlabel active" aria-expanded="false" aria-controls="sub-about">About <span class="caret" aria-hidden="true">&#9662;</span></button>
+          <ul class="dropdown" id="sub-about">
+            <li><a href="/who-we-are.html" aria-current="page">About Parseus</a></li>
+            <li><a href="/expertise.html">Experience &amp; Capabilities</a></li>
+          </ul>
+        </li>
+        <li class="navitem"><a class="navlabel" href="/projects/">Projects</a></li>
+        <li class="navitem"><a class="navlabel" href="/insights.html">Insights</a></li>
+        <li class="navitem">
+          <button type="button" class="navlabel" aria-expanded="false" aria-controls="sub-connect-engage">Connect &amp; Engage <span class="caret" aria-hidden="true">&#9662;</span></button>
+          <ul class="dropdown" id="sub-connect-engage">
+            <li><a href="/conversations/ai-strategy/">Advisory &amp; Brainstorming</a></li>
+            <li><a href="/conversations/roundtables/">Roundtables &amp; Discussions</a></li>
+            <li><a href="/contact.html#collaborate">Collaborate With Us</a></li>
+          </ul>
+        </li>
+        <li class="navitem"><a class="navlabel nav-contact" href="/contact.html">Contact</a></li>
+        </ul>
+        <a class="nav-cta" href="/contact.html">Let’s Talk <span aria-hidden="true">&rarr;</span></a>
       </nav>
+      <button type="button" class="nav-scrim" tabindex="-1" aria-hidden="true"></button>
     </header>
   </div>
+<!-- header:end -->
 
-  <section class="hero"><div class="wrap">
-    <div class="hero-band"></div>
-    <h1>Of everything you can engineer, trust is the hardest.</h1>
-    <p class="sub">I've spent a career learning how.</p>
-    <div class="whom"><span class="mono">Neda Parnian, PhD</span><span class="dot"></span><span class="role">Founder, Parseus AI</span></div>
-  </div></section>
+<main id="main">
 
-  <section class="short-bio"><div class="wrap">
-    <p>I grew up in Shiraz taking things apart to understand them, and I never stopped. That instinct carried me from being the first woman to teach engineering at my university, at twenty-five, to a career building and leading AI in the places that punish a wrong answer: mining and welding floors, the systems that keep unsafe images off online shopping, the factories that quietly make the electronics in your pocket. Everywhere I went, the same truth held, the technology was never the hard part. Trust was.</p>
-    <p>I started Parseus to build the kind of AI that earns that trust from the start, for the person facing a hard decision and the enterprise running a thousand of them. The name carries the idea: <em>Perseus</em>, the Greek hero who won not by force but with the right tool used wisely, and <em>Pars</em>, the old name for Persia, a land defined by craft. Parseus is both, and so is the work: AI that does the heavy lifting, shows your options, and leaves the decision to you.</p>
-    <p class="bio-cue">How I got here, the long way <span class="chev">&#9662;</span></p>
-  </div></section>
-
-  <div class="wrap"><div class="girih"><svg viewBox="0 0 80 80"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M40 6 L54 18 L54 34 L40 46 L26 34 L26 18 Z"/><circle cx="40" cy="26" r="6"/></g></svg><span class="rule"></span></div></div>
-
-  <section class="block"><div class="wrap">
-    <p class="body lead-first">I grew up in a city of poets and wine, Shiraz, in the land of Cyrus the Great. As a kid, I was the sort of person who had to know how things were made. I wove Persian rugs, following a pattern knot by knot, where a single misread row pushes the whole motif out of line and there is no cheap way back, so you check every row as it forms rather than at the end. I embroidered by hand, where the thread and the daylight were finite and a mistake meant unpicking an afternoon of work, so I learned to plan the design around the cloth I actually had. I baked pastries, where the sequence and the timing are fixed and unforgiving: pull it too early or leave it too long and the batch is gone, with nothing to do but start over. And I played chess competitively, which taught me to plan several moves ahead and commit to a line knowing I would have to live inside the constraints it created.</p>
-    <p class="body">None of it looked like engineering at the time. Looking back, the instinct was already there, the one that still drives my work: take a process apart until you understand it well enough to build something you can trust.</p>
-    <p class="body">I loved all of it. But the thing that truly caught me was the computer. I was thirteen when I got my hands on a Commodore 64, and while everyone else wanted to play the games, I stayed up after the house went quiet, writing my own in BASIC. The crafts had taught me to follow a process someone else had set. Here was the opposite: I could write the process myself, line by line, and the machine would do exactly what I told it, no more and no less. If it broke, I had only my own logic to fix. That was the moment the work turned from making things to making the rules things run by, and I knew that was what I wanted to do.</p>
-    <p class="body">That pull carried me from a computer engineering degree in Shiraz to a PhD in Waterloo and a postdoc in Vancouver. Along the way I built a solid scientific and engineering foundation that real work depends on, learned to invent new technology and push it past its limits, and came away with the habit I value most: never being done learning.</p>
-  </div></section>
-
-  <div class="wrap"><div class="girih"><svg viewBox="0 0 80 80"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M40 6 L54 18 L54 34 L40 46 L26 34 L26 18 Z"/><circle cx="40" cy="26" r="6"/></g></svg><span class="rule"></span></div></div>
-
-  <section class="block"><div class="wrap">
-    <p class="body">Before any of that took me abroad, my career began at home. Shiraz University offered me a faculty position in its school of computer science and engineering, having ranked as the top student across several years in both my bachelor's and master's.</p>
-    <p class="body">I was the first woman appointed there in the years after the Iranian Islamic Revolution, when a woman's place in academic life was being newly questioned and constrained. I was twenty-five, standing in front of students who had never had a woman teach them at that level, and I learned only later that this became an inspiration for many young women to pursue their own ambitions regardless of the constraints around them.</p>
-  </div></section>
-
-  <div class="wrap"><div class="girih"><svg viewBox="0 0 80 80"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M40 6 L54 18 L54 34 L40 46 L26 34 L26 18 Z"/><circle cx="40" cy="26" r="6"/></g></svg><span class="rule"></span></div></div>
-
-  <!-- CAREER PATH -->
-  <section class="careerwrap"><div class="wrap">
-    <div class="career-intro">
-      <p class="body">The bridge into industry was a postdoctoral grant, one meant to push academic research into the real world.</p>
+  <section class="about-intro" aria-labelledby="page-title"><div class="wrap">
+    <span class="eyebrow"></span>
+    <h1 id="page-title">About Parseus AI</h1>
+    <p class="subtitle">From Scientific Curiosity to Real-World Impact</p>
+    <div class="prose about-copy">
+      <p>Parseus AI was founded on a simple belief: meaningful technology starts with understanding the problem, not choosing the latest solution.</p>
+      <p>Its approach brings together scientific thinking, engineering discipline, technology strategy, and operational experience to address complex, real-world challenges.</p>
+      <p>AI is a powerful part of that toolkit, but it is a means, not the objective. The objective is to turn promising ideas and emerging capabilities into systems that work reliably, fit the environments in which they operate, and deliver outcomes that people and organizations can measure and trust.</p>
+      <p class="about-key"><strong>At Parseus, the challenge is not simply to demonstrate what technology can do. It is to make that capability work in practice.</strong></p>
     </div>
-    <div class="grid">
-      <div class="ghead l">Core Tech Roles</div>
-      <div class="ghead r">Fractional Tech Executive Roles</div>
+  </div></section>
 
-      <div class="cell l">
-        <svg class="gnode" viewBox="0 0 80 80"><g fill="var(--ivory)" stroke="currentColor" stroke-width="3"><path d="M40 8 L56 20 L56 38 L40 50 L24 38 L24 20 Z"/></g></svg>
-        <span class="colhead">Core Tech Role</span>
-        <h4>Weir Motion Metrics</h4>
+  <section class="about-hero" aria-labelledby="story-title"><div class="wrap">
+    <div class="hero-band"></div>
+    <span class="eyebrow">Who we are</span>
+    <h2 id="story-title" class="story-title">Scientist by Training. Builder by Nature.</h2>
+    <p class="subtitle">A career connecting scientific research, intelligent systems and real-world operations.</p>
+    <div class="whom"><span class="mono">Neda Parnian, PhD</span><span class="dot" aria-hidden="true"></span><span class="role">Co-Founder, Parseus AI</span></div>
+  </div></section>
+
+  <section class="intro"><div class="wrap">
+    <p>I grew up in Shiraz taking things apart to understand them, and I never stopped. That instinct carried me from a computer engineering degree to a PhD, a university faculty position, and a career building and leading AI in places that punish a wrong answer: mining and welding operations where mistakes can put people and production at risk; large-scale e-commerce systems where AI helps prevent unsafe content from reaching customers; and the factories that make the electronics in your pocket, where reliability, quality, and efficiency matter at every step.</p>
+    <p>Across all of it, one lesson held. The technology is rarely the hardest part. What decides whether it works is everything around it: the architecture, the operating discipline, the people who run it, and whether they can trust what it does. Parseus is built on that lesson.</p>
+  </div></section>
+
+  <details class="founder-history" id="founder-history">
+    <summary class="founder-history-toggle"><span>How I got here, the long way</span><span class="founder-history-arrow" aria-hidden="true"></span></summary>
+  <div class="wrap"><div class="girih" aria-hidden="true"><svg viewBox="0 0 80 80"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M40 6 L54 18 L54 34 L40 46 L26 34 L26 18 Z"/><circle cx="40" cy="26" r="6"/></g></svg><span class="line"></span></div></div>
+
+  <section class="chapter" aria-labelledby="ch-made"><div class="wrap">
+    <h2 id="ch-made">Learning how things are made</h2>
+    <div class="prose">
+      <p class="lead-first">I grew up in a city of poets and wine, Shiraz, in the land of Cyrus the Great. As a kid, I was the sort of person who had to know how things were made. I wove Persian rugs, following a pattern knot by knot, where a single misread row pushes the whole motif out of line and there is no cheap way back, so you check every row as it forms rather than at the end. I embroidered by hand, where the thread and the daylight were finite and a mistake meant unpicking an afternoon of work, so I learned to plan the design around the cloth I actually had. I baked pastries, where the sequence and the timing are fixed and unforgiving. And I played chess competitively, which taught me to plan several moves ahead and commit to a line knowing I would have to live inside the constraints it created.</p>
+      <p>None of it looked like engineering at the time. Looking back, the instinct was already there, the one that still drives my work: take a process apart until you understand it well enough to build something you can rely on.</p>
+    </div>
+  </div></section>
+
+  <section class="chapter" aria-labelledby="ch-rules"><div class="wrap">
+    <h2 id="ch-rules">Writing the rules myself</h2>
+    <div class="prose">
+      <p>I loved all of it. But the thing that truly caught me was the computer. I was thirteen when I got my hands on a Commodore 64, and while everyone else wanted to play the games, I stayed up after the house went quiet, writing my own in BASIC. The crafts had taught me to follow a process someone else had set. Here was the opposite: I could write the process myself, line by line, and the machine would do exactly what I told it, no more and no less. If it broke, I had only my own logic to fix. That was the moment the work turned from making things to making the rules things run by.</p>
+      <p>That pull led me to study computer engineering in Shiraz, through both a bachelor&rsquo;s and a master&rsquo;s degree.</p>
+    </div>
+  </div></section>
+
+  <section class="chapter" aria-labelledby="ch-teach"><div class="wrap">
+    <h2 id="ch-teach">Teaching at twenty-five</h2>
+    <div class="prose">
+      <p>My career began at home. Having ranked as the top student across several years of both my bachelor&rsquo;s and master&rsquo;s, I was offered a faculty position in Shiraz University&rsquo;s school of computer science and engineering.</p>
+      <p>I was the first woman appointed there in the years after the Iranian Islamic Revolution, when a woman&rsquo;s place in academic life was being newly questioned and constrained. I was twenty-five, standing in front of students who had never had a woman teach them at that level. I learned only later that this became an inspiration for many young women to pursue their own ambitions regardless of the constraints around them.</p>
+    </div>
+  </div></section>
+
+  <section class="chapter" aria-labelledby="ch-research"><div class="wrap">
+    <h2 id="ch-research">From research to real systems</h2>
+    <div class="prose">
+      <p>From there I went on to a PhD at the University of Waterloo and a postdoctoral appointment at Simon Fraser University. Along the way I built the scientific and engineering foundation that real work depends on, learned to invent new technology and push it past its limits, and came away with the habit I value most: never being done learning.</p>
+      <p>The bridge into industry was a postdoctoral grant, one meant to push academic research into the real world. It set the pattern for everything since: take something that works in principle, and make it work in practice.</p>
+    </div>
+
+    <div class="grid-tl" role="list" aria-label="Career path">
+      <div class="ghead l" aria-hidden="true">Core technology roles</div>
+      <div class="ghead r" aria-hidden="true">Fractional technology executive roles</div>
+
+      <div class="cell l" role="listitem">
+        <svg class="gnode" viewBox="0 0 80 80" aria-hidden="true"><g fill="var(--ivory)" stroke="currentColor" stroke-width="3"><path d="M40 8 L56 20 L56 38 L40 50 L24 38 L24 20 Z"/></g></svg>
+        <span class="colhead">Core technology role</span>
+        <h3>Weir Motion Metrics</h3>
         <div class="tag">Startup</div>
         <p>I built everything myself and felt exactly how fragile an idea is before the world has tested it.</p>
       </div>
-      <div class="cell r empty"></div>
+      <div class="cell r empty" aria-hidden="true"></div>
 
-      <div class="cell l">
-        <svg class="gnode" viewBox="0 0 80 80"><g fill="var(--ivory)" stroke="currentColor" stroke-width="3"><path d="M40 8 L56 20 L56 38 L40 50 L24 38 L24 20 Z"/></g></svg>
-        <span class="colhead">Core Tech Role</span>
-        <h4>Intel</h4>
+      <div class="cell l" role="listitem">
+        <svg class="gnode" viewBox="0 0 80 80" aria-hidden="true"><g fill="var(--ivory)" stroke="currentColor" stroke-width="3"><path d="M40 8 L56 20 L56 38 L40 50 L24 38 L24 20 Z"/></g></svg>
+        <span class="colhead">Core technology role</span>
+        <h3>Intel</h3>
         <div class="tag">Corporate</div>
         <p>I turned research into scale, where something must work not once but a million times identically.</p>
       </div>
-      <div class="cell r empty"></div>
+      <div class="cell r empty" aria-hidden="true"></div>
 
-      <div class="cell l">
-        <svg class="gnode" viewBox="0 0 80 80"><g fill="var(--ivory)" stroke="currentColor" stroke-width="3"><path d="M40 8 L56 20 L56 38 L40 50 L24 38 L24 20 Z"/></g></svg>
-        <span class="colhead">Core Tech Role</span>
-        <h4>Amazon</h4>
+      <div class="cell l" role="listitem">
+        <svg class="gnode" viewBox="0 0 80 80" aria-hidden="true"><g fill="var(--ivory)" stroke="currentColor" stroke-width="3"><path d="M40 8 L56 20 L56 38 L40 50 L24 38 L24 20 Z"/></g></svg>
+        <span class="colhead">Core technology role</span>
+        <h3>Amazon</h3>
         <div class="tag">Corporate</div>
-        <p>I owned systems where the margin for error nearly vanishes, where the bar isn't whether something works, but whether it holds under relentless load.</p>
+        <p>I owned systems where the margin for error nearly vanishes, where the bar isn&rsquo;t whether something works, but whether it holds under relentless load.</p>
       </div>
-      <div class="cell r">
-        <svg class="gnode" viewBox="0 0 80 80"><g fill="var(--ivory)" stroke="currentColor" stroke-width="3"><path d="M40 8 L56 20 L56 38 L40 50 L24 38 L24 20 Z"/></g></svg>
-        <span class="colhead">Fractional Tech Executive Role</span>
-        <h4>Novarc</h4>
+      <div class="cell r" role="listitem">
+        <svg class="gnode" viewBox="0 0 80 80" aria-hidden="true"><g fill="var(--ivory)" stroke="currentColor" stroke-width="3"><path d="M40 8 L56 20 L56 38 L40 50 L24 38 L24 20 Z"/></g></svg>
+        <span class="colhead">Fractional technology executive role</span>
+        <h3>Novarc</h3>
         <div class="tag">Startup</div>
-        <p>I built a vision system for one of the harshest places it can work, where a machine has to read molten metal through the same blinding arc that slowly takes a human welder's sight. Everything that makes it hard, the glare, the heat, the vibration, only shows up once you leave the lab and meet the reality.</p>
+        <p>I built a vision system for one of the harshest places it can work, where a machine has to read molten metal through the same blinding arc that slowly takes a human welder&rsquo;s sight. Everything that makes it hard, the glare, the heat, the vibration, only shows up once you leave the lab and meet reality.</p>
       </div>
 
-      <div class="cell l">
-        <svg class="gnode" viewBox="0 0 80 80"><g fill="var(--ivory)" stroke="currentColor" stroke-width="3"><path d="M40 8 L56 20 L56 38 L40 50 L24 38 L24 20 Z"/></g></svg>
-        <span class="colhead">Core Tech Role</span>
-        <h4>Summit</h4>
+      <div class="cell l" role="listitem">
+        <svg class="gnode" viewBox="0 0 80 80" aria-hidden="true"><g fill="var(--ivory)" stroke="currentColor" stroke-width="3"><path d="M40 8 L56 20 L56 38 L40 50 L24 38 L24 20 Z"/></g></svg>
+        <span class="colhead">Core technology role</span>
+        <h3>Summit</h3>
         <div class="tag">Manufacturing</div>
         <p>I took on one of the most complex environments there is, close enough to the floor to watch an elegant idea collide with physical reality. I led the work that had to survive that collision.</p>
       </div>
-      <div class="cell r">
-        <svg class="gnode" viewBox="0 0 80 80"><g fill="var(--ivory)" stroke="currentColor" stroke-width="3"><path d="M40 8 L56 20 L56 38 L40 50 L24 38 L24 20 Z"/></g></svg>
-        <span class="colhead">Fractional Tech Executive Role</span>
-        <h4>Matt3r</h4>
-        <div class="tag">Startup · Ongoing</div>
-        <p>I teach machines to drive by chasing what they've never seen, the rare, unimaginable moments that decide whether a car reacts in time. It's worse than finding a needle in a haystack: there, at least, you know what the needle looks like.</p>
+      <div class="cell r" role="listitem">
+        <svg class="gnode" viewBox="0 0 80 80" aria-hidden="true"><g fill="var(--ivory)" stroke="currentColor" stroke-width="3"><path d="M40 8 L56 20 L56 38 L40 50 L24 38 L24 20 Z"/></g></svg>
+        <span class="colhead">Fractional technology executive role</span>
+        <h3>Matt3r</h3>
+        <div class="tag">Startup &middot; Ongoing</div>
+        <p>I teach machines to drive by chasing what they&rsquo;ve never seen, the rare, unimaginable moments that decide whether a car reacts in time. It&rsquo;s worse than finding a needle in a haystack: there, at least, you know what the needle looks like.</p>
       </div>
     </div>
   </div></section>
 
-  <section class="block"><div class="wrap">
-    <p class="body">So I had lived on every side of that divide between the lab and the world, between startup and corporations, and each one taught me something the others couldn't.</p>
-    <p class="body">The work itself was rarely tidy. I built computer vision systems for the mining and welding industries that had to see clearly through dust, welding arc light, constant vibration, and harsh weather. In mining, a single missed detection could jam a crusher, halting the operation and putting a life at risk to clear it. On the welding line, the system guided operators to lay a flawless weld straight through the blinding glare of the arc, solving a hard problem the industry couldn't escape: skilled welders are scarce, and their careers are cut short as they lose their eyesight by their early fifties. The impact was direct: lives saved, eyesight protected, and productivity raised sharply.</p>
-    <p class="body">At Amazon, I worked on a few products, but two stand out. One was the chaos of trucks waiting to load and unload. Drivers stuck in hour-long lines that I helped turn into a few minutes, across hundreds of sites. It sounds like logistics, but it's really about a promise, getting people's orders to them on time. The other mattered to me more personally. I built the systems that catch unsafe and inappropriate images before they reach the public website. A miss could put harmful content in front of anyone browsing, including children, so the machine did the heavy work of catching what it could at scale, but on the calls that carried real consequences, a person made the final decision, never the model alone.</p>
-    <p class="body">Later I took on an older world entirely, the factories that build the circuit boards inside nearly every device we use. I built that sprawling physical operation something like a nervous system, connecting and centralizing the data and knowledge scattered across its sites. The plant could finally anticipate problems instead of reacting to them, plan and schedule production on evidence instead of guesswork, and run with transparency and visibility at every level.</p>
-  </div></section>
-
-  <div class="wrap"><div class="girih"><svg viewBox="0 0 80 80"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M40 6 L54 18 L54 34 L40 46 L26 34 L26 18 Z"/><circle cx="40" cy="26" r="6"/></g></svg><span class="rule"></span></div></div>
-
-  <section class="block"><div class="wrap">
-    <div class="trust">
-      <p class="body">The technology was never the hard part. Trust was. That's the lesson every one of those projects taught me, over and over. A system can perform brilliantly in testing and still fail the moment it goes live, when no one can see how it reached its answer or hold it accountable. That isn't just useless. It's dangerous. What made these systems work was never how advanced they were. It was the discipline around them: their reasoning made visible, their limits clearly drawn, their performance measured against real outcomes, and a person kept in charge of the decisions that carry weight, someone who can see what the machine sees and still overrule it. The machine does the work, and you keep the judgment.</p>
+  <section class="chapter" aria-labelledby="ch-work"><div class="wrap">
+    <h2 id="ch-work">What the work demanded</h2>
+    <div class="prose">
+      <p>So I had lived on every side of the divide between the lab and the world, and between startups and large corporations. Each taught me something the others couldn&rsquo;t.</p>
+      <p>The work itself was rarely tidy. I built computer vision systems for the mining and welding industries that had to see clearly through dust, welding arc light, constant vibration and harsh weather. In mining, a single missed detection could jam a crusher, halting the operation and putting a life at risk to clear it. On the welding line, the system guided operators to lay a flawless weld straight through the blinding glare of the arc, addressing a problem the industry couldn&rsquo;t escape: skilled welders are scarce, and their careers are cut short as they lose their eyesight by their early fifties. The impact was direct: lives saved, eyesight protected, and productivity raised sharply.</p>
+      <p>At Amazon, two products stand out. One was the chaos of trucks waiting to load and unload: drivers stuck in hour-long lines that I helped turn into a few minutes, across hundreds of sites. It sounds like logistics, but it&rsquo;s really about a promise, getting people&rsquo;s orders to them on time. The other mattered to me more personally. I built the systems that catch unsafe and inappropriate images before they reach the public website. A miss could put harmful content in front of anyone browsing, including children, so the machine did the heavy work of catching what it could at scale, but on the calls that carried real consequences, a person made the final decision, never the model alone.</p>
+      <p>Later I took on an older world entirely: the factories that build the circuit boards inside nearly every device we use. I built that sprawling physical operation something like a nervous system, connecting and centralizing the data and knowledge scattered across its sites. The plant could anticipate problems instead of reacting to them, plan and schedule production on evidence instead of guesswork, and run with visibility at every level.</p>
     </div>
   </div></section>
 
-  <div class="wrap"><div class="girih"><svg viewBox="0 0 80 80"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M40 6 L54 18 L54 34 L40 46 L26 34 L26 18 Z"/><circle cx="40" cy="26" r="6"/></g></svg><span class="rule"></span></div></div>
-
-  <section class="block parseus"><div class="wrap">
-    <p class="body">I started Parseus to solve hard problems the way I'd learned to: systematically, strategically, with the right technology for the job rather than the trendiest one. AI is a powerful part of that toolkit, but it's a means, not the point. The point is to build trust in from the start, not bolt it on after something breaks.</p>
-    <p class="body">There's a story behind the name. It blends two ancient worlds in one. From Greece, <em>Perseus</em>, the hero who beat the impossible not with force but with the right tool, used wisely. From Persia, <em>Pars</em>, its old name, and a land defined by craft. Parseus is both: the courage to take on hard problems, the craft to solve them with care.</p>
-    <p class="body">Everything I build at Parseus follows one rule: technology should hand people a clearer view and a faster path to a good decision, not quietly make the call for them, whether it's an app helping someone through a personal decision or infrastructure governing a fleet of enterprise agents. That isn't a marketing line. It's technology that respects the people who use it, does the heavy lifting, tells the truth about what it's doing, and leaves them more in control, not less.</p>
-    <p class="closeline">I built Parseus to give people what they actually need, while the rest of the industry sells them what's fashionable in AI right now.</p>
+  <section class="chapter" aria-labelledby="ch-taught"><div class="wrap">
+    <h2 id="ch-taught">What it taught me</h2>
+    <div class="prose">
+      <p>A system can perform brilliantly in testing and still fail the moment it goes live. What made these systems work was never how advanced they were. It was the discipline around them: an architecture designed for the environment it would actually run in, not the one in the demo; operations that kept it reliable on the worst day, not just the average one; performance measured against real outcomes rather than benchmarks; and leadership that kept engineers, operators and decision-makers working from the same picture.</p>
+      <p>And trust, which runs through all of it: reasoning made visible, limits clearly drawn, and a person kept in charge of the decisions that carry weight, someone who can see what the machine sees and still overrule it. The machine does the work, and people keep the judgment.</p>
+    </div>
   </div></section>
 
-  <div class="wrap"><footer><div class="foot-row">
-    <div class="foot-brand"><span class="pi">&Pi;</span>arseus AI</div>
-    <div class="foot-meta">The courage of Perseus, the craft of Persia · info@parseus.ai</div>
-  </div></footer></div>
+  </details>
+
+  <!-- Navid's profile remains visible, outside Neda's expandable biography. -->
+  <section class="navid-founder" aria-labelledby="navid-parnian-title">
+    <div class="wrap">
+      <div class="whom">
+        <span class="mono" id="navid-parnian-title">Navid Parnian</span>
+        <span class="dot" aria-hidden="true"></span>
+        <span class="role">Co-Founder, Parseus AI</span>
+      </div>
+      <div class="intro">
+        <p>Navid's story will be added here.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="why" id="why-parseus" aria-labelledby="ch-why">
+    <div class="wrap">
+      <div class="why-inner" style="max-width:950px;">
+        <span class="eyebrow">The story behind the name</span>
+        <h2 id="ch-why">Why Parseus?</h2>
+        <p class="name-philosophy">The courage of Perseus <span aria-hidden="true">|</span> The craft of Persia</p>
+        <div class="prose">
+          <p>The name carries two foundations. From Greece, <em>Perseus</em>: the hero who faced an impossible challenge and won not by force, but with courage, ingenuity and the right tool used wisely. That is how I want Parseus to approach difficult problems: head-on, with judgment about which tools truly fit.</p>
+          <p>From Persia, <em>Pars</em>, its ancient name, and my own heritage. It is a culture defined by craft, by creativity and by precision: the same lessons I learned at the loom long before I learned engineering, where every row is checked as it forms and care is part of the design, not an afterthought.</p>
+          <p>The two pillars in the Parseus identity carry the same idea: a navy pillar for Perseus, and a gold pillar carved with Persian geometric patterns for Persia, joined to form the P. Courage and ingenuity to take on hard problems; precision and craftsmanship to turn difficult ideas into useful, reliable systems that work in the real world.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section about-close" aria-labelledby="ch-close"><div class="wrap">
+    <div class="about-closing">
+      <h2 id="ch-close">Have a Challenge Worth Solving?</h2>
+      <p>Whether you are exploring emerging technology or navigating a complex implementation challenge, we would welcome a conversation.</p>
+      <a class="btn btn-primary" href="/contact.html">Let&rsquo;s Talk <span aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div></section>
+
+</main>
+
+<!-- footer:start -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-about">
+          <a class="foot-brand" href="/" aria-label="Parseus AI: the courage of Perseus, the craft of Persia. Home"><img class="sig-full" src="/assets/brand/signature/parseus-signature-640.webp" srcset="/assets/brand/signature/parseus-signature-640.webp 640w, /assets/brand/signature/parseus-signature-1280.webp 1280w" sizes="320px" width="640" height="279" alt="" loading="lazy" /></a>
+        </div>
+        <div class="foot-col">
+          <h2>Explore</h2>
+          <ul>
+            <li><a href="/projects/">Projects</a></li>
+            <li><a href="/insights.html">Insights</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h2>Connect &amp; Engage</h2>
+          <ul>
+            <li><a href="/conversations/ai-strategy/">Advisory &amp; Brainstorming</a></li>
+            <li><a href="/conversations/roundtables/">Roundtables &amp; Discussions</a></li>
+            <li><a href="/contact.html#collaborate">Collaborate With Us</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h2>About</h2>
+          <ul>
+            <li><a href="/who-we-are.html">About Parseus</a></li>
+            <li><a href="/expertise.html">Experience &amp; Capabilities</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-legal">
+        <span>&copy; 2026 Parseus AI. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+  <script src="/assets/site-nav.js" defer></script>
+<!-- footer:end -->
 <!-- Cloudflare Web Analytics -->
-<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bcd1e376c9b046f897496f2af0250541"}'></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bcd1e376c9b046f897496f2af0250541"}'></script>
 <!-- End Cloudflare Web Analytics -->
-<!-- Link click tracking -->
-<script>
-(function(){
-  function track(name, props){
-    try{
-      if(window.__cfBeacon && typeof window.__cfBeacon.trackEvent === 'function'){
-        window.__cfBeacon.trackEvent(name, props);
-      } else if(navigator.sendBeacon){
-        var payload = JSON.stringify({n:name,p:props||{},u:location.pathname});
-        navigator.sendBeacon('https://cloudflareinsights.com/cdn-cgi/rum?', payload);
-      }
-    }catch(e){}
-  }
-  document.addEventListener('click', function(e){
-    var a = e.target.closest && e.target.closest('a');
-    if(!a) return;
-    var href = a.getAttribute('href') || '';
-    var label = (a.textContent || '').trim().slice(0,60);
-    track('link_click', {href:href, label:label, page:location.pathname});
-  }, true);
-})();
-</script>
-<!-- End link click tracking -->
+<script src="/assets/link-tracking.js" defer></script>
 </body>
 </html>
