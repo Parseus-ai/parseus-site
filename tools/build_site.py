@@ -74,10 +74,17 @@ REDIRECTS = {
     "beyond-ai-headlines/roundtables/index.html": "/conversations/roundtables/",
 }
 
-# Header wordmark: the approved transparent Parseus AI wordmark, phrases cropped off (see assets/brand/README.md)
-IDENTITY = ('<img class="brand-mark" src="/assets/brand/header/parseus-wordmark-84.webp" '
+# Header and mobile menu: the approved Parseus AI wordmark, without the slogan.
+WORDMARK = ('<img class="brand-mark" src="/assets/brand/header/parseus-wordmark-84.webp" '
             'srcset="/assets/brand/header/parseus-wordmark-84.webp 1x, /assets/brand/header/parseus-wordmark-168.webp 2x" '
             'width="230" height="84" alt="" />')
+
+# Footer: the complete approved brand image (wordmark plus "The courage of Perseus |
+# The craft of Persia" on one line), scaled proportionally as one composition.
+SIGNATURE = ('<img class="sig-full" src="/assets/brand/signature/parseus-signature-640.webp" '
+             'srcset="/assets/brand/signature/parseus-signature-640.webp 640w, /assets/brand/signature/parseus-signature-1280.webp 1280w" '
+             'sizes="320px" width="640" height="279" alt="" loading="lazy" />')
+SIG_LABEL = "Parseus AI: the courage of Perseus, the craft of Persia. Home"
 
 # ---------------------------------------------------------------------------
 # Pages: file -> (url path, <title>, meta description, indexable)
@@ -86,7 +93,7 @@ PAGES = {
     "index.html": ("/", "Parseus AI | Beyond AI Headlines: From Innovation to Real-World Impact",
                    "Parseus AI is focused on turning emerging AI into useful, reliable systems, building on its founder's hands-on experience in enterprise AI, robotics, manufacturing and operations.", True),
     "who-we-are.html": ("/who-we-are.html", "About | Parseus AI",
-                        "Scientist by training, builder by nature. The founder's story behind Parseus AI, and the meaning of its name: the courage of Perseus, the craft of Persia.", True),
+                        "About Parseus AI: from scientific curiosity to real-world impact. What Parseus stands for, the founder's story, and the meaning of its name.", True),
     "expertise.html": ("/expertise.html", "Expertise | Parseus AI",
                        "Areas of expertise across enterprise and agentic AI, physical AI and robotics, manufacturing, computer vision, enterprise architecture and implementation.", True),
     "projects/index.html": ("/projects/", "Projects | Parseus AI",
@@ -186,11 +193,11 @@ def render_header(file):
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="wrap site-header">
     <header class="topbar">
-      <a class="brand" href="/"{home_cur} aria-label="Parseus AI, home">{IDENTITY.replace('class="brand-mark"', 'class="brand-mark" fetchpriority="high"')}</a>
+      <a class="brand" href="/"{home_cur} aria-label="Parseus AI, home">{WORDMARK.replace('class="brand-mark"', 'class="brand-mark" fetchpriority="high"')}</a>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span><span class="label">Menu</span><span class="sr-only"> (main navigation)</span></button>
       <nav id="site-nav" class="topnav" aria-label="Main">
         <div class="nav-head">
-          <a class="brand" href="/" aria-label="Parseus AI, home">{IDENTITY}</a>
+          <a class="brand" href="/" aria-label="Parseus AI, home">{WORDMARK}</a>
           <button type="button" class="nav-close"><span class="x" aria-hidden="true">&times;</span><span>Close</span><span class="sr-only"> menu</span></button>
         </div>
         <ul class="navlist">
@@ -220,7 +227,7 @@ def render_footer(file):
     <div class="wrap">
       <div class="foot-grid">
         <div class="foot-about">
-          <a class="foot-brand" href="/" aria-label="Parseus AI, home">{IDENTITY.replace(' alt=""', ' alt="" loading="lazy"')}</a>
+          <a class="foot-brand" href="/" aria-label="{SIG_LABEL}">{SIGNATURE}</a>
         </div>
 {cols}
       </div>
@@ -289,7 +296,7 @@ def render_insights_topics(file):
 def render_insights_list(file):
     cats, items = load_insights()
     if not items:
-        body = """        <div class="empty" style="margin-top:1.4rem;">
+        body = """        <div class="insights-empty" style="margin-top:1.4rem;">
           <h3>Curated analyses are being added</h3>
           <p>Selected articles and posts will be featured here, each with a link to the original piece.</p>
           <p style="margin-top:0.8rem;">Want a topic covered? <a href="mailto:info@parseus.ai?subject=Insights%20topic%20suggestion">Suggest it by email</a>, or bring it to a <a href="/beyond-ai-headlines/roundtables/">monthly roundtable</a>.</p>

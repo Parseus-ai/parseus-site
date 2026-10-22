@@ -20,7 +20,7 @@
 
 /* Header row */
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:0.85rem 0;}
-/* Parseus identity: optimized crop of the approved two-pillar artwork (assets/brand/README.md) */
+/* Header wordmark: the approved Parseus AI wordmark without the slogan (assets/brand/README.md) */
 .brand{display:inline-flex;align-items:center;flex-shrink:0;line-height:0;text-decoration:none;border-radius:6px;}
 .brand-mark{display:block;height:60px;width:auto;max-width:none;}
 
@@ -113,6 +113,9 @@
   .nav-toggle .label{display:none;}
   .brand-mark{height:42px;}
 }
+
+/* Keep every menu label on one line */
+.navlabel{white-space:nowrap;}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important;}

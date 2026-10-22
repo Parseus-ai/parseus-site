@@ -9,7 +9,6 @@
   --navy:#0B2A5B; --navy-deep:#0A2350; --persian:#2E5BC9; --lapis:#1E3E8C; --lapis-deep:#16306e; --ice:#EAF0FC;
   /* Restrained gold (sampled from the approved artwork) */
   --gold:#B0844A; --gold-text:#85602A; /* 5.4:1 on ivory, for small text */
-  --teal:#0B6E77; /* accent for emphasis in headings; 5.6:1 on ivory */
   --amber:#A16207;
   --ok-bg:#E1F5EE; --ok:#0F6E56; --err:#B42318; --err-bg:#FEF3F2;
   --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -164,8 +163,9 @@ a.card:hover .more .arr{transform:translateX(4px);}
 /* ---------- Footer ---------- */
 .site-footer{margin-top:3rem;border-top:1px solid var(--line);padding:3rem 0 2.2rem;}
 .foot-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:2rem;}
-.foot-brand{display:inline-flex;line-height:0;border-radius:6px;}
-.foot-brand .brand-mark{height:52px;width:auto;}
+.foot-brand{display:inline-flex;line-height:0;border-radius:6px;max-width:100%;}
+/* Footer: the complete approved brand image with its one-line slogan, scaled proportionally */
+.foot-brand .sig-full{display:block;width:320px;max-width:100%;height:auto;}
 .foot-col h2{font-family:var(--sans);font-size:0.74rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.7rem;}
 .foot-col ul{list-style:none;}
 .foot-col a{display:inline-block;padding:0.3rem 0;font-size:0.93rem;color:var(--body);}
@@ -194,9 +194,9 @@ a.card:hover .more .arr{transform:translateX(4px);}
 .article h3 a:hover,.article h4 a:hover{color:var(--persian);text-decoration:underline;}
 .article p{color:var(--body);font-size:0.96rem;}
 .article-img{width:100%;aspect-ratio:1200/630;object-fit:cover;border-radius:8px;margin-bottom:0.9rem;}
-.empty{border:1.5px dashed var(--line);border-radius:12px;padding:1.8rem 1.6rem;background:rgba(255,255,255,0.6);}
-.empty h3{margin-bottom:0.5rem;}
-.empty p{color:var(--body);}
+.insights-empty{border:1.5px dashed var(--line);border-radius:12px;padding:1.8rem 1.6rem;background:rgba(255,255,255,0.6);}
+.insights-empty h3{margin-bottom:0.5rem;}
+.insights-empty p{color:var(--body);}
 .featured-insights{margin-top:2rem;padding:1.4rem 1.5rem;border:1px solid rgba(255,255,255,0.18);border-radius:var(--radius);}
 .featured-insights h3{font-family:var(--sans);font-size:0.74rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#E2C48F;margin-bottom:0.6rem;}
 .featured-insights ul{list-style:none;margin-bottom:0.8rem;}

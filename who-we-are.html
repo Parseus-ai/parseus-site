@@ -5,7 +5,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>About | Parseus AI</title>
-<meta name="description" content="Scientist by training, builder by nature. The founder&#x27;s story behind Parseus AI, and the meaning of its name: the courage of Perseus, the craft of Persia." />
+<meta name="description" content="About Parseus AI: from scientific curiosity to real-world impact. What Parseus stands for, the founder&#x27;s story, and the meaning of its name." />
 <link rel="canonical" href="https://parseus.ai/who-we-are.html" />
 <meta name="theme-color" content="#F7F5F0" />
 <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -16,7 +16,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Parseus AI" />
 <meta property="og:title" content="About | Parseus AI" />
-<meta property="og:description" content="Scientist by training, builder by nature. The founder&#x27;s story behind Parseus AI, and the meaning of its name: the courage of Perseus, the craft of Persia." />
+<meta property="og:description" content="About Parseus AI: from scientific curiosity to real-world impact. What Parseus stands for, the founder&#x27;s story, and the meaning of its name." />
 <meta property="og:url" content="https://parseus.ai/who-we-are.html" />
 <meta property="og:image" content="https://parseus.ai/assets/brand/social/parseus-og-1200x630.jpg" />
 <meta property="og:image:width" content="1200" />
@@ -30,8 +30,15 @@
 <link rel="stylesheet" href="/assets/site-nav.css" />
 <!-- head:end -->
 <style>
-  .about-hero{position:relative;padding:4.4rem 0 2.4rem;}
-  .about-hero h1{max-width:16ch;}
+  .about-intro{padding:4.2rem 0 2.6rem;border-bottom:1px solid var(--line);}
+  .about-intro h1{max-width:18ch;}
+  .about-intro .subtitle{margin-top:0.9rem;max-width:40ch;}
+  .about-copy{max-width:68ch;margin-top:1.8rem;}
+  .about-copy p{font-size:1.08rem;}
+  .about-key{margin-top:1.6rem;padding-top:1.2rem;border-top:1px solid var(--line);}
+  .about-key strong{font-family:var(--serif);font-weight:600;font-size:1.2rem;line-height:1.5;color:var(--navy);}
+  .about-hero{position:relative;padding:3.4rem 0 2.4rem;}
+  .story-title{font-size:clamp(1.9rem,4.4vw,3rem);line-height:1.08;letter-spacing:-0.02em;max-width:16ch;}
   .about-hero .subtitle{margin-top:1.2rem;max-width:34ch;}
   .whom{display:flex;align-items:center;flex-wrap:wrap;gap:0.4rem 0.9rem;margin-top:2rem;padding-top:1.3rem;border-top:1px solid var(--line);max-width:440px;}
   .whom .mono{font-family:var(--serif);font-weight:600;font-size:1.05rem;}
@@ -58,6 +65,8 @@
   .cell{position:relative;padding-bottom:2.4rem;}
   .cell.l{text-align:right;padding-right:1.3rem;}
   .cell.r{padding-left:1.3rem;}
+  /* Intentionally empty timeline slots: no card, border or fill */
+  .cell.empty{border:0;background:none;box-shadow:none;}
   .cell .gnode{position:absolute;top:0.2rem;width:26px;height:26px;color:var(--persian);z-index:2;}
   .cell.l .gnode{right:-13px;}
   .cell.r .gnode{left:-13px;}
@@ -71,16 +80,8 @@
   .story-art{margin:0;max-width:520px;}
   .story-art img{width:100%;height:auto;}
   .why-inner h2{margin:0.2rem 0 1.2rem;}
-  .why-phrases{display:none;}
-  @media (min-width:760px) and (max-width:1023px){.why-grid{grid-template-columns:1fr;gap:1.6rem;}}
-  @media (max-width:759px){
-    .why-grid{grid-template-columns:1fr;gap:0;}
-    .story-art{display:none;}
-    .why-phrases{display:flex;flex-direction:column;align-items:flex-start;gap:0.5rem;margin:0 0 1.4rem;font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(1.2rem,5vw,1.45rem);color:var(--ink);}
-    .why-phrases span{white-space:nowrap;}
-    .why-div{width:2.2rem;height:1.5px;background:var(--gold);}
-  }
-  .closeline{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(1.4rem,2.8vw,1.9rem);line-height:1.34;letter-spacing:-0.01em;color:var(--ink);margin:2.4rem 0 0;max-width:40ch;}
+  @media (max-width:1023px){.why-grid{grid-template-columns:1fr;gap:1.6rem;}}
+  .closeline{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(1.3rem,2.4vw,1.65rem);line-height:1.35;letter-spacing:-0.01em;color:var(--navy);margin:0.6rem 0 0;max-width:46ch;}
   .next-links{margin-top:2.4rem;}
 
   @media (max-width:900px){
@@ -93,7 +94,10 @@
     .colhead{display:block;font-size:0.74rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.4rem;}
   }
   @media (max-width:600px){
-    .about-hero{padding:2.4rem 0 1.4rem;}
+    .about-intro{padding:2.4rem 0 1.8rem;}
+    .about-copy p{font-size:1rem;}
+    .about-key strong{font-size:1.08rem;}
+    .about-hero{padding:2.2rem 0 1.4rem;}
     .intro p{font-size:1.06rem;}
     .lead-first::first-letter{font-size:3rem;}
     .cell{padding-bottom:1.9rem;}
@@ -140,10 +144,21 @@
 
 <main id="main">
 
-  <section class="about-hero" aria-labelledby="page-title"><div class="wrap">
+  <section class="about-intro" aria-labelledby="page-title"><div class="wrap">
+    <h1 id="page-title">About Parseus AI</h1>
+    <p class="subtitle">From Scientific Curiosity to Real-World Impact</p>
+    <div class="prose about-copy">
+      <p>Parseus AI was founded on a simple belief: meaningful technology starts with understanding the problem, not choosing the latest solution.</p>
+      <p>Its approach brings together scientific thinking, engineering discipline, technology strategy, and operational experience to address complex, real-world challenges.</p>
+      <p>AI is a powerful part of that toolkit, but it is a means, not the objective. The objective is to turn promising ideas and emerging capabilities into systems that work reliably, fit the environments in which they operate, and deliver outcomes that people and organizations can measure and trust.</p>
+      <p class="about-key"><strong>At Parseus, the challenge is not simply to demonstrate what technology can do. It is to make that capability work in practice.</strong></p>
+    </div>
+  </div></section>
+
+  <section class="about-hero" aria-labelledby="story-title"><div class="wrap">
     <div class="hero-band"></div>
-    <span class="eyebrow">Who we are</span>
-    <h1 id="page-title">Scientist by Training. Builder by Nature.</h1>
+    <span class="eyebrow">The Story Behind Parseus</span>
+    <h2 id="story-title" class="story-title">Scientist by Training. Builder by Nature.</h2>
     <p class="subtitle">A career connecting scientific research, intelligent systems and real-world operations.</p>
     <div class="whom"><span class="mono">Neda Parnian, PhD</span><span class="dot" aria-hidden="true"></span><span class="role">Founder, Parseus AI</span></div>
   </div></section>
@@ -262,12 +277,11 @@
   <section class="why" id="why-parseus" aria-labelledby="ch-why">
     <div class="wrap why-grid">
       <figure class="story-art">
-        <img src="/assets/brand/story/parseus-brand-story-640.webp" srcset="/assets/brand/story/parseus-brand-story-640.webp 640w, /assets/brand/story/parseus-brand-story-1280.webp 1280w" sizes="(min-width:1100px) 520px, 46vw" width="640" height="279" alt="Parseus AI. The courage of Perseus. The craft of Persia." loading="lazy" decoding="async" />
+        <img src="/assets/brand/signature/parseus-signature-640.webp" srcset="/assets/brand/signature/parseus-signature-640.webp 640w, /assets/brand/signature/parseus-signature-1280.webp 1280w" sizes="(min-width:1100px) 520px, (min-width:1024px) 46vw, min(520px, 100vw)" width="640" height="279" alt="Parseus AI. The courage of Perseus. The craft of Persia." loading="lazy" decoding="async" />
       </figure>
       <div class="why-inner">
         <span class="eyebrow">The story behind the name</span>
         <h2 id="ch-why">Why Parseus?</h2>
-        <p class="why-phrases"><span>The courage of Perseus</span><span class="why-div" aria-hidden="true"></span><span>The craft of Persia</span></p>
         <div class="prose">
           <p>The name carries two foundations. From Greece, <em>Perseus</em>: the hero who faced an impossible challenge and won not by force, but with courage, ingenuity and the right tool used wisely. That is how I want Parseus to approach difficult problems: head-on, with judgment about which tools truly fit.</p>
           <p>From Persia, <em>Pars</em>, its ancient name, and my own heritage. It is a culture defined by craft, by creativity and by precision: the same lessons I learned at the loom long before I learned engineering, where every row is checked as it forms and care is part of the design, not an afterthought.</p>
@@ -277,13 +291,12 @@
     </div>
   </section>
 
-  <section class="chapter" aria-labelledby="ch-today"><div class="wrap">
-    <h2 id="ch-today">Parseus today</h2>
-    <div class="prose">
-      <p>I started Parseus to solve hard problems the way I&rsquo;d learned to: systematically, strategically, with the right technology for the job rather than the trendiest one. AI is a powerful part of that toolkit, but it&rsquo;s a means, not the point. The point is to take what research makes possible and turn it into systems that work, in operations that can run them, with results people can measure and trust.</p>
+  <section class="chapter about-close" aria-labelledby="ch-close"><div class="wrap">
+    <h2 id="ch-close" class="sr-only">How Parseus works</h2>
+    <p class="closeline">Start with the problem. Ground the solution in science. Engineer for the real world.</p>
+    <div class="prose" style="margin-top:1.4rem;">
       <p>That is also the purpose of our <a href="/conversations/">conversations and roundtables</a>: to look past the headlines at what it really takes to turn AI capability into real-world value.</p>
     </div>
-    <p class="closeline">I built Parseus to take on hard, real-world problems the way they deserve: start from the science, design for the conditions a system will actually face, and stay with it until it works in practice.</p>
     <div class="actions next-links">
       <a class="btn btn-primary" href="/expertise.html">Areas of expertise <span class="arr" aria-hidden="true">&rarr;</span></a>
       <a class="btn btn-secondary" href="/projects/">Projects</a>
@@ -297,7 +310,7 @@
     <div class="wrap">
       <div class="foot-grid">
         <div class="foot-about">
-          <a class="foot-brand" href="/" aria-label="Parseus AI, home"><img class="brand-mark" src="/assets/brand/header/parseus-wordmark-84.webp" srcset="/assets/brand/header/parseus-wordmark-84.webp 1x, /assets/brand/header/parseus-wordmark-168.webp 2x" width="230" height="84" alt="" loading="lazy" /></a>
+          <a class="foot-brand" href="/" aria-label="Parseus AI: the courage of Perseus, the craft of Persia. Home"><img class="sig-full" src="/assets/brand/signature/parseus-signature-640.webp" srcset="/assets/brand/signature/parseus-signature-640.webp 640w, /assets/brand/signature/parseus-signature-1280.webp 1280w" sizes="320px" width="640" height="279" alt="" loading="lazy" /></a>
         </div>
         <div class="foot-col">
           <h2>Parseus AI</h2>

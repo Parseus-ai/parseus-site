@@ -39,15 +39,21 @@
   .home-hero h1{font-size:clamp(2.7rem,7vw,5.2rem);letter-spacing:-0.03em;line-height:1.02;color:var(--navy);}
   .home-hero h1 .hl-ai{color:var(--persian);}
   .home-hero .subtitle{margin:1rem auto 0;font-size:clamp(1.3rem,3vw,2rem);color:var(--navy);font-weight:500;}
-  .home-hero .subtitle .hl-impact{color:var(--teal);font-weight:600;}
   .home-hero .rule{margin-top:1.8rem;}
   .home-hero .lede{max-width:52ch;margin:1.5rem auto 0;}
   .home-hero .actions{justify-content:center;margin-top:2rem;}
   .home-hero .btn{min-width:200px;}
   .home-hero h1,.home-hero .subtitle,.home-hero .lede{text-wrap:balance;}
+  /* Circular P/AI monogram: secondary brand mark, shown once as a seal above the headline */
+  .hero-seal{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1.5rem;}
+  .hero-seal img{width:72px;height:72px;border-radius:50%;box-shadow:0 8px 22px -12px rgba(17,53,187,0.55);}
+  .seal-line{width:64px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
+  .seal-line:last-child{background:linear-gradient(90deg,var(--gold),transparent);}
 
   /* Section heads used on this page */
   .home .section-head{margin-bottom:1.8rem;}
+  .home .section-head .approach-lead{font-family:var(--serif);font-weight:600;font-size:clamp(1.15rem,2vw,1.35rem);line-height:1.4;color:var(--navy);margin-top:1rem;}
+  .home .section-head .approach-lead+p{margin-top:0.6rem;}
 
   /* Where would you like to start */
   .choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.1rem;}
@@ -91,7 +97,10 @@
   .name-note em{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--ink);}
 
   @media (max-width:600px){
-    .home-hero{padding:1.7rem 0 1.2rem;}
+    .home-hero{padding:1.4rem 0 1.2rem;}
+    .hero-seal{margin-bottom:1rem;}
+    .hero-seal img{width:56px;height:56px;}
+    .seal-line{width:44px;}
     .home-hero h1{font-size:clamp(2.55rem,12vw,3rem);}
     .home-hero .subtitle{font-size:1.2rem;margin-top:0.55rem;}
     .home-hero .rule{margin-top:1.1rem;}
@@ -141,8 +150,9 @@
   <section class="home-hero" aria-labelledby="hero-title">
     <div class="wrap">
       <div class="inner">
+        <div class="hero-seal" aria-hidden="true"><span class="seal-line"></span><img src="/assets/brand/monogram/parseus-monogram-144.webp" srcset="/assets/brand/monogram/parseus-monogram-144.webp 1x, /assets/brand/monogram/parseus-monogram-288.webp 2x" width="72" height="72" alt="" /><span class="seal-line"></span></div>
         <h1 id="hero-title">Beyond <span class="hl-ai">AI</span> Headlines</h1>
-        <p class="subtitle">From Innovation to <span class="hl-impact">Real-World Impact</span></p>
+        <p class="subtitle">From Innovation to Real-World Impact</p>
         <div class="rule"></div>
         <p class="lede">Parseus AI is focused on turning emerging AI into useful, reliable systems, building on its founder&rsquo;s hands-on experience in enterprise AI, robotics, manufacturing and operations.</p>
         <div class="actions">
@@ -158,8 +168,10 @@
     <div class="wrap">
       <div class="section-head">
         <span class="eyebrow">Our approach</span>
-        <h2 id="approach-title">From innovation to implementation</h2>
-        <p>Putting AI to work takes more than a capable model. It takes business understanding, sound architecture, honest validation and operational discipline. These are the questions we work through; how they apply depends on the problem.</p>
+        <h2 id="approach-title">From Innovation to Implementation</h2>
+        <p class="approach-lead">The right technology starts with the right problem.</p>
+        <p>At Parseus, we approach AI through the realities of implementation: understanding the business challenge, evaluating technical possibilities, designing for actual operating conditions, and validating outcomes before scaling.</p>
+        <p>The objective isn&rsquo;t simply to demonstrate intelligence. It&rsquo;s to turn that intelligence into systems that organizations can use, operate, and trust.</p>
       </div>
       <ol class="steps" style="--n:5">
         <li><span class="step-title">Understand the problem</span><span class="step-text">Start from the outcome that matters.</span></li>
@@ -252,7 +264,7 @@
         <a class="area-card" href="/expertise.html#strategy"><h3>Strategy, implementation and scaling</h3><p>From the right use case to a pilot to reliable production.</p></a>
       </div>
       <p class="section-foot"><a class="text-link" href="/expertise.html">More about our expertise</a></p>
-      <p class="name-note"><span>Why &ldquo;Parseus&rdquo;?</span> <em>The courage of Perseus, the craft of Persia.</em> <a class="text-link" href="/who-we-are.html#why-parseus">The story behind the name</a></p>
+      <p class="name-note"><span>Why the name &ldquo;Parseus&rdquo;?</span> <a class="text-link" href="/who-we-are.html#why-parseus">The story behind the name</a></p>
     </div>
   </section>
 
@@ -263,7 +275,7 @@
     <div class="wrap">
       <div class="foot-grid">
         <div class="foot-about">
-          <a class="foot-brand" href="/" aria-label="Parseus AI, home"><img class="brand-mark" src="/assets/brand/header/parseus-wordmark-84.webp" srcset="/assets/brand/header/parseus-wordmark-84.webp 1x, /assets/brand/header/parseus-wordmark-168.webp 2x" width="230" height="84" alt="" loading="lazy" /></a>
+          <a class="foot-brand" href="/" aria-label="Parseus AI: the courage of Perseus, the craft of Persia. Home"><img class="sig-full" src="/assets/brand/signature/parseus-signature-640.webp" srcset="/assets/brand/signature/parseus-signature-640.webp 640w, /assets/brand/signature/parseus-signature-1280.webp 1280w" sizes="320px" width="640" height="279" alt="" loading="lazy" /></a>
         </div>
         <div class="foot-col">
           <h2>Parseus AI</h2>
