@@ -47,7 +47,7 @@ NAV = [
     ]),
     ("Contact", "/contact.html"),
 ]
-DRAWER_CTA = ("Let’s Talk", "/contact.html")
+DRAWER_CTA = ("Let’s Talk", "https://calendly.com/neda-parseus/30min")
 
 FOOTER = [
     ("Explore", [
@@ -94,13 +94,13 @@ PAGES = {
     "insights.html": ("/insights.html", "Insights | Parseus AI",
                       "Analysis on enterprise and agentic AI, architecture and governance, physical AI and robotics, industrial AI, and taking research to real-world implementation.", True),
     "conversations/index.html": ("/conversations/", "Conversations & Events | Parseus AI",
-                                 "Complimentary 20-minute AI strategy conversations and monthly 60-minute AI roundtables on turning emerging AI capabilities into real-world value.", True),
+                                 "30-minute advisory and brainstorming conversations, plus monthly 60-minute roundtables on technology and real-world implementation.", True),
     "conversations/ai-strategy/index.html": ("/conversations/ai-strategy/", "AI Strategy Conversations | Parseus AI",
-                                             "Apply for one of ten complimentary 20-minute AI strategy conversations with Parseus AI. Applications are reviewed individually.", True),
+                                             "Book a 30-minute advisory and brainstorming conversation with Parseus AI about technology, strategy, or implementation.", True),
     "conversations/roundtables/index.html": ("/conversations/roundtables/", "AI Roundtables | Parseus AI",
                                              "Monthly 60-minute AI roundtables with Parseus AI. First proposed topic: from AI capabilities to real-world value: what does it take to operationalize AI?", True),
     "contact.html": ("/contact.html", "Contact | Parseus AI",
-                     "Get in touch with Parseus AI, apply for a complimentary AI strategy conversation, or register your interest in an AI roundtable.", True),
+                     "Contact Parseus AI, schedule a 30-minute advisory and brainstorming conversation, or explore upcoming roundtables.", True),
     "privacy.html": ("/privacy.html", "Privacy | Parseus AI",
                      "How Parseus AI handles the information you share through this website.", True),
     "coming-soon.html": ("/coming-soon.html", "Coming soon | Parseus AI",
